@@ -35,31 +35,35 @@ export default {
       <div class="filter"></div>
       <h3>盡情開撈</h3>
     </section>
-    <!-- <section class="info-circles">
+    <section class="info-circles">
       <h3>精品美食，應有盡有</h3>
       <div class="circles">
         <div class="circle">
-          <img src="../../public/img/fryfood.jpg" alt="北海道雪景" />
-          <p>多種炸物，任君挑選</p>
+          <img src="../../public/img/breakfast.jpg" alt="精美早餐" />
+          <p>多種早餐</p>
         </div>
         <div class="circle">
-          <img src="../../public/img/日本壽司.jpg" alt="日本壽司" />
-          <p>日本道地壽司與美食</p>
+          <img src="../../public/img/drink.jpg" alt="飲料" />
+          <p>爽喝就喝</p>
         </div>
         <div class="circle">
-          <img src="../../public/img/mix2.jpg" alt="富士山" />
-          <p>多種風格，選擇困難症</p>
+          <img src="../../public/img/fried.jpg" alt="炸物" />
+          <p>流口水專區</p>
         </div>
         <div class="circle">
-          <img src="../../public/img/vage.jpg" alt="清水寺" />
-          <p>不能忘記補充蔬菜</p>
+          <img src="../../public/img/lunch.jpg" alt="午餐" />
+          <p>多種風格午餐</p>
         </div>
         <div class="circle">
-          <img src="../../public/img/yakiniku.jpg" alt="清水寺" />
+          <img src="../../public/img/yakiniku.jpg" alt="燒烤" />
           <p>經典燒烤，肯定要有</p>
         </div>
+        <div class="circle">
+          <img src="../../public/img/salad.jpg" alt="蔬菜" />
+          <p>補充蔬菜</p>
+        </div>
       </div>
-    </section> -->
+    </section>
   </main>
 </template>
 <style lang="scss" scoped>
@@ -88,6 +92,39 @@ main {
     h3 {
       color: white;
       font-size: 2.5rem;
+    }
+  }
+
+  section.info-circles {
+    background-color: white;
+    padding: 2rem 1rem;
+  }
+
+  h3 {
+    text-align: center;
+    font-size: 2rem;
+  }
+
+  div.circles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .circle {
+      padding: 1rem;
+      flex: 0 1 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.3rem;
+      img {
+        width: 80%;
+        transition: all 0.1s ease-in;
+        &:hover {
+          padding: 0.5rem;
+          border: 1px solid red;
+        }
+      }
     }
   }
 }

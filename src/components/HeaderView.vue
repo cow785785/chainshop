@@ -25,17 +25,19 @@ export default {
         </li>
         <li>
           <RouterLink to=""
-            ><i class="fa-solid fa-plane"></i>会員センター</RouterLink
+            ><i class="fa-solid fa-crown" style="color: #f3d55d"></i
+            >会員センター</RouterLink
           >
         </li>
         <li>
           <RouterLink to=""
-            ><i class="fa-solid fa-plane"></i>お買い物履歴</RouterLink
+            ><i class="fa-solid fa-clock-rotate-left"></i
+            >お買い物履歴</RouterLink
           >
         </li>
         <li>
           <RouterLink to=""
-            ><i class="fa-solid fa-plane"></i>問い合わせ</RouterLink
+            ><i class="fa-solid fa-circle-question"></i>問い合わせ</RouterLink
           >
         </li>
       </ul>
