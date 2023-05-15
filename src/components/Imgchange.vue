@@ -50,6 +50,8 @@ export default {
           <img src="../../public/img/fried.jpg" alt="炸物" />
           <p>流口水專區</p>
         </div>
+      </div>
+      <div class="circles">
         <div class="circle">
           <img src="../../public/img/lunch.jpg" alt="午餐" />
           <p>多種風格午餐</p>
@@ -76,7 +78,7 @@ main {
     background-image: url("../assets/img/fryfood.jpg");
     background-size: cover;
     background-position: center;
-    transition: background-image 0.75s ease; /* 添加过渡效果 */
+    transition: background-image 0.75s ease; /* 添加過度效果 */
     position: relative;
     z-index: 0; // stacking context
 
@@ -119,6 +121,7 @@ main {
       padding: 0.3rem;
       img {
         width: 80%;
+        height: 50%;
         transition: all 0.1s ease-in;
         &:hover {
           padding: 0.5rem;
