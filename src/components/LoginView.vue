@@ -39,7 +39,7 @@ export default {
             // setTimeout(location.reload(), 2000);
             setTimeout(() => {
               location.reload();
-            }, 2000);
+            }, 1000);
             // location.reload();
           } else {
             alert("帳號或密碼錯誤");

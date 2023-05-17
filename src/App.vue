@@ -6,19 +6,37 @@ export default {
     return {
       useraccount: "",
       userName: "ログイン",
-      checklogin: false,
+      // checklogin: false,
+      isLoggedIn: false,
     };
   },
   components: {
     HeaderView,
   },
-  methods: {},
+  methods: {
+    checkout() {
+      // 清除本地存储的用戶相關訊息
+      localStorage.removeItem("useraccount");
+      localStorage.removeItem("password");
+      localStorage.removeItem("username");
+
+      alert("已登出，謝謝光臨");
+
+      this.isLoggedIn = false; // 更新登陸狀態為未登入
+
+      this.$router.push("/");
+      setTimeout(() => {
+        location.reload();
+      }, 1500);
+    },
+  },
   mounted() {
     if (localStorage.getItem("useraccount")) {
       this.useraccount = localStorage.getItem("useraccount");
+      this.isLoggedIn = true; // 用戶存在則設為登錄狀態
     }
     if (localStorage.getItem("username")) {
-      this.userName = localStorage.getItem("useraccount");
+      this.userName = localStorage.getItem("username");
     }
     // if (this.checklogin) {
     //   this.checklogin = false;
@@ -31,7 +49,7 @@ export default {
 <template>
   <header>
     <section class="logo">
-      <RouterLink to="/" class="toplogo" v:on:click="login">
+      <RouterLink to="/" class="toplogo">
         <img src="../../public/R.png" alt="網頁LOGO" />
         <h1>商店名稱</h1>
       </RouterLink>
@@ -46,7 +64,7 @@ export default {
               {{ userName }}
             </RouterLink>
             <div class="dropdown-content">
-              <a href="#">選項 1</a>
+              <button v-if="isLoggedIn" @click="checkout">登出</button>
               <a href="#">選項 2</a>
               <a href="#">選項 3</a>
             </div>
@@ -85,7 +103,7 @@ export default {
           >
         </li>
         <li>
-          <RouterLink to=""
+          <RouterLink to="/question"
             ><i class="fa-solid fa-circle-question"></i>問い合わせ</RouterLink
           >
         </li>
