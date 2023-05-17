@@ -29,15 +29,21 @@ export default {
 
         },
         update() {
+            const inputPwd = prompt('パスワード再確認');
+            if (inputPwd != localStorage.getItem("password")) {
+                alert("パスワードが間違っています。");
+                return;
+            }
+
             const body = {
                 useraccount: this.account,
                 username: this.userName,
                 birthDate: this.userBirth,
                 phone: this.userPhone,
                 address: this.userAddress,
-                password: localStorage.getItem("password"),
+                password: inputPwd,
             };
-            fetch("http://localhost:8080/selectMember", {
+            fetch("http://localhost:8080/updateMember", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -47,6 +53,8 @@ export default {
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    alert("更新完了、リロードします。")
+                    location.reload();
                 }).catch(err => {
                     console.log(err);
                 })
@@ -77,7 +85,7 @@ export default {
                 })
                 .catch(err => console.log(err))
         } else {
-            alert("您尚未登入");
+            alert("ログインしてください。");
             this.$router.push("/loginView");
         }
     },
@@ -88,9 +96,9 @@ export default {
         <MemberSide :useraccount="useraccount" :userPoint="userPoint" />
         <div class="member-detail">
             <div class="member-account">
-                <h2>{{ useraccount }}</h2>
+                <h4>{{ useraccount }}</h4>
 
-                <h3> {{ userName }}，您好!</h3>
+                <h3> {{ userName }}，こんにちは！</h3>
                 <div class="form-floating input-area birth">
                     <input type="text" class="form-control input birth" id="birth" v-model="userBirth" disabled="true">
                     <label for="birth">誕生日：</label>
@@ -113,6 +121,10 @@ export default {
                 </div>
                 <button type="button" class="btn btn-primary update-btn " v-show="haveChange" @click="update">修正する</button>
             </div>
+            <div class="member-order">
+                <h3>オーダー管理</h3>
+                
+            </div>
         </div>
     </div>
 </template>
@@ -122,6 +134,9 @@ export default {
     width: 100%;
     height: 900px;
     overflow: auto;
+    text-align: center;
+
+    .member-order {}
 
     .member-detail {
         margin: 24px;
@@ -132,7 +147,6 @@ export default {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 
         .member-account {
-            text-align: center;
 
             .input-area {
                 position: relative;
