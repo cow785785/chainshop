@@ -10,24 +10,29 @@ const router = createRouter({
     {
       path: '/',
       name: 'HeaderView',
-      component:HeaderView,
+      component: HeaderView,
     },
     {
       path: '/loginView',
       name: 'LoginView',
-      component:LoginView,
+      component: LoginView,
     },
     {
       path: '/registerView',
       name: 'RegisterView',
-      component:RegisterView,
+      component: RegisterView,
     },
     {
       path: '/shopCarView',
       name: 'ShopCarView',
-      component:ShopCarView,
-    }
-    
+      component: ShopCarView,
+    },
+    {
+      path: '/member',
+      name: 'MemberView',
+      component: () => import("../views/MemberView.vue"),
+    },
+
   ]
 })
 
