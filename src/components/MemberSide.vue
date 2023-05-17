@@ -1,18 +1,18 @@
 <script>
 
 export default {
+    props: [
+        "useraccount","userPoint",
+    ],
     data() {
         return {
-            account: "dedault"
         }
     },
     methods: {
 
     },
     mounted() {
-        if (localStorage.getItem("useraccount")) {
-            this.account = localStorage.getItem("useraccount")
-        }
+       
     },
 }
 
@@ -20,8 +20,9 @@ export default {
 
 <template>
     <div class="member-side">
-        <h3>{{ account }}</h3>
+        <h3>{{ useraccount }}</h3>
         <img src="../../public/img/日本壽司.jpg">
+        <h4>{{ userPoint }}</h4>
     </div>
 </template>
 <style lang="scss" scoped>
@@ -35,6 +36,7 @@ export default {
     align-items: center;
 
     img {
+        margin: 24px;
         width: 100px;
         height: 100px;
         border-radius: 15px;
