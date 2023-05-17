@@ -11,6 +11,7 @@ const router = createRouter({
       path: '/',
       name: 'HeaderView',
       component:HeaderView,
+      props: true, // 添加此行
     },
     {
       path: '/loginView',

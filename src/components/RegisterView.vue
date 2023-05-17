@@ -14,6 +14,10 @@ export default {
   },
   methods: {
     regis() {
+      if (this.password !== this.password2) {
+        alert("兩次輸入的密碼不一致");
+        return;
+      }
       const body = {
         useraccount: this.account,
         password: this.password,

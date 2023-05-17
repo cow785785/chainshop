@@ -1,10 +1,29 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
 import HeaderView from "./components/HeaderView.vue";
-
 export default {
+  data() {
+    return {
+      useraccount: "",
+      userName: "ログイン",
+      checklogin: false,
+    };
+  },
   components: {
     HeaderView,
+  },
+  methods: {},
+  mounted() {
+    if (localStorage.getItem("useraccount")) {
+      this.useraccount = localStorage.getItem("useraccount");
+    }
+    if (localStorage.getItem("username")) {
+      this.userName = localStorage.getItem("useraccount");
+    }
+    // if (this.checklogin) {
+    //   this.checklogin = false;
+    //   location.reload();
+    // }
   },
 };
 </script>
@@ -12,18 +31,19 @@ export default {
 <template>
   <header>
     <section class="logo">
-      <RouterLink to="/" class="toplogo">
+      <RouterLink to="/" class="toplogo" v:on:click="login">
         <img src="../../public/R.png" alt="網頁LOGO" />
         <h1>商店名稱</h1>
       </RouterLink>
     </section>
+
     <nav>
       <ul>
         <li>
           <div class="dropdown">
             <RouterLink to="loginView" class="dropbtn">
               <i class="fa-solid fa-user-group" style="color: #d40c48"></i>
-              ログイン
+              {{ userName }}
             </RouterLink>
             <div class="dropdown-content">
               <a href="#">選項 1</a>
