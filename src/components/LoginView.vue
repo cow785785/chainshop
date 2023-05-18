@@ -1,5 +1,9 @@
 <script>
+import HeaderView from '../components/HeaderView.vue';
 export default {
+  components: {
+    HeaderView,
+  },
   data() {
     return {
       useraccount: "",
@@ -54,20 +58,23 @@ export default {
 };
 </script>
 <template>
-  <div class="container">
-    <div class="text-area">
-      <label for="account" placeholder="輸入帳號">帳號</label>
-      <input type="text" v-model="useraccount" id="account" />
-      <label for="password" placeholder="輸入密碼">密碼</label>
-      <input type="password" v-model="password" id="password" />
-    </div>
-    <div class="keep">
-      <label for="checkbox">記住帳號</label>
-      <input type="checkbox" v-model="isCheck" id="checkbox" />
-    </div>
-    <div class="btn-area">
-      <button @click="login">登錄</button>
-      <button @click="singup">註冊</button>
+  <div class="login">
+    <HeaderView />
+    <div class="container">
+      <div class="text-area">
+        <label for="account" placeholder="輸入帳號">帳號</label>
+        <input type="text" v-model="useraccount" id="account" />
+        <label for="password" placeholder="輸入密碼">密碼</label>
+        <input type="password" v-model="password" id="password" />
+      </div>
+      <div class="keep">
+        <label for="checkbox">記住帳號</label>
+        <input type="checkbox" v-model="isCheck" id="checkbox" />
+      </div>
+      <div class="btn-area">
+        <button @click="login">登錄</button>
+        <button @click="singup">註冊</button>
+      </div>
     </div>
   </div>
 </template>
@@ -104,4 +111,5 @@ export default {
     display: flex;
     justify-content: space-between;
   }
-}</style>
+}
+</style>
