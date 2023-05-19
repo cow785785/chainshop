@@ -88,7 +88,10 @@ export default {
                     this.userPhone = data.phone;
                     this.userAddress = data.address;
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    console.log(err)
+
+                })
         } else {
             alert("ログインしてください。");
             this.$router.push("/loginView");
@@ -144,11 +147,11 @@ export default {
     .member-contain {
         display: flex;
         height: 90%;
+        overflow: auto;
     }
 
     .member-detail {
-        height: 100%;
-        width: 100%;
+        flex: 1;
 
         .member-account {
             margin: 24px;

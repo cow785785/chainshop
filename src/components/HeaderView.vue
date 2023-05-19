@@ -105,7 +105,6 @@ export default {
   align-items: center;
   white-space: nowrap;
   width: 100%;
-  height: 65px;
 
   section.logo {
     display: flex;
@@ -163,6 +162,7 @@ export default {
       display: flex;
       list-style-type: none;
       justify-content: space-around;
+
 
       li {
         a {
