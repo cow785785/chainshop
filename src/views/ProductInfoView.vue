@@ -17,7 +17,8 @@ export default {
    },
    methods: {
       getAllProduct() {
-         fetch("http://localhost:8080/find_all_product")
+         fetch("http://localhost:8080/find_all_product", {
+         })
             .then(function (res) {
                return res.json();
             })
@@ -48,31 +49,16 @@ export default {
    <div class="contain">
       <div class="row">
          <!-- foreach商品卡片 -->
-         <div
-            v-for="(product, index) in productList"
-            v-show="card"
-            class="product-area"
-         >
-            <ProductInfoView
-               :title="product.productName"
-               :quantity="quantity"
-               :price="product.price"
-               :info="product.productInfo"
-               @switchCard="showProduct(index)"
-               class="product-card"
-            ></ProductInfoView>
+         <div v-for="(product, index) in productList" v-show="card" class="product-area">
+            <ProductInfoView :title="product.productName" :quantity="quantity" :price="product.price"
+               :info="product.productInfo" @switchCard="showProduct(index)" class="product-card"></ProductInfoView>
          </div>
       </div>
       <!-- 點擊卡片時出現單項商品資訊 -->
 
       <div v-if="info" class="product">
-         <ProductView
-            :title="productList[index].productName"
-            :quantity="quantity"
-            :price="productList[index].price"
-            :describe="productList[index].productDescribe"
-            @switch="closeProduct"
-         />
+         <ProductView :title="productList[index].productName" :quantity="quantity" :price="productList[index].price"
+            :describe="productList[index].productDescribe" @switch="closeProduct" />
       </div>
    </div>
 </template>
@@ -81,13 +67,16 @@ export default {
 .contain {
    width: 100%;
 }
+
 .row {
    display: flex;
    margin-top: 0.5rem;
 }
+
 .product-card {
    margin: 1rem;
 }
+
 .product-area {
    width: 50%;
    margin: 0;

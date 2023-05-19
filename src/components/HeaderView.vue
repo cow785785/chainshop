@@ -74,7 +74,9 @@ export default {
                      >会員センター</RouterLink
                   >
                   <div class="dropdown-content">
-                     <a href="#">選項 1</a>
+                     <RouterLink to="/order"
+                     ><i class="fa-solid fa-clock-rotate-left"></i
+                     >お買い物履歴</RouterLink>
                      <a href="#">選項 2</a>
                      <a href="#">選項 3</a>
                   </div>

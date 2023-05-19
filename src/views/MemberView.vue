@@ -143,7 +143,6 @@ export default {
 .member {
     width: 100vw;
     height: 100vh;
-
     .member-contain {
         display: flex;
         height: 90%;

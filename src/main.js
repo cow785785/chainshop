@@ -1,13 +1,11 @@
-import './assets/main.scss'
+import './assets/main.scss';
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from '../store'; // 引入store.js文件
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(router)
-app.use(store); // 使用store
+app.use(router);
 
-app.mount('#app')
+app.mount('#app');

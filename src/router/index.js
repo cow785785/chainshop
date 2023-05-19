@@ -38,6 +38,16 @@ const router = createRouter({
       name: 'MemberView',
       component: () => import("../views/MemberView.vue"),
     },
+    {
+      path: '/backstage',
+      name: 'BackstageView',
+      component: () => import("../views/BackstageView.vue"),
+    },
+    {
+      path: '/order',
+      name: 'OrderView',
+      component: () => import("../views/OrderView.vue"),
+    },
 
   ]
 })
