@@ -1,5 +1,5 @@
 <script>
-import HeaderView from '../components/HeaderView.vue';
+import HeaderView from "../components/HeaderView.vue";
 export default {
   components: {
     HeaderView,
@@ -8,6 +8,8 @@ export default {
     return {
       useraccount: "",
       password: "",
+
+      // loggedInUser: "ログイン", // 新增變數
       isCheck: true,
     };
   },
@@ -95,6 +97,7 @@ export default {
     input {
       width: 250px;
       border-radius: 20px;
+      padding: 10px;
     }
   }
 

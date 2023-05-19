@@ -1,17 +1,11 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
-export default {
-  
-};
+export default {};
 </script>
 
 <template>
-  <header>
-    
-  </header>
+  <header></header>
   <RouterView />
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
