@@ -1,6 +1,9 @@
 <script>
+import HeaderView from "../components/HeaderView.vue";
 export default {
-  props: [],
+  components: {
+    HeaderView,
+  },
   data() {
     return {
       useraccount: "",
@@ -39,7 +42,7 @@ export default {
             // setTimeout(location.reload(), 2000);
             setTimeout(() => {
               location.reload();
-            }, 1000);
+            }, 2000);
             // location.reload();
           } else {
             alert("帳號或密碼錯誤");
@@ -57,20 +60,23 @@ export default {
 };
 </script>
 <template>
-  <div class="container">
-    <div class="text-area">
-      <label for="account" placeholder="輸入帳號">帳號</label>
-      <input type="text" v-model="useraccount" />
-      <label for="password" placeholder="輸入密碼">密碼</label>
-      <input type="password" v-model="password" />
-    </div>
-    <div class="keep">
-      <label for="checkbox">記住帳號</label>
-      <input type="checkbox" v-model="isCheck" />
-    </div>
-    <div class="btn-area">
-      <button @click="login">登錄</button>
-      <button @click="singup">註冊</button>
+  <div class="login">
+    <HeaderView />
+    <div class="container">
+      <div class="text-area">
+        <label for="account" placeholder="輸入帳號">帳號</label>
+        <input type="text" v-model="useraccount" id="account" />
+        <label for="password" placeholder="輸入密碼">密碼</label>
+        <input type="password" v-model="password" id="password" />
+      </div>
+      <div class="keep">
+        <label for="checkbox">記住帳號</label>
+        <input type="checkbox" v-model="isCheck" id="checkbox" />
+      </div>
+      <div class="btn-area">
+        <button @click="login">登錄</button>
+        <button @click="singup">註冊</button>
+      </div>
     </div>
   </div>
 </template>
@@ -82,9 +88,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   .text-area {
     width: 300px;
     padding: 1rem;
+
     // border: 2px solid black;
     input {
       width: 250px;
@@ -92,6 +100,7 @@ export default {
       padding: 10px;
     }
   }
+
   .keep {
     display: flex;
     width: 300px;

@@ -1,5 +1,9 @@
 <script>
+import HeaderView from '../components/HeaderView.vue';
 export default {
+  components: {
+    HeaderView,
+  },
   data() {
     return {
       account: "",
@@ -44,20 +48,20 @@ export default {
           }
           alert(
             "會員註冊成功！\n" +
-              "會員資料\n會員 帳號 :" +
-              data.userAccount +
-              "\n會員名稱：" +
-              data.userName +
-              "\n會員密碼:" +
-              data.password +
-              "\n會員生日：" +
-              data.birthDate +
-              "\n會員地址：" +
-              data.address +
-              "\n會員電話：" +
-              data.phone +
-              "\n訊息 : " +
-              data.message,
+            "會員資料\n會員 帳號 :" +
+            data.userAccount +
+            "\n會員名稱：" +
+            data.userName +
+            "\n會員密碼:" +
+            data.password +
+            "\n會員生日：" +
+            data.birthDate +
+            "\n會員地址：" +
+            data.address +
+            "\n會員電話：" +
+            data.phone +
+            "\n訊息 : " +
+            data.message,
             this.$router.push("/loginView")
           );
         })
@@ -71,44 +75,43 @@ export default {
       // alert("註冊成功");
     },
   },
-  mounted() {},
+  mounted() { },
 };
 </script>
 <template>
-  <div class="container">
-    <div class="bg-img"></div>
-    <div class="text-area">
-      <label for="account">帳號</label>
-      <input type="text" placeholder="輸入帳號" v-model="account" />
+  <div class="register">
+    <HeaderView />
+    <div class="container">
+      <div class="bg-img"></div>
+      <div class="text-area">
+        <label for="account">帳號</label>
+        <input type="text" placeholder="輸入帳號" v-model="account" />
 
-      <label for="password">密碼</label>
-      <input type="password" placeholder="輸入密碼" v-model="password" />
+        <label for="password">密碼</label>
+        <input type="password" placeholder="輸入密碼" v-model="password" />
 
-      <label for="password">確認密碼</label>
-      <input type="password" placeholder="確認密碼" v-model="password2" />
+        <label for="password">確認密碼</label>
+        <input type="password" placeholder="確認密碼" v-model="password2" />
 
-      <label for="username">會員名稱</label>
-      <input type="text" placeholder="會員名稱" v-model="username" />
+        <label for="username">會員名稱</label>
+        <input type="text" placeholder="會員名稱" v-model="username" />
 
-      <label for="birthday">生日</label>
-      <input type="text" placeholder="ex:1995-03-01" v-model="birthday" />
+        <label for="birthday">生日</label>
+        <input type="text" placeholder="ex:1995-03-01" v-model="birthday" />
 
-      <label for="location">地址</label>
-      <input type="text" placeholder="輸入地址" v-model="address" />
+        <label for="location">地址</label>
+        <input type="text" placeholder="輸入地址" v-model="address" />
 
-      <label for="tel">電話</label>
-      <input
-        type="text"
-        placeholder="ex:09-12345678或886開頭"
-        v-model="phone"
-      />
-    </div>
-    <div class="keep">
-      <label for="checkbox">記住帳號</label>
-      <input type="checkbox" />
-    </div>
-    <div class="btn-area">
-      <button @click="regis">註冊</button>
+        <label for="tel">電話</label>
+        <input type="text" placeholder="ex:09-12345678或886開頭" v-model="phone" />
+      </div>
+      <div class="keep">
+        <label for="checkbox">記住帳號</label>
+        <input type="checkbox" />
+      </div>
+      <div class="btn-area">
+        <button @click="regis">註冊</button>
+      </div>
     </div>
   </div>
 </template>
@@ -120,15 +123,18 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   .text-area {
     width: 300px;
     padding: 1rem;
+
     // border: 2px solid black;
     input {
       width: 250px;
       border-radius: 20px;
     }
   }
+
   .keep {
     display: flex;
     width: 300px;

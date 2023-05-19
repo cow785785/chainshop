@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HeaderView from "../components/HeaderView.vue"
+import HomeView from "../views/HomeView.vue"
 import LoginView from "../components/LoginView.vue"
 import RegisterView from "../components/RegisterView.vue"
 import ShopCarView from "../components/ShopCarView.vue"
@@ -10,19 +10,18 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'HeaderView',
-      component:HeaderView,
-      props: true, // 添加此行
+      name: 'HomeView',
+      component: HomeView,
     },
     {
       path: '/loginView',
       name: 'LoginView',
-      component:LoginView,
+      component: LoginView,
     },
     {
       path: '/registerView',
       name: 'RegisterView',
-      component:RegisterView,
+      component: RegisterView,
     },
     {
       path: '/shopCarView',
@@ -33,8 +32,13 @@ const router = createRouter({
       path: '/question',
       name: 'Question',
       component:Question,
-    }
-    
+    },
+    {
+      path: '/member',
+      name: 'MemberView',
+      component: () => import("../views/MemberView.vue"),
+    },
+
   ]
 })
 
