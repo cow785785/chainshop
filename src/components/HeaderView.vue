@@ -61,9 +61,7 @@ export default {
               {{ userName }}
             </RouterLink>
             <div class="dropdown-content">
-              <button v-if="isLoggedIn" @click="checkout">登出</button>
-              <a href="#">選項 2</a>
-              <a href="#">選項 3</a>
+              <a href="#" v-if="isLoggedIn" @click="checkout">登出</a>
             </div>
           </div>
         </li>
