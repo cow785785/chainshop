@@ -1,36 +1,29 @@
 <script>
 export default {
+    props: {
+        orderdetail: {
+            type: Object,
+            required: true,
+        },
+    },
     data() {
         return {
-            orderList: [],
-            orderNumber: "number",
-            productCode: "code",
-            totalPrice: 555,
-            quantity: 555,
-            address: "addr",
-            orderStatus: "status",
-            orderTime: "time",
-            imgLink: "商品図",
+            orderNumber: this.orderdetail.orderNumber,
+            productName: this.orderdetail.productsId.productName,
+            productCode: this.orderdetail.productCode,
+            totalPrice: this.orderdetail.totalPrice,
+            quantity: this.orderdetail.quantity,
+            address: this.orderdetail.deliveryAddress,
+            orderStatus: this.orderdetail.orderStatus,
+            orderTime: this.orderdetail.orderTime.substring(0, 10),
+            imgLink: this.orderdetail.productsId.productImg,
         }
     },
     methods: {
 
     },
     mounted() {
-        const useraccount = localStorage.getItem("useraccount");
-        fetch("http://localhost:8080/get_orderdetails_by_useraccount", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: useraccount,
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                this.orderList = data;
-            })
-            .catch(err => console.log(err));
+
     },
 }
 </script>
@@ -59,10 +52,12 @@ export default {
                 {{ imgLink }}
             </div>
             <div class="info long product">
-                <p>{{ productCode }} Lorem ipsum dolor sit amet.</p>
+                <h4>{{ productName }}</h4>
+                {{ productCode }}
                 <p>個数：{{ quantity }}</p>
             </div>
             <div class="info status">
+                
                 <p>{{ orderStatus }}</p>
             </div>
         </div>
@@ -74,6 +69,11 @@ export default {
     border: 1px solid rgb(211, 211, 211);
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    opacity: 0.8;
+
+    &:hover {
+        opacity: 1;
+    }
 
     .title {
         display: flex;
