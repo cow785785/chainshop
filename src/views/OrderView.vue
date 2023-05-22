@@ -1,18 +1,18 @@
 <script>
 import HeaderView from '../components/HeaderView.vue';
 import Orderdetail from '../components/Orderdetail.vue';
+import ScrollToTopBtn from '../components/ScrollToTopBtn.vue';
 export default {
-    components:{
-        HeaderView,Orderdetail,
+    components: {
+        HeaderView, Orderdetail,ScrollToTopBtn,
     },
     data() {
         return {
-            orderList:[],
-
+            orderList: [],
         }
     },
     methods: {
-        
+
     },
     mounted() {
         const useraccount = localStorage.getItem("useraccount");
@@ -30,14 +30,21 @@ export default {
             })
             .catch(err => console.log(err));
     },
+    
 }
 </script>
 <template>
     <div class="order">
         <HeaderView />
-        <Orderdetail v-for="(orderdetail,index) in orderList" :orderdetail="orderdetail"/>
+        <div class="detail">
+            <Orderdetail v-for="(orderdetail, index) in orderList" :orderdetail="orderdetail" />
+
+        </div>
+        <ScrollToTopBtn/>
     </div>
 </template>
 <style lang="scss" scoped>
-    
+.detail{
+    margin: 0 50px;
+}
 </style>

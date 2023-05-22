@@ -3,9 +3,12 @@ import { RouterLink, RouterView } from "vue-router";
 
 export default {
    components: {},
-   props: ["title", "quantity", "price", "info"],
+   props: ["title", "inventory", "price", "info"],
    data() {
-      return { show: true };
+      return { 
+         show: true,
+         imgUrl:"../../public/img/hm1.jpg",
+      };
    },
    methods: {
       saveQuantity() {
@@ -24,7 +27,7 @@ export default {
       <div class="product-card">
          <img
             class="img"
-            src="../../public/img/hm1.jpg"
+            :src="imgUrl"
             alt=""
             @click="changeShow"
          />
@@ -35,8 +38,8 @@ export default {
          <div class="buy-area">
             <div class="count-area">
                <!-- 商品數量用select抓 可以用資料庫中的數量當作極限 -->
-               <select name="quantity" id="quantity">
-                  <option v-for="product in quantity" value="product">
+               <select name="quantity" >
+                  <option v-for="product in inventory" value="product">
                      {{ product }}
                   </option>
                </select>

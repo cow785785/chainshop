@@ -1,17 +1,18 @@
 <script>
-import ProductInfoView from "../components/ProductInfo.vue";
+import ProductInfo from "../components/ProductInfo.vue";
 import ProductView from "../views/ProductView.vue";
 export default {
    components: {
-      ProductInfoView,
+      ProductInfo,
       ProductView,
    },
    data() {
       return {
-         quantity: 10,
+         inventory: 10,
          productList: null,
          card: true,
          info: false,
+         code: "",
          index: null,
       };
    },
@@ -50,15 +51,16 @@ export default {
       <div class="row">
          <!-- foreach商品卡片 -->
          <div v-for="(product, index) in productList" v-show="card" class="product-area">
-            <ProductInfoView :title="product.productName" :quantity="quantity" :price="product.price"
-               :info="product.productInfo" @switchCard="showProduct(index)" class="product-card"></ProductInfoView>
+            <ProductInfo :title="product.productName" :inventory="inventory" :price="product.price"
+               :info="product.productInfo" :code="product.productCode" @switchCard="showProduct(index)"
+               class="product-card"></ProductInfo>
          </div>
       </div>
       <!-- 點擊卡片時出現單項商品資訊 -->
 
       <div v-if="info" class="product">
-         <ProductView :title="productList[index].productName" :quantity="quantity" :price="productList[index].price"
-            :describe="productList[index].productDescribe" @switch="closeProduct" />
+         <ProductView :title="productList[index].productName" :inventory="inventory" :price="productList[index].price"
+            :describe="productList[index].productDescribe" :code="productList[index].productCode" @switch="closeProduct" />
       </div>
    </div>
 </template>

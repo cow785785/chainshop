@@ -2,36 +2,7 @@
 export default {
   data() {
     return {
-      itemList: [
-        {
-          id: "1",
-          itemName: "商品1",
-          imgUrl: "../../public/img/hm1.jpg",
-          price: "500",
-          count: "1",
-        },
-        {
-          id: "2",
-          itemName: "商品1",
-          imgUrl: "../../public/img/friedck.jpg",
-          price: "790",
-          count: "1",
-        },
-        {
-          id: "3",
-          itemName: "商品1",
-          imgUrl: "../../public/img/friedck.jpg",
-          price: "1200",
-          count: "1",
-        },
-        {
-          id: "4",
-          itemName: "商品1",
-          imgUrl: "../../public/img/friedck.jpg",
-          price: "2300",
-          count: "1",
-        },
-      ],
+      itemList: [],
 
       //選中的商品列表，用於計算總價
       checkList: [],
@@ -39,18 +10,87 @@ export default {
   },
   methods: {
     handlePlus: function (item) {
-      console.log(item);
-      item.count++;
+      const newQuantity = item.quantity + 1;
+      const oldPrice = item.totalPrice / item.quantity;
+      item.quantity = newQuantity;
+      item.totalPrice = oldPrice * newQuantity;
     },
-    handleSub: function (item) {
-      console.log(item);
-      if (item.count > 1) {
-        item.count--;
+    handleSub: function (item, index) {
+      if (item.quantity > 1) {
+        const newQuantity = item.quantity - 1;
+        const oldPrice = item.totalPrice / item.quantity;
+        item.quantity = newQuantity;
+        item.totalPrice = oldPrice * newQuantity;
+      } else {//小於1，從購物車移除此項目
+        const delList = [item];
+        const body = {
+          order_list: delList,
+        }
+        fetch("http://localhost:8080/del_order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body),
+        }).catch(err => console.log(err));
+        this.itemList.splice(index, 1);
+        if (this.itemList.length === 0) {
+          localStorage.removeItem("orderList");
+        }
+        localStorage.setItem("orderList", JSON.stringify(this.itemList));
       }
     },
     handledelete: function (index) {
       this.itemList.splice(index, 1);
+      if (this.itemList.length === 0) {
+        localStorage.removeItem("orderList");
+      }
     },
+    goOrder() {
+      localStorage.setItem("orderList", JSON.stringify(this.itemList))
+      const storedOrderList = localStorage.getItem("orderList");
+      console.log(storedOrderList);
+      if (storedOrderList) {
+        const newOrderList = JSON.parse(storedOrderList)
+        newOrderList.forEach(element => {
+          element.orderStatus = "オーダー済み";
+        });
+        const body = {
+          order_list: newOrderList,
+        }
+        console.log(body)
+        fetch("http://localhost:8080/new_order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body),
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data)
+            localStorage.removeItem("orderList");
+            this.itemList = [];
+            alert(data.message);
+            location.reload();
+          }).catch(err => console.log(err))
+      }
+    },
+    handleUnload() {//離開頁面時，保存數量變更
+      localStorage.setItem("orderList", JSON.stringify(this.itemList))
+    },
+  },
+  created() { //建立離開頁面時的監聽
+    window.addEventListener('beforeunload', this.handleUnload);
+  },
+  mounted() {
+    const storedOrderList = localStorage.getItem("orderList");
+    if (storedOrderList) {
+      this.itemList = JSON.parse(storedOrderList);
+    }
+  },
+  beforeUnmounted() {
+    window.removeEventListener('beforeunload', this.handleUnload);
   },
 };
 </script>
@@ -64,29 +104,27 @@ export default {
         <div class="amount">總計</div>
         <div class="operate">操作</div>
       </div>
-      <div
-        class="item_container"
-        v-for="(item, index) in itemList"
-        :key="item.id"
-      >
+      <div class="item_container" v-for="(item, index) in itemList" :key="item.productId">
         <div class="item_header item_body">
           <div class="item_detail">
             <img v-bind:src="item.imgUrl" alt="" />
-            <div class="name">{{ item.itemName }}</div>
+            <div class="name">{{ item.productsId.productName }}</div>
           </div>
 
-          <div class="price"><span>$</span>{{ item.price }}</div>
+          <div class="price"><span>$</span>{{ item.totalPrice / item.quantity }}</div>
           <div class="count">
             <button @click="handleSub(item)">-</button>
-            {{ item.count }}
-            <button @click="handlePlus(item)">+</button>
+            {{ item.quantity }}
+            <button @click="handlePlus(item, index)">+</button>
           </div>
-          <div class="amount">{{ item.price * item.count }}</div>
+          <div class="amount">{{ item.totalPrice }}</div>
           <div class="operate">
             <button @click="handledelete(index)">刪除</button>
           </div>
         </div>
       </div>
+      <button @click="goOrder">BUY</button>
+      <button @click="getData">TEST</button>
     </div>
   </div>
 </template>
@@ -94,28 +132,32 @@ export default {
 template {
   background-color: rgba(0, 0, 0, 0.2);
 }
+
 .item_header {
   display: flex;
-  width: 1000px;
   margin: 0 auto;
   height: 30px;
   background-color: #fff;
   border-radius: 3px;
   padding-left: 10px;
 }
+
 .item_header div {
   width: 200px;
   color: #888;
   line-height: 30px;
 }
+
 .item_header .item_detail {
   width: 50%;
 }
+
 .item_body {
   margin-top: 20px;
   height: 100px;
   align-items: center;
 }
+
 .item_detail img {
   width: 80px;
   height: 80px;
@@ -123,6 +165,7 @@ template {
   /* margin-top: 10px; */
   float: left;
 }
+
 .item_detail .name {
   margin-left: 100px;
   margin-top: 20px;

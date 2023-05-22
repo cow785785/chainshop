@@ -23,7 +23,7 @@ export default {
 
     },
     mounted() {
-
+        
     },
 }
 </script>
@@ -57,7 +57,7 @@ export default {
                 <p>個数：{{ quantity }}</p>
             </div>
             <div class="info status">
-                
+
                 <p>{{ orderStatus }}</p>
             </div>
         </div>
@@ -70,6 +70,7 @@ export default {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     opacity: 0.8;
+    min-width: min-content;
 
     &:hover {
         opacity: 1;
@@ -82,12 +83,12 @@ export default {
         align-items: center;
 
         .info {
-            margin: 8px;
-            min-width: 50px;
+            margin: 1rem;
+            min-width: 100px;
         }
 
         .long {
-            min-width: 300px;
+            min-width: 200px;
         }
     }
 
