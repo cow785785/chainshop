@@ -1,10 +1,9 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
+import SearchInput from "./SearchInput.vue";
 import BackTopView from "../components/BackTopBtn.vue";
 export default {
-   components: {
-      BackTopView
-   },
+   components: { SearchInput, BackTopView },
    data() {
       return {
          useraccount: "",
@@ -124,7 +123,10 @@ export default {
             <li>
                <div class="dropdown">
                   <RouterLink to="loginView" class="dropbtn">
-                     <i class="fa-solid fa-user-group" style="color: #d40c48"></i>
+                     <i
+                        class="fa-solid fa-user-group"
+                        style="color: #d40c48"
+                     ></i>
                      {{ userName }}
                   </RouterLink>
                   <div class="dropdown-content">
@@ -134,9 +136,15 @@ export default {
             </li>
             <li>
                <div class="dropdown">
-                  <RouterLink to="/member"><i class="fa-solid fa-crown" style="color: #f3d55d"></i>会員センター</RouterLink>
+                  <RouterLink to="/member"
+                     ><i class="fa-solid fa-crown" style="color: #f3d55d"></i
+                     >会員センター</RouterLink
+                  >
                   <div class="dropdown-content">
-                     <RouterLink to="/order"><i class="fa-solid fa-clock-rotate-left"></i>お買い物履歴</RouterLink>
+                     <RouterLink to="/order"
+                        ><i class="fa-solid fa-clock-rotate-left"></i
+                        >お買い物履歴</RouterLink
+                     >
                      <a href="#">選項 2</a>
                      <a href="#">選項 3</a>
                   </div>
