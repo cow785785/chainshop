@@ -1,8 +1,9 @@
 <script>
-import ProductInfoView from "../views/ProductInfoView.vue";
+// import ProductInfoView from "../views/ProductInfoView.vue";
+import { RouterLink, RouterView } from "vue-router";
 export default {
    components: {
-      ProductInfoView,
+      // ProductInfoView,
    },
    data() {
       return {
@@ -15,6 +16,7 @@ export default {
          ],
          currentBackgroundIndex: 0,
          show: true,
+         category: null,
       };
    },
    computed: {
@@ -27,8 +29,10 @@ export default {
       },
    },
    methods: {
-      changeShow() {
-         this.show = !this.show;
+      // 點選圖片就顯示該分類的所有商品
+      saveCategory(category) {
+         this.category = category;
+         sessionStorage.setItem("category", this.category);
       },
    },
    mounted() {
@@ -49,15 +53,25 @@ export default {
          <h3>精品美食，應有盡有</h3>
          <div class="circles">
             <div class="circle">
-               <img
-                  src="../../public/img/breakfast.jpg"
-                  alt="精美早餐"
-                  @click="changeShow"
-               />
+               <router-link class="link" to="/category">
+                  <img
+                     class="breakfast"
+                     src="../../public/img/breakfast.jpg"
+                     alt="精美早餐"
+                     @click="saveCategory('早餐')"
+                  />
+               </router-link>
                <p>多種早餐</p>
             </div>
+
             <div class="circle">
-               <img src="../../public/img/drink.jpg" alt="飲料" />
+               <router-link class="link" to="/category">
+                  <img
+                     src="../../public/img/drink.jpg"
+                     alt="飲料"
+                     @click="saveCategory('飲料')"
+                  />
+               </router-link>
                <p>爽喝就喝</p>
             </div>
             <div class="circle">
@@ -80,9 +94,9 @@ export default {
             </div>
          </div>
       </section>
-      <section class="product-area">
+      <section v-if="!show" class="product-area">
          <h3>商品清單</h3>
-         <ProductInfoView></ProductInfoView>
+         <!-- <ProductInfoView :category="category"></ProductInfoView> -->
       </section>
    </main>
 </template>
@@ -137,6 +151,21 @@ main {
          flex-direction: column;
          align-items: center;
          padding: 0.3rem;
+         .link {
+            width: 80%;
+            height: 50%;
+            justify-content: center;
+            align-items: center;
+            img {
+               width: 100%;
+               height: 100%;
+               transition: all 0.1s ease-in;
+               &:hover {
+                  padding: 0.5rem;
+                  border: 1px solid red;
+               }
+            }
+         }
          img {
             width: 80%;
             height: 50%;

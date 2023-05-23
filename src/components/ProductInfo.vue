@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from "vue-router";
 
 export default {
    components: {},
-   props: ["title", "quantity", "price", "info"],
+   props: ["title", "quantity", "price", "info", "image"],
    data() {
       return { show: true };
    },
@@ -22,12 +22,7 @@ export default {
 <template>
    <div class="card-area">
       <div class="product-card">
-         <img
-            class="img"
-            src="../../public/img/hm1.jpg"
-            alt=""
-            @click="changeShow"
-         />
+         <img class="img" v-bind:src="image" alt="" @click="changeShow" />
 
          <h5 class="title">{{ title }}</h5>
          <p class="info">{{ info }}</p>
@@ -52,12 +47,31 @@ export default {
 <style lang="scss" scoped>
 .card-area {
    border: 1px solid;
-   width: 50vh;
+   border-radius: 15px;
+   width: 216px;
+   height: 290px;
    display: flex;
    justify-content: center;
    margin: 0;
    .product-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      img {
+         max-width: 80%;
+         max-height: 50%;
+         border-radius: 10px;
+      }
       margin: 0.5rem;
+      p,
+      h5 {
+         justify-content: center;
+         margin: 0;
+      }
+      h5 {
+         margin-top: 0.5rem;
+      }
    }
    .buy-area {
       width: 100%;
@@ -76,11 +90,10 @@ export default {
       }
    }
 }
-.img {
-   max-width: 100%;
-}
+
 .cart {
    width: 80%;
    margin: 0.5rem;
+   font-size: 10px;
 }
 </style>

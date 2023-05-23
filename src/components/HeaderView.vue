@@ -1,7 +1,8 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
+import SearchInput from "./SearchInput.vue";
 export default {
-   components: {},
+   components: { SearchInput },
    data() {
       return {
          useraccount: "",
@@ -108,6 +109,11 @@ export default {
                   >問い合わせ</RouterLink
                >
             </li>
+            <li>
+               <SearchInput></SearchInput>
+            </li>
+            <li><router-link to="/createProductView">建立商品</router-link></li>
+            <li><router-link to="/backProduct">修改商品</router-link></li>
          </ul>
       </nav>
    </div>

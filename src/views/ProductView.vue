@@ -1,6 +1,6 @@
 <script>
 export default {
-   props: ["title", "quantity", "price", "describe"],
+   props: ["title", "quantity", "price", "describe", "image"],
    data() {
       return {
          show: false,
@@ -18,7 +18,7 @@ export default {
    <div class="contain">
       <h2 class="back" @click="changeShow">Back to Menu</h2>
       <div class="product">
-         <img src="../../public/img/hm1.jpg" alt="" />
+         <img v-bind:src="image" alt="" />
          <div class="text-area">
             <h1>{{ title }}</h1>
             <p>
@@ -76,14 +76,4 @@ img {
    justify-content: start;
    cursor: pointer;
 }
-// .bg {
-//    width: 100%;
-//    height: 100%;
-//    background-color: black;
-//    opacity: 0.65;
-//    position: fixed;
-//    top: 0;
-//    left: 0;
-//    z-index: -1;
-// }
 </style>

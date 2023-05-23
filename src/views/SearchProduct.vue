@@ -1,10 +1,13 @@
 <script>
 import ProductInfoView from "../components/ProductInfo.vue";
 import ProductView from "../views/ProductView.vue";
+import HeaderView from "../components/HeaderView.vue";
+
 export default {
    components: {
       ProductInfoView,
       ProductView,
+      HeaderView,
    },
    data() {
       return {
@@ -16,15 +19,26 @@ export default {
       };
    },
    methods: {
-      getAllProduct() {
-         fetch("http://localhost:8080/find_all_product")
+      getCategortProduct() {
+         console.log(this.category);
+         let reqCategory = { searchName: sessionStorage.getItem("keyword") };
+         console.log(reqCategory);
+         fetch("http://localhost:8080/find_product_by_name_or_category", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            body: JSON.stringify(reqCategory),
+         })
             .then(function (res) {
                return res.json();
             })
 
             .then((data) => {
-               this.productList = data;
                console.log(data);
+               this.productList = data.list;
+
+               console.log(this.productList);
             });
       },
       showProduct(a) {
@@ -39,12 +53,13 @@ export default {
       },
    },
    mounted() {
-      this.getAllProduct();
+      this.getCategortProduct();
    },
 };
 </script>
 
 <template>
+   <HeaderView />
    <div class="contain">
       <div class="row">
          <!-- foreach商品卡片 -->
