@@ -4,7 +4,9 @@ import Imgchange from '../components/Imgchange.vue';
 export default {
     components: {
         HeaderView, Imgchange,
-    }
+    },
+    mounted() {
+    },
 }
 </script>
 <template>
@@ -13,5 +15,4 @@ export default {
         <Imgchange />
     </div>
 </template>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
