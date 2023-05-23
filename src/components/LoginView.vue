@@ -39,11 +39,9 @@ export default {
             alert("登錄成功，正在跳轉頁面");
 
             this.$router.push("/");
-            // setTimeout(location.reload(), 2000);
             setTimeout(() => {
               location.reload();
             }, 2000);
-            // location.reload();
           } else {
             alert("帳號或密碼錯誤");
           }

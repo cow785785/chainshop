@@ -12,19 +12,47 @@ export default {
    },
    methods: {
       checkout() {
-         // 清除本地存储的用戶相關訊息
-         localStorage.removeItem("useraccount");
-         localStorage.removeItem("password");
-         localStorage.removeItem("username");
+         const orderList = sessionStorage.getItem("orderList");
+         if (orderList) {
+            fetch("http://localhost:8080/new_order", {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json"
+               },
+               body: {
+                  order_list: JSON.stringify(JSON.parse(orderList)),
+               }
+            })
+               .then(res => res.json())
+               .then(() => {
+                  localStorage.clear();
+                  // 清空 sessionStorage
+                  sessionStorage.clear();
+                  alert("已登出，謝謝光臨");
 
-         alert("已登出，謝謝光臨");
+                  this.isLoggedIn = false; // 更新登陸狀態為未登入
 
-         this.isLoggedIn = false; // 更新登陸狀態為未登入
+                  this.$router.push("/");
+                  setTimeout(() => {
+                     location.reload();
+                  }, 1500);
+               })
 
-         this.$router.push("/");
-         setTimeout(() => {
-            location.reload();
-         }, 1500);
+         } else {
+            // 清除本地存储的用戶相關訊息
+            // 清空 localStorage
+            localStorage.clear();
+            // 清空 sessionStorage
+            sessionStorage.clear();
+            alert("已登出，謝謝光臨");
+
+            this.isLoggedIn = false; // 更新登陸狀態為未登入
+
+            this.$router.push("/");
+            setTimeout(() => {
+               location.reload();
+            }, 1500);
+         }
       },
    },
    mounted() {
@@ -56,10 +84,7 @@ export default {
             <li>
                <div class="dropdown">
                   <RouterLink to="loginView" class="dropbtn">
-                     <i
-                        class="fa-solid fa-user-group"
-                        style="color: #d40c48"
-                     ></i>
+                     <i class="fa-solid fa-user-group" style="color: #d40c48"></i>
                      {{ userName }}
                   </RouterLink>
                   <div class="dropdown-content">
@@ -69,14 +94,9 @@ export default {
             </li>
             <li>
                <div class="dropdown">
-                  <RouterLink to="/member"
-                     ><i class="fa-solid fa-crown" style="color: #f3d55d"></i
-                     >会員センター</RouterLink
-                  >
+                  <RouterLink to="/member"><i class="fa-solid fa-crown" style="color: #f3d55d"></i>会員センター</RouterLink>
                   <div class="dropdown-content">
-                     <RouterLink to="/order"
-                     ><i class="fa-solid fa-clock-rotate-left"></i
-                     >お買い物履歴</RouterLink>
+                     <RouterLink to="/order"><i class="fa-solid fa-clock-rotate-left"></i>お買い物履歴</RouterLink>
                      <a href="#">選項 2</a>
                      <a href="#">選項 3</a>
                   </div>
@@ -84,10 +104,7 @@ export default {
             </li>
             <li>
                <div class="dropdown">
-                  <RouterLink to="/product_info"
-                     ><i class="fa-solid fa-clock-rotate-left"></i
-                     >商品一覧</RouterLink
-                  >
+                  <RouterLink to="/product_info"><i class="fa-solid fa-clock-rotate-left"></i>商品一覧</RouterLink>
                   <div class="dropdown-content">
                      <a href="#">選項 1</a>
                      <a href="#">選項 2</a>
@@ -96,19 +113,11 @@ export default {
                </div>
             </li>
             <li>
-               <RouterLink to="/shopCarView"
-                  ><i
-                     class="fa-solid fa-cart-shopping"
-                     style="color: #c35113"
-                  ></i
-                  >購物車</RouterLink
-               >
+               <RouterLink to="/shopCarView"><i class="fa-solid fa-cart-shopping" style="color: #c35113"></i>購物車
+               </RouterLink>
             </li>
             <li>
-               <RouterLink to="/question"
-                  ><i class="fa-solid fa-circle-question"></i
-                  >問い合わせ</RouterLink
-               >
+               <RouterLink to="/question"><i class="fa-solid fa-circle-question"></i>問い合わせ</RouterLink>
             </li>
          </ul>
       </nav>

@@ -9,6 +9,7 @@ export default {
     handleUnload(event) {
       event.preventDefault();
       event.returnValue = '';
+      const confirmationMessage = "確定要登出嗎？";
 
       const storedOrderList = sessionStorage.getItem("orderList");
       const storedDbCartList = sessionStorage.getItem("dbCartList");
@@ -19,9 +20,11 @@ export default {
       };
 
       const newOrderList = JSON.parse(storedOrderList);
-      newOrderList.forEach(element => {
-        element.orderStatus = "カート入り";
-      });
+      if (newOrderList) {
+        newOrderList.forEach(element => {
+          element.orderStatus = "カート入り";
+        });
+      }
       const newBody = {
         order_list: newOrderList,
       };
