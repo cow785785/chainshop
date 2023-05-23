@@ -3,9 +3,6 @@ export default {
   data() {
     return {
       itemList: [],
-
-      //選中的商品列表，用於計算總價
-      checkList: [],
     };
   },
   methods: {
@@ -21,34 +18,16 @@ export default {
         const oldPrice = item.totalPrice / item.quantity;
         item.quantity = newQuantity;
         item.totalPrice = oldPrice * newQuantity;
-      } else {//小於1，從購物車移除此項目
-        const delList = [item];
-        const body = {
-          order_list: delList,
-        }
-        fetch("http://localhost:8080/del_order", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(body),
-        }).catch(err => console.log(err));
-        this.itemList.splice(index, 1);
-        if (this.itemList.length === 0) {
-          localStorage.removeItem("orderList");
-        }
-        localStorage.setItem("orderList", JSON.stringify(this.itemList));
       }
     },
-    handledelete: function (index) {
+    handledelete(item, index) {
       this.itemList.splice(index, 1);
-      if (this.itemList.length === 0) {
-        localStorage.removeItem("orderList");
-      }
+      sessionStorage.setItem("orderList", JSON.stringify(this.itemList))
     },
+
     goOrder() {
-      localStorage.setItem("orderList", JSON.stringify(this.itemList))
-      const storedOrderList = localStorage.getItem("orderList");
+      sessionStorage.setItem("orderList", JSON.stringify(this.itemList))
+      const storedOrderList = sessionStorage.getItem("orderList");
       console.log(storedOrderList);
       if (storedOrderList) {
         const newOrderList = JSON.parse(storedOrderList)
@@ -69,7 +48,7 @@ export default {
           .then(res => res.json())
           .then(data => {
             console.log(data)
-            localStorage.removeItem("orderList");
+            sessionStorage.removeItem("orderList");
             this.itemList = [];
             alert(data.message);
             location.reload();
@@ -77,20 +56,20 @@ export default {
       }
     },
     handleUnload() {//離開頁面時，保存數量變更
-      localStorage.setItem("orderList", JSON.stringify(this.itemList))
+      sessionStorage.setItem("orderList", JSON.stringify(this.itemList))
     },
   },
-  created() { //建立離開頁面時的監聽
-    window.addEventListener('beforeunload', this.handleUnload);
-  },
   mounted() {
-    const storedOrderList = localStorage.getItem("orderList");
+    const storedOrderList = sessionStorage.getItem("orderList");
     if (storedOrderList) {
       this.itemList = JSON.parse(storedOrderList);
     }
   },
-  beforeUnmounted() {
-    window.removeEventListener('beforeunload', this.handleUnload);
+  beforeRouteLeave(to, from, next) {
+    if (from.path === '/shopCarView') {
+      this.handleUnload();
+    }
+    next();
   },
 };
 </script>
@@ -108,7 +87,7 @@ export default {
         <div class="item_header item_body">
           <div class="item_detail">
             <img v-bind:src="item.imgUrl" alt="" />
-            <div class="name">{{ item.productsId.productName }}</div>
+            <div class="name">{{ item.productName }}</div>
           </div>
 
           <div class="price"><span>$</span>{{ item.totalPrice / item.quantity }}</div>
@@ -119,7 +98,7 @@ export default {
           </div>
           <div class="amount">{{ item.totalPrice }}</div>
           <div class="operate">
-            <button @click="handledelete(index)">刪除</button>
+            <button @click="handledelete(item, index)">刪除</button>
           </div>
         </div>
       </div>

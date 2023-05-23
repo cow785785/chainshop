@@ -52,12 +52,12 @@ export default {
                   };
                   this.orderList.push(newOrder);
                }
-               localStorage.setItem("orderList", JSON.stringify(this.orderList));
+               sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
             });
       }
    },
    mounted() {
-      const storedOrderList = localStorage.getItem("orderList");
+      const storedOrderList = sessionStorage.getItem("orderList");
       if (storedOrderList) {
          this.orderList = JSON.parse(storedOrderList);
       }

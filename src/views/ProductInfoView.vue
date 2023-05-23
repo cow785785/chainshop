@@ -1,10 +1,12 @@
 <script>
 import ProductInfo from "../components/ProductInfo.vue";
 import ProductView from "../views/ProductView.vue";
+import HeaderView from "../components/HeaderView.vue";
 export default {
    components: {
       ProductInfo,
       ProductView,
+      HeaderView,
    },
    data() {
       return {
@@ -48,6 +50,7 @@ export default {
 
 <template>
    <div class="contain">
+      <HeaderView/>
       <div class="row">
          <!-- foreach商品卡片 -->
          <div v-for="(product, index) in productList" v-show="card" class="product-area">

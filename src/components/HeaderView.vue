@@ -84,9 +84,9 @@ export default {
             </li>
             <li>
                <div class="dropdown">
-                  <RouterLink to=""
+                  <RouterLink to="/product_info"
                      ><i class="fa-solid fa-clock-rotate-left"></i
-                     >お買い物履歴</RouterLink
+                     >商品一覧</RouterLink
                   >
                   <div class="dropdown-content">
                      <a href="#">選項 1</a>
