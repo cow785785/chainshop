@@ -1,152 +1,158 @@
 <script>
 import ProductInfoView from "../views/ProductInfoView.vue";
+// import MouseView from "./MouseView.vue";
+import FooterView from "./FooterView.vue";
 export default {
-   components: {
-      ProductInfoView,
-   },
-   data() {
+  components: {
+    ProductInfoView,
+    FooterView,
+    //  MouseView,
+  },
+  data() {
+    return {
+      backgrounds: [
+        "../../public/img/fryfood.jpg",
+        "../../public/img/日本壽司.jpg",
+        "../../public/img/mix2.jpg",
+        "../../public/img/vage.jpg",
+        "../../public/img/yakiniku.jpg",
+      ],
+      currentBackgroundIndex: 0,
+      show: true,
+    };
+  },
+  computed: {
+    backgroundStyle() {
       return {
-         backgrounds: [
-            "../../public/img/fryfood.jpg",
-            "../../public/img/日本壽司.jpg",
-            "../../public/img/mix2.jpg",
-            "../../public/img/vage.jpg",
-            "../../public/img/yakiniku.jpg",
-         ],
-         currentBackgroundIndex: 0,
-         show: true,
+        backgroundImage: `url(${
+          this.backgrounds[this.currentBackgroundIndex]
+        })`,
       };
-   },
-   computed: {
-      backgroundStyle() {
-         return {
-            backgroundImage: `url(${
-               this.backgrounds[this.currentBackgroundIndex]
-            })`,
-         };
-      },
-   },
-   methods: {
-      changeShow() {
-         this.show = !this.show;
-      },
-   },
-   mounted() {
-      setInterval(() => {
-         this.currentBackgroundIndex =
-            (this.currentBackgroundIndex + 1) % this.backgrounds.length;
-      }, 3000);
-   },
+    },
+  },
+  methods: {
+    changeShow() {
+      this.show = !this.show;
+    },
+  },
+  mounted() {
+    setInterval(() => {
+      this.currentBackgroundIndex =
+        (this.currentBackgroundIndex + 1) % this.backgrounds.length;
+    }, 3000);
+  },
 };
 </script>
 <template>
-   <main>
-      <section class="backgroung-img" :style="backgroundStyle">
-         <div class="filter"></div>
-         <h3>盡情開撈</h3>
-      </section>
-      <section class="info-circles" v-show="show">
-         <h3>精品美食，應有盡有</h3>
-         <div class="circles">
-            <div class="circle">
-               <img
-                  src="../../public/img/breakfast.jpg"
-                  alt="精美早餐"
-                  @click="changeShow"
-               />
-               <p>多種早餐</p>
-            </div>
-            <div class="circle">
-               <img src="../../public/img/drink.jpg" alt="飲料" />
-               <p>爽喝就喝</p>
-            </div>
-            <div class="circle">
-               <img src="../../public/img/fried.jpg" alt="炸物" />
-               <p>流口水專區</p>
-            </div>
-         </div>
-         <div class="circles">
-            <div class="circle">
-               <img src="../../public/img/lunch.jpg" alt="午餐" />
-               <p>多種風格午餐</p>
-            </div>
-            <div class="circle">
-               <img src="../../public/img/yakiniku.jpg" alt="燒烤" />
-               <p>經典燒烤，肯定要有</p>
-            </div>
-            <div class="circle">
-               <img src="../../public/img/salad.jpg" alt="蔬菜" />
-               <p>補充蔬菜</p>
-            </div>
-         </div>
-      </section>
-      <section class="product-area">
-         <h3>商品清單</h3>
-         <ProductInfoView></ProductInfoView>
-      </section>
-   </main>
+  <main>
+    <section class="backgroung-img" :style="backgroundStyle">
+      <div class="filter"></div>
+      <h3>盡情開撈</h3>
+    </section>
+    <section class="info-circles" v-show="show">
+      <h3>精品美食，應有盡有</h3>
+      <div class="circles">
+        <div class="circle">
+          <img
+            src="../../public/img/breakfast.jpg"
+            alt="精美早餐"
+            @click="changeShow"
+          />
+          <p>多種早餐</p>
+        </div>
+        <div class="circle">
+          <img src="../../public/img/drink.jpg" alt="飲料" />
+          <p>爽喝就喝</p>
+        </div>
+        <div class="circle">
+          <img src="../../public/img/fried.jpg" alt="炸物" />
+          <p>流口水專區</p>
+        </div>
+      </div>
+      <div class="circles">
+        <div class="circle">
+          <img src="../../public/img/lunch.jpg" alt="午餐" />
+          <p>多種風格午餐</p>
+        </div>
+        <div class="circle">
+          <img src="../../public/img/yakiniku.jpg" alt="燒烤" />
+          <p>經典燒烤，肯定要有</p>
+        </div>
+        <div class="circle">
+          <img src="../../public/img/salad.jpg" alt="蔬菜" />
+          <p>補充蔬菜</p>
+        </div>
+      </div>
+    </section>
+    <section class="product-area">
+      <h3>商品清單</h3>
+      <ProductInfoView></ProductInfoView>
+    </section>
+  </main>
+  <!-- <MouseView /> -->
+  <FooterView />
 </template>
 <style lang="scss" scoped>
 main {
-   section.backgroung-img {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  section.backgroung-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    background-image: url("../assets/img/fryfood.jpg");
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.75s ease; /* 添加過度效果 */
+    position: relative;
+    z-index: 0; // stacking context
+
+    .filter {
+      background-color: rgba(0, 0, 0, 0.5);
+      width: 100%;
       min-height: 70vh;
-      background-image: url("../assets/img/fryfood.jpg");
-      background-size: cover;
-      background-position: center;
-      transition: background-image 0.75s ease; /* 添加過度效果 */
-      position: relative;
-      z-index: 0; // stacking context
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    h3 {
+      color: white;
+      font-size: 2.5rem;
+    }
+  }
 
-      .filter {
-         background-color: rgba(0, 0, 0, 0.5);
-         width: 100%;
-         min-height: 70vh;
-         position: absolute;
-         top: 0;
-         left: 0;
-         z-index: -1;
-      }
-      h3 {
-         color: white;
-         font-size: 2.5rem;
-      }
-   }
+  section.info-circles {
+    background-color: white;
+    padding: 2rem 1rem;
+  }
 
-   section.info-circles {
-      background-color: white;
-      padding: 2rem 1rem;
-   }
+  h3 {
+    text-align: center;
+    font-size: 2rem;
+  }
 
-   h3 {
-      text-align: center;
-      font-size: 2rem;
-   }
+  div.circles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 
-   div.circles {
+    .circle {
+      padding: 1rem;
+      flex: 0 1 250px;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-
-      .circle {
-         padding: 1rem;
-         flex: 0 1 250px;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         padding: 0.3rem;
-         img {
-            width: 80%;
-            height: 50%;
-            transition: all 0.1s ease-in;
-            &:hover {
-               padding: 0.5rem;
-               border: 1px solid red;
-            }
-         }
+      flex-direction: column;
+      align-items: center;
+      padding: 0.3rem;
+      img {
+        width: 80%;
+        height: 50%;
+        transition: all 0.1s ease-in;
+        &:hover {
+          padding: 0.5rem;
+          border: 1px solid red;
+        }
       }
-   }
+    }
+  }
 }
 </style>
