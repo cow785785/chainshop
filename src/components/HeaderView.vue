@@ -3,9 +3,7 @@ import { RouterLink, RouterView } from "vue-router";
 import SearchInput from "./SearchInput.vue";
 import BackTopView from "../components/BackTopBtn.vue";
 export default {
-   components: { SearchInput
-      BackTopView
-   },
+   components: { SearchInput, BackTopView },
    data() {
       return {
          useraccount: "",
@@ -21,13 +19,13 @@ export default {
             fetch("http://localhost:8080/new_order", {
                method: "POST",
                headers: {
-                  "Content-Type": "application/json"
+                  "Content-Type": "application/json",
                },
                body: {
                   order_list: JSON.stringify(JSON.parse(orderList)),
-               }
+               },
             })
-               .then(res => res.json())
+               .then((res) => res.json())
                .then(() => {
                   localStorage.clear();
                   // 清空 sessionStorage
@@ -40,8 +38,7 @@ export default {
                   setTimeout(() => {
                      location.reload();
                   }, 1500);
-               })
-
+               });
          } else {
             // 清除本地存储的用戶相關訊息
             // 清空 localStorage

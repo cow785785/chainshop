@@ -69,7 +69,7 @@ export default {
             v-for="(product, index) in productList"
             v-show="card"
             :title="product.productName"
-            :quantity="quantity"
+            :inventory="quantity"
             :price="product.price"
             :info="product.productInfo"
             :image="product.productImg"
@@ -83,7 +83,7 @@ export default {
    <div v-if="info" class="product">
       <ProductView
          :title="productList[index].productName"
-         :quantity="quantity"
+         :inventory="quantity"
          :price="productList[index].price"
          :describe="productList[index].productDescribe"
          :image="productList[index].productImg"
