@@ -84,10 +84,6 @@ export default {
         </div>
       </div>
     </section>
-    <section class="product-area">
-      <h3>商品清單</h3>
-      <ProductInfoView></ProductInfoView>
-    </section>
   </main>
   <!-- <MouseView /> -->
   <FooterView />

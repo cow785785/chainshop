@@ -6,6 +6,7 @@ export default {
          show: false,
          selectedQuantity: '1',
          imgUrl: "../../public/img/hm1.jpg",
+         address: "",
          orderList: [],
       };
    },
@@ -17,43 +18,50 @@ export default {
          const useraccount = localStorage.getItem("useraccount");
          const productCode = code;
          const quantity = parseInt(selectedQuantity);
+         //若沒有地址則透過API去取得
+         if (!this.address) {
+            fetch("http://localhost:8080/selectMember", {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json"
+               },
+               body: JSON.stringify({
+                  useraccount: useraccount
+               }),
+            })
+               .then(res => res.json())
+               .then(data => {
+                  this.address = data.address;
+                  this.addToCartWithAddress(this.address, productCode, quantity);
+               }).catch(err => {
+                  console.log(err);
+                  // 處理錯誤，例如顯示錯誤訊息或使用預設值
+                  this.addToCartWithAddress("Default Address", productCode, quantity);
+               });
+         } else {
+            this.addToCartWithAddress(this.address, productCode, quantity);
+         }
+      },
+      addToCartWithAddress(address, productCode, quantity) {
+         const existingOrderIndex = this.orderList.findIndex(order => order.productCode === productCode);
 
-         fetch("http://localhost:8080/selectMember", {
-            method: "POST",
-            headers: {
-               "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-               useraccount: useraccount
-            }),
-         })
-            .then(res => res.json())
-            .then(data => {
-               console.log(data);
-               // 檢查是否存在相同的productCode物件
-               const existingOrderIndex = this.orderList.findIndex(order => order.productCode === productCode);
-
-               console.log(quantity)
-               console.log(this.price)
-               if (existingOrderIndex !== -1) {
-                  // 如果存在相同的 productCode 物件，將其 quantity 加總
-                  this.orderList[existingOrderIndex].quantity += quantity;
-                  this.orderList[existingOrderIndex].totalPrice = this.price * this.orderList[existingOrderIndex].quantity;
-
-               } else {
-                  const totalPrice = this.price * quantity;
-                  const newOrder = {
-                     useraccount: localStorage.getItem("useraccount"),
-                     productCode: productCode,
-                     quantity: quantity,
-                     totalPrice: totalPrice,
-                     deliveryAddress: data.address,
-                     imgUrl: this.imgUrl,
-                  };
-                  this.orderList.push(newOrder);
-               }
-               sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
-            });
+         if (existingOrderIndex !== -1) {
+            // 如果存在相同的 productCode 物件，將其 quantity 加總
+            this.orderList[existingOrderIndex].quantity += quantity;
+            this.orderList[existingOrderIndex].totalPrice = this.price * this.orderList[existingOrderIndex].quantity;
+         } else {
+            const totalPrice = this.price * quantity;
+            const newOrder = {
+               useraccount: localStorage.getItem("useraccount"),
+               productCode: productCode,
+               quantity: quantity,
+               totalPrice: totalPrice,
+               deliveryAddress: address,
+               imgUrl: this.imgUrl,
+            };
+            this.orderList.push(newOrder);
+         }
+         sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
       }
    },
    mounted() {

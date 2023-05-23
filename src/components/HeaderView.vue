@@ -15,33 +15,9 @@ export default {
    },
    methods: {
       checkout() {
-         const orderList = sessionStorage.getItem("orderList");
-         if (orderList) {
-            fetch("http://localhost:8080/new_order", {
-               method: "POST",
-               headers: {
-                  "Content-Type": "application/json"
-               },
-               body: {
-                  order_list: JSON.stringify(JSON.parse(orderList)),
-               }
-            })
-               .then(res => res.json())
-               .then(() => {
-                  localStorage.clear();
-                  // 清空 sessionStorage
-                  sessionStorage.clear();
-                  alert("已登出，謝謝光臨");
-
-                  this.isLoggedIn = false; // 更新登陸狀態為未登入
-
-                  this.$router.push("/");
-                  setTimeout(() => {
-                     location.reload();
-                  }, 1500);
-               })
-
-         } else {
+         const storedOrderList = sessionStorage.getItem("orderList");
+         const storedDbCartList = sessionStorage.getItem("dbCartList");
+         if (!storedOrderList && !storedDbCartList) {
             // 清除本地存储的用戶相關訊息
             // 清空 localStorage
             localStorage.clear();
@@ -55,7 +31,56 @@ export default {
             setTimeout(() => {
                location.reload();
             }, 1500);
+            return;
          }
+
+         const dbCartList = JSON.parse(storedDbCartList)
+         const delBody = {
+            order_list: dbCartList,
+         };
+         const newOrderList = JSON.parse(storedOrderList);
+         if (newOrderList) {
+            newOrderList.forEach(element => {
+               element.orderStatus = "カート入り";
+            });
+         }
+         const newbody = {
+            order_list: newOrderList,
+         }
+         const deleteRequest = fetch("http://localhost:8080/del_order", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify(delBody),
+         }).then(res => res.json());
+
+         deleteRequest.then(() => {
+            const createRequest = fetch("http://localhost:8080/new_order", {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json"
+               },
+               body: JSON.stringify(newbody),
+            }).then(res => res.json());
+
+            return createRequest;
+         })
+            .then(() => {
+               localStorage.clear();
+               sessionStorage.clear();
+               alert("已登出，謝謝光臨");
+
+               this.isLoggedIn = false; // 更新登陸狀態為未登入
+
+               this.$router.push("/");
+               setTimeout(() => {
+                  location.reload();
+               }, 1500);
+            })
+            .catch(error => {
+               console.log(error);
+            });
       },
    },
    mounted() {
@@ -119,7 +144,7 @@ export default {
             </li>
             <li>
                <div class="dropdown">
-                  <RouterLink to=""><i class="fa-solid fa-clock-rotate-left"></i>お買い物履歴</RouterLink>
+                  <RouterLink to="/product_info"><i class="fa-solid fa-clock-rotate-left"></i>メニュー</RouterLink>
                   <div class="dropdown-content">
                      <a href="#">選項 1</a>
                      <a href="#">選項 2</a>
@@ -128,19 +153,13 @@ export default {
                </div>
             </li>
             <li>
-               <RouterLink to="/shopCarView"><i class="fa-solid fa-cart-shopping" style="color: #c35113"></i>購物車
+               <RouterLink to="/shopCarView"><i class="fa-solid fa-cart-shopping" style="color: #c35113"></i>カート
                </RouterLink>
             </li>
             <li>
                <RouterLink to="/question"><i class="fa-solid fa-circle-question"></i>問い合わせ</RouterLink>
             </li>
-            <li>
-               <RouterLink to="/backSystem"><i class="fa-solid fa-circle-question"></i>後台</RouterLink>
-            </li>
 
-            <li>
-               <RouterLink to="/circle"><i class="fa-solid fa-circle-question"></i>circle</RouterLink>
-            </li>
          </ul>
       </nav>
    </div>

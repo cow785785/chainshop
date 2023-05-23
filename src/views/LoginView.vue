@@ -60,6 +60,11 @@ export default {
       this.$router.push("/registerView");
     },
   },
+  created() {
+    if(localStorage.getItem("useraccount")){
+      this.$router.push("/member");
+    }
+  },
 };
 </script>
 <template>
