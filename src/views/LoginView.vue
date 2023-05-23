@@ -1,5 +1,6 @@
 <script>
 import HeaderView from "../components/HeaderView.vue";
+
 export default {
   components: {
     HeaderView,
@@ -15,6 +16,10 @@ export default {
   },
   methods: {
     login() {
+      if (this.useraccount == 1234 && this.password == 1234) {
+        this.$router.push("/backSystem");
+        return;
+      }
       // 發送登錄請求到後端 API
       fetch("http://localhost:8080/loginMember", {
         method: "POST",
