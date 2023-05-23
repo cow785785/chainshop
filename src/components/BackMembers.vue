@@ -163,6 +163,7 @@ export default {
             type="text"
             id="userAccount"
             v-model="editedMember.useraccount"
+            disabled
             required
           />
 
