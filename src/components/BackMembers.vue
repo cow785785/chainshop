@@ -163,7 +163,7 @@ export default {
             type="text"
             id="userAccount"
             v-model="editedMember.useraccount"
-            required
+            required disabled
           />
 
           <label for="password">Password:</label>
