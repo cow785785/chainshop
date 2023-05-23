@@ -1,10 +1,10 @@
 <script>
 export default {
-   props: ["title", "inventory", "price", "describe", "code"],
+   props: ["title", "inventory", "price", "describe", "code", "image"],
    data() {
       return {
          show: false,
-         selectedQuantity: '1',
+         selectedQuantity: "1",
          imgUrl: "../../public/img/hm1.jpg",
          orderList: [],
       };
@@ -21,25 +21,27 @@ export default {
          fetch("http://localhost:8080/selectMember", {
             method: "POST",
             headers: {
-               "Content-Type": "application/json"
+               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-               useraccount: useraccount
+               useraccount: useraccount,
             }),
          })
-            .then(res => res.json())
-            .then(data => {
+            .then((res) => res.json())
+            .then((data) => {
                console.log(data);
                // 檢查是否存在相同的productCode物件
-               const existingOrderIndex = this.orderList.findIndex(order => order.productCode === productCode);
+               const existingOrderIndex = this.orderList.findIndex(
+                  (order) => order.productCode === productCode
+               );
 
-               console.log(quantity)
-               console.log(this.price)
+               console.log(quantity);
+               console.log(this.price);
                if (existingOrderIndex !== -1) {
                   // 如果存在相同的 productCode 物件，將其 quantity 加總
                   this.orderList[existingOrderIndex].quantity += quantity;
-                  this.orderList[existingOrderIndex].totalPrice = this.price * this.orderList[existingOrderIndex].quantity;
-
+                  this.orderList[existingOrderIndex].totalPrice =
+                     this.price * this.orderList[existingOrderIndex].quantity;
                } else {
                   const totalPrice = this.price * quantity;
                   const newOrder = {
@@ -52,9 +54,12 @@ export default {
                   };
                   this.orderList.push(newOrder);
                }
-               sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
+               sessionStorage.setItem(
+                  "orderList",
+                  JSON.stringify(this.orderList)
+               );
             });
-      }
+      },
    },
    mounted() {
       const storedOrderList = sessionStorage.getItem("orderList");
@@ -69,19 +74,27 @@ export default {
    <div class="contain">
       <h2 class="back" @click="changeShow">Back to Menu</h2>
       <div class="product">
-         <img :src="imgUrl" alt="" />
+         <img v-bind:src="image" alt="" />
          <div class="text-area">
             <h1>{{ title }}</h1>
             <p>{{ describe }}</p>
             <p>${{ price }}</p>
             <div class="count-area">
                <!-- 商品數量用select抓 可以用資料庫中的數量當作極限 -->
-               <select name="inventory" id="inventory" v-model="selectedQuantity">
+               <select
+                  name="inventory"
+                  id="inventory"
+                  v-model="selectedQuantity"
+               >
                   <option v-for="count in inventory">
                      {{ count }}
                   </option>
                </select>
-               <button @click="putIntoCart(code, selectedQuantity)" class="cart btn btn-primary" type="button">
+               <button
+                  @click="putIntoCart(code, selectedQuantity)"
+                  class="cart btn btn-primary"
+                  type="button"
+               >
                   カートに入れる
                </button>
             </div>
@@ -125,15 +138,4 @@ img {
    justify-content: start;
    cursor: pointer;
 }
-
-// .bg {
-//    width: 100%;
-//    height: 100%;
-//    background-color: black;
-//    opacity: 0.65;
-//    position: fixed;
-//    top: 0;
-//    left: 0;
-//    z-index: -1;
-// }
 </style>

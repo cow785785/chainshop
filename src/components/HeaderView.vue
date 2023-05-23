@@ -1,8 +1,9 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
+import SearchInput from "./SearchInput.vue";
 import BackTopView from "../components/BackTopBtn.vue";
 export default {
-   components: {
+   components: { SearchInput
       BackTopView
    },
    data() {
@@ -99,7 +100,10 @@ export default {
             <li>
                <div class="dropdown">
                   <RouterLink to="loginView" class="dropbtn">
-                     <i class="fa-solid fa-user-group" style="color: #d40c48"></i>
+                     <i
+                        class="fa-solid fa-user-group"
+                        style="color: #d40c48"
+                     ></i>
                      {{ userName }}
                   </RouterLink>
                   <div class="dropdown-content">
@@ -109,9 +113,15 @@ export default {
             </li>
             <li>
                <div class="dropdown">
-                  <RouterLink to="/member"><i class="fa-solid fa-crown" style="color: #f3d55d"></i>会員センター</RouterLink>
+                  <RouterLink to="/member"
+                     ><i class="fa-solid fa-crown" style="color: #f3d55d"></i
+                     >会員センター</RouterLink
+                  >
                   <div class="dropdown-content">
-                     <RouterLink to="/order"><i class="fa-solid fa-clock-rotate-left"></i>お買い物履歴</RouterLink>
+                     <RouterLink to="/order"
+                        ><i class="fa-solid fa-clock-rotate-left"></i
+                        >お買い物履歴</RouterLink
+                     >
                      <a href="#">選項 2</a>
                      <a href="#">選項 3</a>
                   </div>
@@ -119,7 +129,10 @@ export default {
             </li>
             <li>
                <div class="dropdown">
-                  <RouterLink to=""><i class="fa-solid fa-clock-rotate-left"></i>お買い物履歴</RouterLink>
+                  <RouterLink to=""
+                     ><i class="fa-solid fa-clock-rotate-left"></i
+                     >お買い物履歴</RouterLink
+                  >
                   <div class="dropdown-content">
                      <a href="#">選項 1</a>
                      <a href="#">選項 2</a>
@@ -128,18 +141,19 @@ export default {
                </div>
             </li>
             <li>
-               <RouterLink to="/shopCarView"><i class="fa-solid fa-cart-shopping" style="color: #c35113"></i>購物車
-               </RouterLink>
+               <RouterLink to="/shopCarView"
+                  ><i
+                     class="fa-solid fa-cart-shopping"
+                     style="color: #c35113"
+                  ></i
+                  >購物車</RouterLink
+               >
             </li>
             <li>
-               <RouterLink to="/question"><i class="fa-solid fa-circle-question"></i>問い合わせ</RouterLink>
-            </li>
-            <li>
-               <RouterLink to="/backSystem"><i class="fa-solid fa-circle-question"></i>後台</RouterLink>
-            </li>
-
-            <li>
-               <RouterLink to="/circle"><i class="fa-solid fa-circle-question"></i>circle</RouterLink>
+               <RouterLink to="/question"
+                  ><i class="fa-solid fa-circle-question"></i
+                  >問い合わせ</RouterLink
+               >
             </li>
          </ul>
       </nav>
