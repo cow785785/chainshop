@@ -3,7 +3,6 @@ export default {
   data() {
     return {
       isCheck: false,
-      showSearch: false,
       members: [], // 新增一個用於存儲會員資料的數據屬性
       showModal: false, // 叫出畫面
       editedMember: null,
@@ -15,16 +14,11 @@ export default {
         address: "",
         phone: "",
       },
-      searchKeyword: "", // 新增搜尋關鍵字的屬性
     };
   },
-  // created() {
-  //   this.searchAllMembersInfo();
-  // },
   methods: {
-    searchAllMembersInfo() {
-      this.isCheck = !this.isCheck;
-      this.showSearch = !this.showSearch; // 收起第二个数据框
+    select() {
+      this.isCheck = true;
       fetch("http://localhost:8080/readMember", {
         method: "POST",
         headers: {
@@ -40,17 +34,6 @@ export default {
         .catch((error) => {
           console.error(error);
         });
-    },
-    searchMembersInfo() {
-      if (this.showSearch) {
-        return []; // 返回空数组，以隐藏第二个数据框
-      }
-      return this.members.filter((member) => {
-        return member.username
-          .toLowerCase()
-          .includes(this.searchKeyword.toLowerCase());
-      });
-      this.select();
     },
     openModal(member) {
       this.editedMember = member;
@@ -69,7 +52,7 @@ export default {
         useraccount: this.editedMember.useraccount,
         password: this.editedMember.password,
         username: this.editedMember.username,
-        birthDate: this.editedMember.birthDate,
+        birthDate: this.editedMember.birthDate, // 轉換換為字串格式
         address: this.editedMember.address,
         phone: this.editedMember.phone,
       };
@@ -83,8 +66,6 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          alert(data.message);
-          this.select();
           console.log(data);
         })
         .catch((error) => {
@@ -123,32 +104,20 @@ export default {
       // location.reload();
     },
   },
-  mounted() {
-    this.searchAllMembersInfo();
-  },
 };
 </script>
 <template>
   <div class="all-area">
     <h2>會員帳戶管理</h2>
     <div class="info-area">
-      <input
-        type="text"
-        name="memberinfo"
-        id="memberinfo"
-        v-model="searchKeyword"
-      />
-
-      <button type="button" @click="searchAllMembersInfo" class="myButton">
-        利用帳號查詢
-      </button>
-      <button type="button" @click="searchAllMembersInfo" class="myButton">
-        全部會員資料
+      <input type="text" name="memberinfo" id="memberinfo" />
+      <button type="button" @click="select" class="myButton">
+        顯示全部會員資料
       </button>
       <!-- 找出全部資料 -->
     </div>
     <div class="member-list">
-      <div v-if="showSearch" class="table-container">
+      <div v-if="isCheck" class="table-container">
         <table>
           <tr>
             <th>ID</th>
@@ -182,40 +151,6 @@ export default {
           </tbody>
         </table>
       </div>
-      <div class="search-area">
-        <table>
-          <tbody id="data-body">
-            <tr v-if="showSearch == false">
-              <th>ID</th>
-              <th>User Account</th>
-              <th>Password</th>
-              <th>Username</th>
-              <th>Birth Date</th>
-              <th>Address</th>
-              <th>Phone</th>
-              <th>Registration Time</th>
-              <th>修改</th>
-              <th>刪除</th>
-            </tr>
-            <tr v-for="member in searchMembersInfo()" :key="member.id">
-              <td>{{ member.id }}</td>
-              <td>{{ member.useraccount }}</td>
-              <td>{{ member.password }}</td>
-              <td>{{ member.username }}</td>
-              <td>{{ member.birthDate }}</td>
-              <td>{{ member.address }}</td>
-              <td>{{ member.phone }}</td>
-              <td>{{ member.registrationTime }}</td>
-              <td>
-                <button @click="openModal(member)">修改</button>
-              </td>
-              <td>
-                <button @click="confirmDelete(member)">刪除</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
     <!-- 彈出視窗 -->
     <div v-if="showModal" class="modal">
@@ -228,8 +163,7 @@ export default {
             type="text"
             id="userAccount"
             v-model="editedMember.useraccount"
-            disabled
-            required
+            required disabled
           />
 
           <label for="password">Password:</label>
@@ -314,32 +248,7 @@ export default {
   justify-content: center;
   align-items: flex-start;
   table {
-    // margin-top: 80px;
-    border: 2px solid black;
-    th {
-      border: 2px solid black;
-      background-color: antiquewhite;
-    }
-  }
-}
-.info-area {
-  margin: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-.search-area {
-  table {
-    // margin-top: 80px;
+    margin-top: 80px;
     border: 2px solid black;
     th {
       border: 2px solid black;

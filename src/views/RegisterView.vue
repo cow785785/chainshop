@@ -1,5 +1,5 @@
 <script>
-import HeaderView from "../components/HeaderView.vue";
+import HeaderView from '../components/HeaderView.vue';
 export default {
   components: {
     HeaderView,
@@ -48,20 +48,20 @@ export default {
           }
           alert(
             "會員註冊成功！\n" +
-              "會員資料\n會員 帳號 :" +
-              data.userAccount +
-              "\n會員名稱：" +
-              data.userName +
-              "\n會員密碼:" +
-              data.password +
-              "\n會員生日：" +
-              data.birthDate +
-              "\n會員地址：" +
-              data.address +
-              "\n會員電話：" +
-              data.phone +
-              "\n訊息 : " +
-              data.message,
+            "會員資料\n會員 帳號 :" +
+            data.userAccount +
+            "\n會員名稱：" +
+            data.userName +
+            "\n會員密碼:" +
+            data.password +
+            "\n會員生日：" +
+            data.birthDate +
+            "\n會員地址：" +
+            data.address +
+            "\n會員電話：" +
+            data.phone +
+            "\n訊息 : " +
+            data.message,
             this.$router.push("/loginView")
           );
         })
@@ -74,37 +74,8 @@ export default {
       // this.$router.push("/loginView");
       // alert("註冊成功");
     },
-    checkaccount() {
-      if (!this.account) {
-        alert("請輸入帳號");
-        return;
-      }
-
-      const body = {
-        useraccount: this.account,
-      };
-      fetch("http://localhost:8080/checkAccountExist", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          if (data.message === "帳號已存在") {
-            alert("帳號已存在");
-          } else {
-            alert("帳號可用");
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("檢查帳號時發生錯誤");
-        });
-    },
   },
+  mounted() { },
 };
 </script>
 <template>
@@ -115,14 +86,6 @@ export default {
       <div class="text-area">
         <label for="account">帳號</label>
         <input type="text" placeholder="輸入帳號" v-model="account" />
-        <input
-          type="button"
-          class="checkaccount"
-          name="checkaccount"
-          id="checkaccount"
-          @click="checkaccount"
-          value="檢查帳號是否重複"
-        />
 
         <label for="password">密碼</label>
         <input type="password" placeholder="輸入密碼" v-model="password" />
@@ -140,11 +103,7 @@ export default {
         <input type="text" placeholder="輸入地址" v-model="address" />
 
         <label for="tel">電話</label>
-        <input
-          type="text"
-          placeholder="ex:09-12345678或886開頭"
-          v-model="phone"
-        />
+        <input type="text" placeholder="ex:09-12345678或886開頭" v-model="phone" />
       </div>
       <div class="keep">
         <label for="checkbox">記住帳號</label>
@@ -173,10 +132,6 @@ export default {
     input {
       width: 250px;
       border-radius: 20px;
-    }
-    .checkaccount {
-      background-color: burlywood;
-      color: aliceblue;
     }
   }
 
