@@ -69,6 +69,7 @@ export default {
                quantity: quantity,
                totalPrice: totalPrice,
                deliveryAddress: address,
+               orderStatus:"カート入り",
                productsId: {
                   productImg: this.image,
                   productName: this.title,

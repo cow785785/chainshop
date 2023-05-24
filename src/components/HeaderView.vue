@@ -22,64 +22,51 @@ export default {
             localStorage.clear();
             // 清空 sessionStorage
             sessionStorage.clear();
-            alert("已登出，謝謝光臨");
-
             this.isLoggedIn = false; // 更新登陸狀態為未登入
-
+            alert("已登出，謝謝光臨");
             this.$router.push("/");
-            setTimeout(() => {
-               location.reload();
-            }, 1500);
+            this.$router.afterEach(() => {
+               setTimeout(() => {
+                  location.reload();
+               }, 1000);
+            });
             return;
          }
 
-         const dbCartList = JSON.parse(storedDbCartList)
-         const delBody = {
-            order_list: dbCartList,
-         };
+         const dbCartList = JSON.parse(storedDbCartList);
          const newOrderList = JSON.parse(storedOrderList);
-         if (newOrderList) {
-            newOrderList.forEach(element => {
-               element.orderStatus = "カート入り";
-            });
+
+         const body = {
+            order_list: dbCartList,
+            new_list: newOrderList,
          }
-         const newbody = {
-            order_list: newOrderList,
-         }
-         const deleteRequest = fetch("http://localhost:8080/del_order", {
+         fetch("http://localhost:8080/change_order", {
             method: "POST",
             headers: {
                "Content-Type": "application/json"
             },
-            body: JSON.stringify(delBody),
-         }).then(res => res.json());
-
-         deleteRequest.then(() => {
-            const createRequest = fetch("http://localhost:8080/new_order", {
-               method: "POST",
-               headers: {
-                  "Content-Type": "application/json"
-               },
-               body: JSON.stringify(newbody),
-            }).then(res => res.json());
-
-            return createRequest;
-         })
-            .then(() => {
-               localStorage.clear();
-               sessionStorage.clear();
-               alert("已登出，謝謝光臨");
-
-               this.isLoggedIn = false; // 更新登陸狀態為未登入
-
-               this.$router.push("/");
+            body: JSON.stringify(body),
+         }).then(() => {
+            // 清除本地存储的用戶相關訊息
+            // 清空 localStorage
+            localStorage.clear();
+            // 清空 sessionStorage
+            sessionStorage.clear();
+            this.isLoggedIn = false; // 更新登陸狀態為未登入
+            alert("已登出，謝謝光臨");
+            this.$router.push("/");
+            this.$router.afterEach(() => {
                setTimeout(() => {
                   location.reload();
-               }, 1500);
-            })
-            .catch(error => {
-               console.log(error);
+               }, 1000);
             });
+         })
+            .catch(err => console.log(err));
+      },
+      checkLogin() {
+         if (localStorage.getItem("useraccount")) {
+            this.$router.push("/")
+         }
       },
    },
    mounted() {
@@ -122,11 +109,8 @@ export default {
          <ul>
             <li>
                <div class="dropdown">
-                  <RouterLink to="loginView" class="dropbtn">
-                     <i
-                        class="fa-solid fa-user-group"
-                        style="color: #d40c48"
-                     ></i>
+                  <RouterLink to="loginView" class="dropbtn" @click="checkLogin">
+                     <i class="fa-solid fa-user-group" style="color: #d40c48"></i>
                      {{ userName }}
                   </RouterLink>
                   <div class="dropdown-content">
@@ -136,15 +120,9 @@ export default {
             </li>
             <li>
                <div class="dropdown">
-                  <RouterLink to="/member"
-                     ><i class="fa-solid fa-crown" style="color: #f3d55d"></i
-                     >会員センター</RouterLink
-                  >
+                  <RouterLink to="/member"><i class="fa-solid fa-crown" style="color: #f3d55d"></i>会員センター</RouterLink>
                   <div class="dropdown-content">
-                     <RouterLink to="/order"
-                        ><i class="fa-solid fa-clock-rotate-left"></i
-                        >お買い物履歴</RouterLink
-                     >
+                     <RouterLink to="/order"><i class="fa-solid fa-clock-rotate-left"></i>お買い物履歴</RouterLink>
                      <a href="#">選項 2</a>
                      <a href="#">選項 3</a>
                   </div>
