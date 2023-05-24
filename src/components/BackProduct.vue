@@ -3,6 +3,7 @@ export default {
   data() {
     return {
       isCheck: false,
+      showSearch: false,
       products: [], // 新增一個用於存儲產品資料的數據屬性
       showModal: false, // 叫出畫面
       editedProduct: null,
@@ -16,10 +17,11 @@ export default {
         productDescribe: "",
         category: "",
       },
+      searchKeyword: "", // 新增搜尋關鍵字的屬性
     };
   },
   methods: {
-    select() {
+    searchAllProductsInfo() {
       this.isCheck = true;
       fetch("http://localhost:8080/find_all_product", {
         method: "POST",
@@ -37,7 +39,18 @@ export default {
           console.error(error);
         });
     },
-    openModal(product, e) {
+    searchProductsInfo() {
+      if (this.showSearch) {
+        return []; // 返回空陣列，隱藏第二個數據資料
+      }
+      return this.products.filter((product) => {
+        return product.useraccount
+          .toLowerCase()
+          .includes(this.searchKeyword.toLowerCase());
+      });
+      this.select();
+    },
+    openModal(product) {
       this.editedProduct = product;
       this.updatedProduct = {
         productCode: product.productCode,
@@ -119,15 +132,26 @@ export default {
       // location.reload();
     },
   },
+  mounted() {
+    this.searchAllProductsInfo();
+  },
 };
 </script>
 <template>
   <div class="all-area">
     <h2>產品資料管理</h2>
     <div class="productinfo-area">
-      <input type="text" name="productinfo" id="productinfo" />
-      <button type="button" @click="select" class="myButton">
-        顯示全部產品資料
+      <input
+        type="text"
+        name="productinfo"
+        id="productinfo"
+        v-model="searchKeyword"
+      />
+      <button type="button" @click="searchAllProductsInfo" class="myButton">
+        利用帳號查詢
+      </button>
+      <button type="button" @click="searchAllProductsInfo" class="myButton">
+        全部產品資料
       </button>
     </div>
     <div class="product-list">
@@ -146,6 +170,40 @@ export default {
             <th>刪除</th>
           </tr>
           <tbody id="data-body">
+            <tr v-for="product in products" :key="product.id">
+              <td>{{ product.id }}</td>
+              <td>{{ product.productCode }}</td>
+              <td>{{ product.productName }}</td>
+              <td>{{ product.price }}</td>
+              <td><img v-bind:src="product.productImg" /></td>
+              <td>{{ product.productInfo }}</td>
+              <td>{{ product.productDescribe }}</td>
+              <td>{{ product.category }}</td>
+              <td>
+                <button @click="openModal(product)">修改</button>
+              </td>
+              <td>
+                <button @click="openDeleteproduct(product)">刪除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="search-area">
+        <table>
+          <tbody id="data-body">
+            <tr v-if="showSearch == false">
+              <th>ID</th>
+              <th>productCode</th>
+              <th>productName</th>
+              <th>price</th>
+              <th>productImg</th>
+              <th>productInfo</th>
+              <th>productDescribe</th>
+              <th>category</th>
+              <th>修改</th>
+              <th>刪除</th>
+            </tr>
             <tr v-for="product in products" :key="product.id">
               <td>{{ product.id }}</td>
               <td>{{ product.productCode }}</td>
@@ -273,6 +331,31 @@ export default {
         border: 2px solid black;
         background-color: antiquewhite;
       }
+    }
+  }
+}
+.info-area {
+  margin: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+.search-area {
+  table {
+    // margin-top: 80px;
+    border: 2px solid black;
+    th {
+      border: 2px solid black;
+      background-color: antiquewhite;
     }
   }
 }

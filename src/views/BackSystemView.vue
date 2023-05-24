@@ -18,9 +18,15 @@ export default {
     <div class="left-area">
       <div class="btn-area">
         <button>首頁</button>
-        <RouterLink to="/backMembers" class="link"><button>會員管理</button></RouterLink>
-        <RouterLink to="/backProduct">產品管理</RouterLink>
-        <button>訂單管理</button>
+        <RouterLink to="/backMembers" class="link"
+          ><button>會員管理</button></RouterLink
+        >
+        <RouterLink to="/backProduct" class="link"
+          ><button>產品管理</button></RouterLink
+        >
+        <RouterLink to="/backOrderListView" class="link"
+          ><button>訂單管理</button></RouterLink
+        >
       </div>
     </div>
     <div class="right-area">
@@ -56,7 +62,7 @@ export default {
       align-items: center;
       justify-content: space-around;
 
-      .link{
+      .link {
         width: 100%;
       }
       button {
