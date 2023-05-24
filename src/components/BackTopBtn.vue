@@ -7,7 +7,7 @@ export default {
     // 捲軸偵測距離頂部超過 50 才顯示按鈕
     window.addEventListener("scroll", this.handleScroll);
   },
-  beforeUnmounted() {
+  beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {

@@ -57,7 +57,9 @@ export default {
                quantity: quantity,
                totalPrice: totalPrice,
                deliveryAddress: address,
-               imgUrl: this.imgUrl,
+               productsId: {
+                  productImg:this.image,
+               }
             };
             this.orderList.push(newOrder);
          }
