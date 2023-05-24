@@ -48,7 +48,7 @@ export default {
             }
 
             const body = {
-                useraccount: this.account,
+                useraccount: this.useraccount,
                 username: this.userName,
                 birthDate: this.userBirth,
                 phone: this.userPhone,
@@ -97,10 +97,10 @@ export default {
     },
     mounted() {
         if (localStorage.getItem("useraccount")) {
-            this.account = localStorage.getItem("useraccount")
+            this.useraccount = localStorage.getItem("useraccount")
 
             const body = {
-                useraccount: this.account,
+                useraccount: this.useraccount,
             };
             fetch("http://localhost:8080/selectMember", {
                 method: "POST",
@@ -118,6 +118,7 @@ export default {
                     this.userPhone = data.phone;
                     this.userAddress = data.address;
                     this.userPassword = Math.random();
+                    console.log(data);
                 })
                 .catch(err => {
                     console.log(err)
@@ -142,8 +143,8 @@ export default {
                     <h4>{{ useraccount }}</h4>
 
                     <h3> {{ userName }}，こんにちは！</h3>
-                    <div class="form-floating input-area birth">
-                        <input type="password" class="form-control input birth" id="pwd" v-model="userPassword"
+                    <div class="form-floating input-area pwd">
+                        <input type="password" class="form-control input pwd" id="pwd" v-model="userPassword"
                             :disabled="pwdChange">
                         <label for="pwd">パスワード：</label>
                         <i class="icon fa-solid fa-pen" @click="changePwd" v-if="pwdChange"></i>
