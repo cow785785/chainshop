@@ -83,6 +83,7 @@ export default {
    </div>
    <div v-if="info" class="product">
       <ProductView
+         :code="productList[index].productCode"
          :title="productList[index].productName"
          :inventory="quantity"
          :price="productList[index].price"

@@ -5,7 +5,7 @@ export default {
       return {
          show: false,
          selectedQuantity: "1",
-         imgUrl: "../../public/img/hm1.jpg",
+         // imgUrl: "../../public/img/hm1.jpg",
          address: "",
          orderList: [],
       };
@@ -24,14 +24,25 @@ export default {
                method: "POST",
                headers: {
                   "Content-Type": "application/json",
+                  "Content-Type": "application/json",
                },
                body: JSON.stringify({
+                  useraccount: useraccount,
                   useraccount: useraccount,
                }),
             })
                .then((res) => res.json())
                .then((data) => {
+               .then((res) => res.json())
+               .then((data) => {
                   this.address = data.address;
+                  this.addToCartWithAddress(
+                     this.address,
+                     productCode,
+                     quantity
+                  );
+               })
+               .catch((err) => {
                   this.addToCartWithAddress(
                      this.address,
                      productCode,
@@ -46,6 +57,11 @@ export default {
                      productCode,
                      quantity
                   );
+                  this.addToCartWithAddress(
+                     "Default Address",
+                     productCode,
+                     quantity
+                  );
                });
          } else {
             this.addToCartWithAddress(this.address, productCode, quantity);
@@ -55,10 +71,15 @@ export default {
          const existingOrderIndex = this.orderList.findIndex(
             (order) => order.productCode === productCode
          );
+         const existingOrderIndex = this.orderList.findIndex(
+            (order) => order.productCode === productCode
+         );
 
          if (existingOrderIndex !== -1) {
             // 如果存在相同的 productCode 物件，將其 quantity 加總
             this.orderList[existingOrderIndex].quantity += quantity;
+            this.orderList[existingOrderIndex].totalPrice =
+               this.price * this.orderList[existingOrderIndex].quantity;
             this.orderList[existingOrderIndex].totalPrice =
                this.price * this.orderList[existingOrderIndex].quantity;
          } else {
@@ -77,6 +98,8 @@ export default {
             this.orderList.push(newOrder);
          }
          sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
+         // 點擊按鈕時提示已加入至購物車
+         alert("已加入至購物車");
       },
    },
    mounted() {
@@ -104,10 +127,20 @@ export default {
                   id="inventory"
                   v-model="selectedQuantity"
                >
+               <select
+                  name="inventory"
+                  id="inventory"
+                  v-model="selectedQuantity"
+               >
                   <option v-for="count in inventory">
                      {{ count }}
                   </option>
                </select>
+               <button
+                  @click="putIntoCart(code, selectedQuantity)"
+                  class="cart btn btn-primary"
+                  type="button"
+               >
                <button
                   @click="putIntoCart(code, selectedQuantity)"
                   class="cart btn btn-primary"
