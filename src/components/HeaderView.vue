@@ -130,17 +130,6 @@ export default {
             ><i class="fa-solid fa-circle-question"></i>問い合わせ</RouterLink
           >
         </li>
-        <li>
-          <RouterLink to="/backSystem"
-            ><i class="fa-solid fa-circle-question"></i>後台</RouterLink
-          >
-        </li>
-
-        <li>
-          <RouterLink to="/circle"
-            ><i class="fa-solid fa-circle-question"></i>circle</RouterLink
-          >
-        </li>
       </ul>
     </nav>
   </div>

@@ -8,6 +8,7 @@ import BackSystem from "../components/BackSystem.vue"
 import circle from "../components/circle.vue"
 import BackMembers from "../components/BackMembers.vue"
 import BackProduct from "../components/BackProduct.vue"
+import BackOrderListView from "../views/BackOrderListView.vue"
 
 
 
@@ -63,6 +64,11 @@ const router = createRouter({
       path: '/backProduct',
       name: 'BackProduct',
       component:BackProduct,
+    },
+    {
+      path: '/backOrderListView',
+      name: 'BackOrderListView',
+      component:BackOrderListView,
     }
   ]
 })
