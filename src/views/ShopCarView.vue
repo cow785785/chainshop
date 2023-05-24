@@ -11,6 +11,7 @@ export default {
       const oldPrice = item.totalPrice / item.quantity;
       item.quantity = newQuantity;
       item.totalPrice = oldPrice * newQuantity;
+      sessionStorage.setItem("orderList", JSON.stringify(this.itemList))
     },
     handleSub: function (item, index) {
       if (item.quantity > 1) {
@@ -18,6 +19,7 @@ export default {
         const oldPrice = item.totalPrice / item.quantity;
         item.quantity = newQuantity;
         item.totalPrice = oldPrice * newQuantity;
+        sessionStorage.setItem("orderList", JSON.stringify(this.itemList))
       }
     },
     handledelete(item, index) {
@@ -65,6 +67,7 @@ export default {
       this.itemList = JSON.parse(storedOrderList);
     }
   },
+  //離開頁面的監測
   beforeRouteLeave(to, from, next) {
     if (from.path === '/shopCarView') {
       this.handleUnload();
@@ -86,8 +89,8 @@ export default {
       <div class="item_container" v-for="(item, index) in itemList" :key="item.productId">
         <div class="item_header item_body">
           <div class="item_detail">
-            <img v-bind:src="item.imgUrl" alt="" />
-            <div class="name">{{ item.productName }}</div>
+            <img v-bind:src="item.productsId.productImg" alt="" />
+            <div class="name">{{ item.productsId.productName }}</div>
           </div>
 
           <div class="price"><span>$</span>{{ item.totalPrice / item.quantity }}</div>

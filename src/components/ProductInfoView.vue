@@ -73,6 +73,7 @@ export default {
             :price="product.price"
             :info="product.productInfo"
             :image="product.productImg"
+            :code="product.productCode"
             @switchCard="showProduct(index)"
             class="product-card col-md"
          ></ProductInfoView>
@@ -87,6 +88,7 @@ export default {
          :price="productList[index].price"
          :describe="productList[index].productDescribe"
          :image="productList[index].productImg"
+         :code="productList[index].productCode"
          @switch="closeProduct"
       />
    </div>

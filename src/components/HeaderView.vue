@@ -152,7 +152,7 @@ export default {
             </li>
             <li>
                <div class="dropdown">
-                  <RouterLink to="/product_info"><i class="fa-solid fa-clock-rotate-left"></i>メニュー</RouterLink>
+                  <RouterLink to="/"><i class="fa-solid fa-clock-rotate-left"></i>メニュー</RouterLink>
                   <div class="dropdown-content">
                      <a href="#">選項 1</a>
                      <a href="#">選項 2</a>

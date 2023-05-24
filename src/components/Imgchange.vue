@@ -79,8 +79,13 @@ export default {
                <p>爽喝就喝</p>
             </div>
             <div class="circle">
-               <img src="../../public/img/fried.jpg" alt="炸物" />
-               <p>流口水專區</p>
+               <router-link class="link" to="/category">
+                  <img 
+                     src="../../public/img/fried.jpg" 
+                     alt="炸物" 
+                     @click="saveCategory('test')"/>
+               </router-link>
+               <p>test</p>
             </div>
          </div>
          <div class="circles">

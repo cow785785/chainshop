@@ -48,9 +48,7 @@ export default {
             </div>
         </div>
         <div class="detail">
-            <div class="info box">
-                {{ imgLink }}
-            </div>
+            <img :src="imgLink" alt="" class="info img">
             <div class="info long product">
                 <h4>{{ productName }}</h4>
                 {{ productCode }}
@@ -106,7 +104,7 @@ export default {
             min-width: 65%;
         }
 
-        .box {
+        .img {
             width: 80px;
             height: 80px;
             background-color: aqua;
