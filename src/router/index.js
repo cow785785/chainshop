@@ -4,10 +4,10 @@ import LoginView from "../views/LoginView.vue"
 import RegisterView from "../components/RegisterView.vue"
 import ShopCarView from "../components/ShopCarView.vue"
 import Question from "../components//Question.vue"
-import BackSystem from "../components/BackSystem.vue"
+import BackSystem from "../views/BackSystem.vue"
 import circle from "../components/circle.vue"
-import BackMembers from "../components/BackMembers.vue"
-import BackProduct from "../components/BackProduct.vue"
+import BackMembers from "../views/BackMembers.vue"
+import BackProduct from "../views/BackProduct.vue"
 import BackOrderListView from "../views/BackOrderListView.vue"
 
 
