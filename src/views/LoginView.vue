@@ -9,8 +9,8 @@ export default {
     return {
       useraccount: "",
       password: "",
-
       // loggedInUser: "ログイン", // 新增變數
+      forgotPassword: false, // 新增變數
       isCheck: true,
     };
   },
@@ -61,6 +61,53 @@ export default {
     singup() {
       this.$router.push("/registerView");
     },
+    forgotPasswordClicked() {
+      const confirmModify = confirm("是否要修改密碼？");
+
+      if (confirmModify) {
+        const username = prompt("請輸入帳號");
+
+        if (username) {
+          const newPassword = prompt("請輸入新密碼");
+          if (newPassword) {
+            // 發送修改密碼的請求到後端 API
+            fetch("http://localhost:8080/updateMember", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                useraccount: username,
+                password: newPassword,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.message === "更新成功") {
+                  alert("密碼修改成功");
+                } else {
+                  alert("密碼修改失敗");
+                }
+                // 在這裡處理修改密碼的相關邏輯，例如顯示成功提示或錯誤訊息
+              })
+              .catch((error) => {
+                console.error(error);
+                // 處理錯誤情況
+                alert("密碼修改失敗");
+              });
+          } else {
+            // 處理未輸入新密碼的情況
+            alert("請輸入新密碼");
+          }
+        } else {
+          // 處理未輸入帳號的情況
+          alert("請輸入帳號");
+        }
+      } else {
+        // 處理不修改密碼的情況
+        this.forgotPassword = true; // 如果不修改密碼，可以在這裡執行其他相關邏輯
+      }
+    },
   },
 };
 </script>
@@ -75,8 +122,13 @@ export default {
         <input type="password" v-model="password" id="password" />
       </div>
       <div class="keep">
-        <label for="checkbox">記住帳號</label>
-        <input type="checkbox" v-model="isCheck" id="checkbox" />
+        <div>
+          <label for="checkbox">記住帳號</label>
+          <input type="checkbox" v-model="isCheck" id="checkbox" />
+        </div>
+        <button @click="forgotPasswordClicked" v-show="!forgotPassword">
+          忘記密碼
+        </button>
       </div>
       <div class="btn-area">
         <button @click="login">登錄</button>
@@ -109,7 +161,7 @@ export default {
   .keep {
     display: flex;
     width: 300px;
-    justify-content: start;
+    justify-content: space-between;
     // border: 2px solid red;
     padding: 0.5rem;
   }

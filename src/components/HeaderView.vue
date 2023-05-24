@@ -1,6 +1,6 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
-import BackTopView from "./BackTopView.vue";
+import BackTopView from "./BackTop.vue";
 export default {
   components: {
     BackTopView,

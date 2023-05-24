@@ -142,6 +142,9 @@ export default {
       <button type="button" @click="searchAllMembersInfo" class="myButton">
         利用帳號查詢
       </button>
+      <button type="button" @click="searchAllMembersInfo" class="myButton">
+        全部會員資料
+      </button>
       <!-- 找出全部資料 -->
     </div>
     <div class="member-list">
@@ -181,8 +184,8 @@ export default {
       </div>
       <div class="search-area">
         <table>
-          <tbody id="data-body" style="border: 2px soild red">
-            <tr style="background-color: blanchedalmond">
+          <tbody id="data-body">
+            <tr v-if="showSearch == false">
               <th>ID</th>
               <th>User Account</th>
               <th>Password</th>
