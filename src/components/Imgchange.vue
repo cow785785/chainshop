@@ -145,6 +145,7 @@ main {
     background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
     opacity: 1;
     padding: 2rem 1rem;
+    margin-top: 4rem;
   }
 
   h3 {
