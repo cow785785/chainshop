@@ -101,7 +101,7 @@ export default {
             <p>${{ price }}</p>
             <div class="count-area">
                <!-- 商品數量用select抓 可以用資料庫中的數量當作極限 -->
-               <select name="inventory" id="inventory" v-model="selectedQuantity">
+               <select name="inventory"  v-model="selectedQuantity">
                   <option v-for="count in inventory">
                      {{ count }}
                   </option>
@@ -119,6 +119,7 @@ export default {
 <style lang="scss" scoped>
 .contain {
    height: 80vh;
+   min-height: 650px;
    display: flex;
    flex-direction: column;
    justify-content: center;

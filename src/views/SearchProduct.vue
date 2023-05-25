@@ -71,10 +71,11 @@ export default {
          >
             <ProductInfoView
                :title="product.productName"
-               :quantity="quantity"
+               :inventory="quantity"
                :price="product.price"
                :info="product.productInfo"
                :image="product.productImg"
+               :code="product.productCode"
                @switchCard="showProduct(index)"
                class="product-card"
             ></ProductInfoView>
@@ -85,10 +86,11 @@ export default {
       <div v-if="info" class="product">
          <ProductView
             :title="productList[index].productName"
-            :quantity="quantity"
+            :inventory="quantity"
             :price="productList[index].price"
             :describe="productList[index].productDescribe"
             :image="productList[index].productImg"
+            :code="productList[index].productCode"
             @switch="closeProduct"
          />
       </div>

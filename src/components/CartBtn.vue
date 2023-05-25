@@ -36,12 +36,14 @@ export default {
             <span class="badge">{{ itemCount }}</span>
         </div>
         <div class="cart-popup" :class="{ 'cart-open': showCartModal }">
-            <h3>ショッピングカート</h3>
+            <div class="cart-title">
+                <h3>ショッピングカート</h3>
+            </div>
             <ul>
                 <li v-for="item in orderList" :key="item.id" class="item">
-                    <span>{{ item.productCode }}</span>
-                    <span>{{ item.totalPrice }}</span>
-                    <span>{{ item.quantity }}</span>
+                    <p>コード：{{ item.productCode }}-</p>
+                    <p>総額：{{ item.totalPrice }}¥</p>
+                    <p>個数：{{ item.quantity }}</p>
                 </li>
             </ul>
             <div class="cart-footer">
@@ -59,18 +61,27 @@ export default {
 
     .cart-popup {
         position: fixed;
-        top: 10%;
+        top: 15%;
         right: 0;
         width: 300px;
-        height: 60vw;
+        height: 50vw;
         transform: translateY(-50%);
         background-color: #fff;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         border-top-left-radius: 15px;
         border-bottom-left-radius: 15px;
-        padding: 10px;
         transition: transform 0.3s ease;
         transform: translateX(300px);
+        overflow-y: auto;
+        z-index: 999;
+
+        .cart-title {
+            background-color: goldenrod;
+            border-top-left-radius: 15px;
+            text-align: center;
+            padding: 8px;
+            opacity: 0.8;
+        }
 
         .item {
             display: flex;

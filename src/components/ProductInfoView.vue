@@ -74,6 +74,7 @@ export default {
             :info="product.productInfo"
             :image="product.productImg"
             :code="product.productCode"
+            :index="index"
             @switchCard="showProduct(index)"
             class="product-card"
          ></ProductInfoView>
