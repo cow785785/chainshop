@@ -83,10 +83,10 @@ export default {
             <img
               src="../../public/img/fried.jpg"
               alt="炸物"
-              @click="saveCategory('test')"
+              @click="saveCategory('炸物')"
             />
           </router-link>
-          <p>test</p>
+          <p>炸物</p>
         </div>
       </div>
       <div class="circles">

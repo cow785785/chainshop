@@ -5,13 +5,13 @@ export default {};
   <div class="end-area">
     <ul class="otherLink">
       <li class="otherLink__item">
-        <a target="_blank" href="/">会員規約</a>
+        <a target="_blank" href="/question">会員規約</a>
       </li>
       <li class="otherLink__item">
-        <a target="_blank" href="/">個人情報の取り扱い</a>
+        <a target="_blank" href="/question">個人情報の取り扱い</a>
       </li>
       <li class="otherLink__item">
-        <a target="_blank" href="/">サイトマップ</a>
+        <a target="_blank" href="/question">サイトマップ</a>
       </li>
       <li class="otherLink__item">
         <a target="_blank" href="/question">問い合わせ</a>
