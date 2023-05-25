@@ -6,8 +6,8 @@ import ShopCarView from "../views/ShopCarView.vue";
 import Question from "../views//QuestionView.vue";
 import BackSystem from "../views/BackSystemView.vue";
 import circle from "../components/circle.vue";
-import BackMembers from "../components/BackMembers.vue";
-import BackProduct from "../components/BackProduct.vue";
+import BackMembers from "../views/BackMembers.vue";
+import BackProduct from "../views/BackProduct.vue";
 
 const router = createRouter({
    history: createWebHistory(import.meta.env.BASE_URL),
@@ -86,6 +86,11 @@ const router = createRouter({
          path: "/backstage",
          name: "BackstageView",
          component: () => import("../views/BackstageView.vue"),
+      },
+      {
+         path: "/backOrderListView",
+         name: "BackOrderListView",
+         component: () => import("../views/BackOrderListView.vue"),
       },
       {
          path: "/order",

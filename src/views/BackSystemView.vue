@@ -4,12 +4,15 @@ export default {
     return {};
   },
   methods: {
-    // navigateToMember() {
-    //   this.$router.push("/backMembers");
-    // },
-    // toproduct() {
-    //   this.$router.push("/backProduct");
-    // },
+    navigateToMember() {
+      this.$router.push("/backMembers");
+    },
+    toproduct() {
+      this.$router.push("/backProduct");
+    },
+    toorderList() {
+      this.$router.push("/backOrderListView");
+    },
   },
 };
 </script>
@@ -18,9 +21,15 @@ export default {
     <div class="left-area">
       <div class="btn-area">
         <button>首頁</button>
-        <RouterLink to="/backMembers" class="link"><button>會員管理</button></RouterLink>
-        <RouterLink to="/backProduct">產品管理</RouterLink>
-        <button>訂單管理</button>
+        <RouterLink to="/backMembers" class="link"
+          ><button>會員管理</button></RouterLink
+        >
+        <RouterLink to="/backProduct" class="link"
+          ><button>產品管理</button></RouterLink
+        >
+        <RouterLink to="/backOrderListView" class="link"
+          ><button>訂單管理</button></RouterLink
+        >
       </div>
     </div>
     <div class="right-area">
@@ -31,8 +40,8 @@ export default {
           <button @click="toproduct" class="myButton">產品管理</button>
         </div>
         <div class="down-area">
-          <button class="myButton">訂單管理</button>
-          <button class="myButton">活動管理</button>
+          <button @click="toorderList" class="myButton">訂單管理</button>
+          <button class="myButton">活動管理(進行中)</button>
         </div>
       </div>
     </div>
@@ -56,7 +65,7 @@ export default {
       align-items: center;
       justify-content: space-around;
 
-      .link{
+      .link {
         width: 100%;
       }
       button {

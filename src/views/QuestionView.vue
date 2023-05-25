@@ -2,107 +2,179 @@
 export default {};
 </script>
 <template>
-  <div class="accordion accordion-flush" id="accordionFlushExample">
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="flush-headingOne">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#flush-collapseOne"
-          aria-expanded="false"
-          aria-controls="flush-collapseOne"
+  <div class="container">
+    <div class="container__inner">
+      <h1 class="headingPage">ヘルプ・よくある質問</h1>
+      <p class="textRead">
+        「マイ商店」に関するよくある質問です。詳細は各カテゴリトップからご覧ください。<br />
+        <span class="catDesc"
+          >※誠に申し訳ございませんが、お電話でのお問い合わせ窓口はご用意しておりません</span
         >
-          注目のFAQ
-        </button>
-      </h2>
-      <div
-        id="flush-collapseOne"
-        class="accordion-collapse collapse"
-        aria-labelledby="flush-headingOne"
-        data-bs-parent="#accordionFlushExample"
-      >
-        <div class="accordion-body">
-          <ul>
-            <li>
-              １、パスワード入力の誤り
-              入力の誤りがないか、今一度ご確認ください。
-              パスワードを忘れた場合、パスワード再設定してください。
-            </li>
-            <li>
-              ２、XXX」のエラー表示
-              短時間に何度もログインを失敗すると表示されるエラーです。
-              ロックされ、ログインできない状態になります。
-              パスワード再設定を行うことでロックが解除されます。
-            </li>
-            <li></li>
-          </ul>
-        </div>
-      </div>
+      </p>
+      <ul class="card-list">
+        <li class="card__mini">
+          <p class="catNm">会員登録</p>
+          <p class="catDesc">
+            新規会員登録の手順、ご登録内容の変更や退会に関するご案内
+          </p>
+          <p class="textRead pd0"><a href="/help/cat/member/">一覧を見る</a></p>
+        </li>
+        <li class="card__mini">
+          <p class="catNm">ログイン</p>
+          <p class="catDesc">
+            ID・パスワードが不明の場合、SNSアカウントとの連携に関するご案内
+          </p>
+          <p class="textRead pd0"><a href="/help/cat/login/">一覧を見る</a></p>
+        </li>
+        <li class="card__mini">
+          <p class="catNm">メールサービス</p>
+          <p class="catDesc">
+            メールマガジン・各種通知メールのご利用・配信停止に関するご案内
+          </p>
+          <p class="textRead pd0"><a href="/help/cat/mail/">一覧を見る</a></p>
+        </li>
+        <li class="card__mini">
+          <p class="catNm">スカウト</p>
+          <p class="catDesc">
+            企業に公開される情報や、希望条件・非公開企業設定に関するご案内
+          </p>
+          <p class="textRead pd0"><a href="/help/cat/scout/">一覧を見る</a></p>
+        </li>
+        <li class="card__mini">
+          <p class="catNm">応募・質問</p>
+          <p class="catDesc">
+            応募・質問フォームの入力方法、応募履歴に関するご案内
+          </p>
+          <p class="textRead pd0"><a href="/help/cat/entry/">一覧を見る</a></p>
+        </li>
+        <li class="card__mini">
+          <p class="catNm">求人検索</p>
+          <p class="catDesc">
+            求人情報の検索方法やMY検索条件・「気になる」のご利用に関するご案内
+          </p>
+          <p class="textRead pd0"><a href="/help/cat/search/">一覧を見る</a></p>
+        </li>
+        <li class="card__mini">
+          <p class="catNm">ご利用環境・その他</p>
+          <p class="catDesc">
+            会員向け各種サービス、マイ商店のご利用全般に関するご案内
+          </p>
+          <p class="textRead pd0">
+            <a href="/help/cat/environment/">一覧を見る</a>
+          </p>
+        </li>
+        <li class="card__mini">
+          <p class="catNm">求人情報・掲載企業について</p>
+          <p class="catDesc">
+            「求人情報が事実と異なる」「応募後の連絡がない」などご商店に関するお問い合わせ
+          </p>
+          <p class="textRead pd0"><a href="/help/cat/post/">一覧を見る</a></p>
+        </li>
+        <li class="card__mini">
+          <p class="catNm">アプリについて</p>
+          <p class="catDesc">マイ商店公式アプリの操作方法に関するご案内</p>
+          <p class="textRead pd0"><a href="/help/cat/app/">一覧を見る</a></p>
+        </li>
+        <li class="card__mini">
+          <p class="catNm">求人情報掲載のお問い合わせ</p>
+          <p class="catDesc">求人情報掲載をご検討中の企業様向けのご案内</p>
+          <p class="textRead pd0">
+            <a href="/publish_inquire/" target="_blank">お問い合わせフォーム</a>
+          </p>
+        </li>
+      </ul>
     </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="flush-headingTwo">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#flush-collapseTwo"
-          aria-expanded="false"
-          aria-controls="flush-collapseTwo"
-        >
-          配送料金はかかりますか？
-        </button>
-      </h2>
-      <div
-        id="flush-collapseTwo"
-        class="accordion-collapse collapse"
-        aria-labelledby="flush-headingTwo"
-        data-bs-parent="#accordionFlushExample"
-      >
-        <div class="accordion-body">
-          ・2,000 円（税込）以上ご購入
-          　送料無料（一部の離島・山間部地域は、別途配送料金が発生する場合があります。）
-          ・2,000 円（税込）未満ご購入 　宅配便：送料550円（税込）～
-          　メール便：送料270円（税込）～
-          　ビック酒販お取り扱い商品：8,000円（税込）以上ご購入で送料無料
-        </div>
-        <div class="accordion-body">
-          一部、送料無料対象外商品がございます。
-          ▸送料無料対象外商品は商品ごと個別に送料が発生します。
-          ▸ご注文金額合計が2,000円以上の場合も、送料無料の対象外となります。
-          ▸なお、送料無料対象外商品の送料は商品ごとに異なります。詳しくは商品ページをご確認ください。
-          ▸メーカー直送品は、一部別途料金がかかります。
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="flush-headingThree">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#flush-collapseThree"
-          aria-expanded="false"
-          aria-controls="flush-collapseThree"
-        >
-          各国／各地域のサイト一覧
-        </button>
-      </h2>
-      <div
-        id="flush-collapseThree"
-        class="accordion-collapse collapse"
-        aria-labelledby="flush-headingThree"
-        data-bs-parent="#accordionFlushExample"
-      >
-        <div class="accordion-body">
-          <ul>
-            <li>台湾.com [台湾]</li>
-            <li>台湾 Japan [日本]</li>
-            <li>台湾.de [中国]</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <!--- container__inner --->
   </div>
 </template>
-<style lang=""></style>
+
+<style lang="scss" scoped>
+.container {
+  position: relative;
+  min-width: 950px;
+  width: 100%;
+  padding: 30px 0 40px;
+  font-size: 1.6rem;
+  line-height: 1.6;
+  background: #fafafb;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.catDesc {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.headingPage {
+  max-width: 950px;
+  color: #333;
+  font-weight: 700;
+  word-break: break-all;
+  white-space: normal;
+  word-wrap: break-word;
+  margin: 0 auto 20px;
+  padding: 3px 20px;
+  font-size: 2rem;
+  border-left: 4px solid #00aaeb;
+}
+
+p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+li {
+  text-align: -webkit-match-parent;
+}
+
+.card__mini:first-child {
+  margin-left: 0;
+}
+
+.card__mini {
+  width: 230px;
+  height: 300px;
+  margin: 20px 5px 0 5px;
+  padding: 30px 28px 20px;
+  color: #333;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(9, 0, 0, 0.3);
+  border-top: 2px solid #00aaeb;
+  float: left;
+  text-align: center;
+}
+
+.card__mini p {
+  margin: 0;
+}
+
+.card__mini .catNm {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card__mini .catDesc {
+  font-size: 14px;
+}
+
+.textRead {
+  display: flex;
+  justify-content: center;
+}
+
+.textRead a {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 8px 15px;
+  border-radius: 50%;
+  background-color: #00aaeb;
+  color: #fff;
+  font-size: 12px;
+  text-decoration: none;
+}
+</style>

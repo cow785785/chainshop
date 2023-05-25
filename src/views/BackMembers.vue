@@ -24,7 +24,7 @@ export default {
   methods: {
     searchAllMembersInfo() {
       this.isCheck = !this.isCheck;
-      this.showSearch = !this.showSearch; // 收起第二个数据框
+      this.showSearch = !this.showSearch; // 收起第二個數據資料
       fetch("http://localhost:8080/readMember", {
         method: "POST",
         headers: {
@@ -43,10 +43,10 @@ export default {
     },
     searchMembersInfo() {
       if (this.showSearch) {
-        return []; // 返回空数组，以隐藏第二个数据框
+        return []; // 返回空陣列，隱藏第二個數據資料
       }
       return this.members.filter((member) => {
-        return member.username
+        return member.useraccount
           .toLowerCase()
           .includes(this.searchKeyword.toLowerCase());
       });
@@ -138,7 +138,6 @@ export default {
         id="memberinfo"
         v-model="searchKeyword"
       />
-
       <button type="button" @click="searchAllMembersInfo" class="myButton">
         利用帳號查詢
       </button>
@@ -313,6 +312,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  margin-top: 20px;
   table {
     // margin-top: 80px;
     border: 2px solid black;
@@ -338,6 +338,7 @@ td {
   padding: 8px;
 }
 .search-area {
+  margin-top: 20px;
   table {
     // margin-top: 80px;
     border: 2px solid black;

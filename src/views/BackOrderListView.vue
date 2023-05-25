@@ -3,6 +3,7 @@ export default {
   data() {
     return {
       isCheck: false,
+      showSearch: false,
       orderLists: [], // 新增一個用於存儲會員資料的數據屬性
       showModal: false, // 叫出畫面
       editedorderList: null,
@@ -16,11 +17,13 @@ export default {
         orderStatus: "",
         orderTime: "",
       },
+      searchKeyword: "", // 新增搜尋關鍵字的屬性
     };
   },
   methods: {
-    select() {
-      this.isCheck = true;
+    searchAllOrderInfo() {
+      this.isCheck = !this.isCheck;
+      this.showSearch = !this.showSearch; // 收起第二個數據資料
       fetch("http://localhost:8080/get_all_orderdetails", {
         method: "GET",
         headers: {
@@ -35,6 +38,17 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+    },
+    searchOrderlist() {
+      if (this.showSearch) {
+        return []; // 返回空陣列，隱藏第二個數據資料
+      }
+      return this.orderLists.filter((orderList) => {
+        return orderList.useraccount
+          .toLowerCase()
+          .includes(this.searchKeyword.toLowerCase());
+      });
+      this.select();
     },
     openModal(orderList) {
       this.editedorderList = orderList;
@@ -114,15 +128,26 @@ export default {
       // location.reload();
     },
   },
+  mounted() {
+    this.searchAllOrderInfo();
+  },
 };
 </script>
 <template>
   <div class="all-area">
     <h2>訂單明細管理</h2>
     <div class="info-area">
-      <input type="text" name="orderlistinfo" id="orderlistinfo" />
-      <button type="button" @click="select" class="myButton">
-        顯示全部會員資料
+      <input
+        type="text"
+        name="orderlistinfo"
+        id="orderlistinfo"
+        v-model="searchKeyword"
+      />
+      <button type="button" @click="searchAllOrderInfo" class="myButton">
+        利用帳號查詢
+      </button>
+      <button type="button" @click="searchAllOrderInfo" class="myButton">
+        全部訂單資料
       </button>
       <!-- 找出全部資料 -->
     </div>
@@ -163,12 +188,48 @@ export default {
           </tbody>
         </table>
       </div>
+      <div class="search-area">
+        <table>
+          <tbody id="data-body">
+            <tr v-if="showSearch == false">
+              <th>ID</th>
+              <th>orderNumber</th>
+              <th>useraccount</th>
+              <th>productCode</th>
+              <th>totalPrice</th>
+              <th>quantity</th>
+              <th>deliveryAddress</th>
+              <th>orderStatus</th>
+              <th>orderTime</th>
+              <th>修改</th>
+              <th>刪除</th>
+            </tr>
+            <tr v-for="orderList in searchOrderlist()" :key="orderList.id">
+              <td>{{ orderList.id }}</td>
+              <td>{{ orderList.orderNumber }}</td>
+              <td>{{ orderList.useraccount }}</td>
+              <td>{{ orderList.productCode }}</td>
+              <td>{{ orderList.totalPrice }}</td>
+              <td>{{ orderList.quantity }}</td>
+              <td>{{ orderList.deliveryAddress }}</td>
+              <td>{{ orderList.orderStatus }}</td>
+              <td>{{ orderList.orderTime }}</td>
+              <td>
+                <button @click="openModal(orderList)">修改</button>
+              </td>
+              <td>
+                <button @click="confirmDelete(orderList)">刪除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <!-- 彈出視窗 -->
     <div v-if="showModal" class="modal">
       <div class="modal-content">
         <!-- 這裡放彈出窗口的内容 -->
-        <h3>修改會員資料</h3>
+        <h3>修改訂單資料</h3>
         <form @submit.prevent="updatedOrderList">
           <label for="orderNumber">orderNumber:</label>
           <input
@@ -273,8 +334,31 @@ export default {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  margin-top: 20px;
   table {
-    margin-top: 80px;
+    // margin-top: 20px;
+    border: 2px solid black;
+    th {
+      border: 2px solid black;
+      background-color: antiquewhite;
+    }
+  }
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+.search-area {
+  margin-top: 20px;
+  table {
+    // margin-top: 80px;
     border: 2px solid black;
     th {
       border: 2px solid black;

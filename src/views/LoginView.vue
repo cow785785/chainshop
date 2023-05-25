@@ -9,9 +9,11 @@ export default {
     return {
       useraccount: "",
       password: "",
-      // loggedInUser: "ログイン", // 新增變數
-      forgotPassword: false, // 新增變數
+      loggedInUser: "", // 忘記密碼狀態
+      loginAttempts: 0, //記錄錯誤次數
+      loginDisabled: false, // 紀錄登入錯誤鎖定登入狀態變數
       isCheck: true,
+      forgotPassword: false,
     };
   },
   methods: {
@@ -34,11 +36,13 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           if (data.message === "登錄成功") {
-            // 使用Vuex的commit方法更新loggedInUser狀態
-            // this.$store.commit("setLoggedInUser", data.userName);
+            // 重置錯誤次數
+            // this.loginAttempts = 0;
             localStorage.setItem("useraccount", this.useraccount);
             localStorage.setItem("password", this.password);
             localStorage.setItem("username", data.userName);
+            // // 使用Vuex的commit方法更新loggedInUser狀態
+            // this.loggedInUser = data.userName;
             console.log(data);
             console.log(data.userName);
             alert("登錄成功，正在跳轉頁面");
@@ -49,6 +53,14 @@ export default {
               }, 1000);
             });
           } else {
+            this.loginAttempts++;
+            // 檢查錯誤次數是否達到3次
+            if (this.loginAttempts === 3) {
+              this.loginDisabled = true; // 禁用登入按鈕
+              alert("今天不能再登入此帳號");
+              // 進行相應的處理，例如禁止登入或重定向到其他頁面
+              return;
+            }
             alert("帳號或密碼錯誤");
           }
         })
@@ -64,48 +76,61 @@ export default {
       const confirmModify = confirm("是否要修改密碼？");
 
       if (confirmModify) {
-        const username = prompt("請輸入帳號");
-
-        if (username) {
-          const newPassword = prompt("請輸入新密碼");
-          if (newPassword) {
-            // 發送修改密碼的請求到後端 API
-            fetch("http://localhost:8080/updateMember", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                useraccount: username,
-                password: newPassword,
-              }),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                if (data.message === "更新成功") {
-                  alert("密碼修改成功");
-                } else {
-                  alert("密碼修改失敗");
-                }
-                // 在這裡處理修改密碼的相關邏輯，例如顯示成功提示或錯誤訊息
-              })
-              .catch((error) => {
-                console.error(error);
-                // 處理錯誤情況
-                alert("密碼修改失敗");
-              });
-          } else {
-            // 處理未輸入新密碼的情況
-            alert("請輸入新密碼");
-          }
-        } else {
-          // 處理未輸入帳號的情況
-          alert("請輸入帳號");
-        }
-      } else {
-        // 處理不修改密碼的情況
-        this.forgotPassword = true; // 如果不修改密碼，可以在這裡執行其他相關邏輯
+        this.useraccount = prompt("請輸入帳號");
       }
+
+      fetch("http://localhost:8080/checkAccountExist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          useraccount: this.useraccount,
+        }),
+      })
+        .then((response) => response.json())
+        .then((dataaccount) => {
+          console.log(dataaccount);
+          if (dataaccount.message === "帳號已存在") {
+            if (this.useraccount) {
+              const newPassword = prompt("請輸入新密碼");
+              if (newPassword) {
+                // 發送修改密碼的請求到後端 API
+                fetch("http://localhost:8080/updatePassword", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    useraccount: this.useraccount,
+                    password: newPassword,
+                  }),
+                })
+                  .then((response) => response.json())
+                  .then((data) => {
+                    console.log(data);
+                    if (data.message === "密碼已更新") {
+                      alert("密碼修改成功");
+                    } else {
+                      alert("密碼修改失敗123123");
+                    }
+                    // 在這裡處理修改密碼的相關邏輯，例如顯示成功提示或錯誤訊息
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                    // 處理錯誤情況
+                    alert("密碼修改失敗");
+                  });
+              } else {
+                // 處理未輸入新密碼的情況
+                alert("請輸入新密碼");
+              }
+            } else {
+              // 處理未輸入帳號的情況
+              alert("請輸入帳號");
+            }
+          }
+        });
     },
   },
 };
@@ -130,14 +155,24 @@ export default {
         </button>
       </div>
       <div class="btn-area">
-        <button @click="login">登錄</button>
+        <button @click="login" :disabled="loginDisabled">登錄</button>
         <button @click="singup">註冊</button>
       </div>
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
+.login {
+  width: 100%;
+  background-image: linear-gradient(
+    to top,
+    #fad0c4 0%,
+    #fad0c4 1%,
+    #ffd1ff 100%
+  );
+}
 .container {
+  // background-color: cadetblue;
   width: 100%;
   height: 78vh;
   display: flex;
