@@ -25,7 +25,6 @@ export default {
       const body = {
         useraccount: this.account,
         password: this.password,
-        password2: this.password2,
         username: this.username,
         birthDate: this.birthday,
         address: this.address,
@@ -125,7 +124,11 @@ export default {
         />
 
         <label for="password">密碼</label>
-        <input type="password" placeholder="輸入密碼" v-model="password" />
+        <input
+          type="password"
+          placeholder="(至少要8位數和大寫字母)"
+          v-model="password"
+        />
 
         <label for="password">確認密碼</label>
         <input type="password" placeholder="確認密碼" v-model="password2" />
@@ -134,10 +137,10 @@ export default {
         <input type="text" placeholder="會員名稱" v-model="username" />
 
         <label for="birthday">生日</label>
-        <input type="text" placeholder="ex:1995-03-01" v-model="birthday" />
+        <input type="date" placeholder="ex:1995-03-01" v-model="birthday" />
 
         <label for="location">地址</label>
-        <input type="text" placeholder="輸入地址" v-model="address" />
+        <input type="text" placeholder="輸入地址(XX市XX路)" v-model="address" />
 
         <label for="tel">電話</label>
         <input
