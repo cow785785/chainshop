@@ -163,7 +163,17 @@ export default {
   </div>
 </template>
 <style lang="scss" scoped>
+.login {
+  width: 100%;
+  background-image: linear-gradient(
+    to top,
+    #fad0c4 0%,
+    #fad0c4 1%,
+    #ffd1ff 100%
+  );
+}
 .container {
+  // background-color: cadetblue;
   width: 100%;
   height: 78vh;
   display: flex;
