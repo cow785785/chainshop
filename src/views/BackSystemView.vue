@@ -4,12 +4,15 @@ export default {
     return {};
   },
   methods: {
-    // navigateToMember() {
-    //   this.$router.push("/backMembers");
-    // },
-    // toproduct() {
-    //   this.$router.push("/backProduct");
-    // },
+    navigateToMember() {
+      this.$router.push("/backMembers");
+    },
+    toproduct() {
+      this.$router.push("/backProduct");
+    },
+    toorderList() {
+      this.$router.push("/backOrderListView");
+    },
   },
 };
 </script>
@@ -37,8 +40,8 @@ export default {
           <button @click="toproduct" class="myButton">產品管理</button>
         </div>
         <div class="down-area">
-          <button class="myButton">訂單管理</button>
-          <button class="myButton">活動管理</button>
+          <button @click="toorderList" class="myButton">訂單管理</button>
+          <button class="myButton">活動管理(進行中)</button>
         </div>
       </div>
     </div>
