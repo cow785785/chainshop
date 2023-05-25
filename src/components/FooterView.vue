@@ -18,16 +18,16 @@ export default {};
       </li>
       <div class="pos">&copy; 版權為豬豬所有</div>
       <div class="links">
-        <a href="#">
+        <a href="https://www.facebook.com/">
           <img src="../../public/Icons/facebook.svg" alt="facebook" />
         </a>
-        <a href="#">
+        <a href="https://www.instagram.com/">
           <img src="../../public/Icons/instagram.svg" alt="instagram" />
         </a>
-        <a href="#">
+        <a href="https://twitter.com/">
           <img src="../../public/Icons/twitter.svg" alt="twitter" />
         </a>
-        <a href="#">
+        <a href="https://www.youtube.com/">
           <img src="../../public/Icons/youtube.svg" alt="youtube" />
         </a>
       </div>
