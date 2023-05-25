@@ -9,6 +9,7 @@ export default {
          show: true,
          imgUrl: "../../public/img/hm1.jpg",
          selectedQuantity: "1",
+         orderList: [],
       };
    },
    methods: {
@@ -57,16 +58,15 @@ export default {
          }
       },
       addToCartWithAddress(address, productCode, quantity) {
-         if (this.orderList) {
-            const existingOrderIndex = this.orderList.findIndex(
-               (order) => order.productCode === productCode
-            );
-            if (existingOrderIndex !== -1) {
-               // 如果存在相同的 productCode 物件，將其 quantity 加總
-               this.orderList[existingOrderIndex].quantity += quantity;
-               this.orderList[existingOrderIndex].totalPrice =
-                  this.price * this.orderList[existingOrderIndex].quantity;
-            }
+         const existingOrderIndex = this.orderList.findIndex(
+            (order) => order.productCode === productCode
+         );
+
+         if (existingOrderIndex !== -1) {
+            // 如果存在相同的 productCode 物件，將其 quantity 加總
+            this.orderList[existingOrderIndex].quantity += quantity;
+            this.orderList[existingOrderIndex].totalPrice =
+               this.price * this.orderList[existingOrderIndex].quantity;
          } else {
             const totalPrice = this.price * quantity;
             const newOrder = {
@@ -106,13 +106,21 @@ export default {
          <div class="buy-area">
             <div class="count-area">
                <!-- 商品數量用select抓 可以用資料庫中的數量當作極限 -->
-               <select name="inventory" id="inventory" v-model="selectedQuantity">
+               <select
+                  name="inventory"
+                  id="inventory"
+                  v-model="selectedQuantity"
+               >
                   <option v-for="product in inventory">
                      {{ product }}
                   </option>
                </select>
             </div>
-            <button class="cart btn btn-sm btn-primary" @click="putIntoCart(code, selectedQuantity)" type="button">
+            <button
+               class="cart btn btn-sm btn-primary"
+               @click="putIntoCart(code, selectedQuantity)"
+               type="button"
+            >
                カートに入れる
             </button>
          </div>
@@ -129,47 +137,38 @@ export default {
    display: flex;
    justify-content: center;
    margin: 0;
-
    .product-card {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
       img {
          max-width: 80%;
          max-height: 50%;
          border-radius: 10px;
       }
-
       margin: 0.5rem;
-
       p,
       h5 {
          justify-content: center;
          margin: 0;
       }
-
       h5 {
          margin-top: 0.5rem;
       }
    }
-
    .buy-area {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
    }
-
    .count-area {
       display: flex;
       justify-content: center;
-
       input {
          text-align: center;
       }
-
       button {
          padding: 1px 2px;
       }
