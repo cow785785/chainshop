@@ -77,7 +77,7 @@ export default {
             this.orderList.push(newOrder);
          }
          sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
-         alert("新增商品成功");
+         alert("已成功加入至購物車");
       },
    },
    mounted() {
