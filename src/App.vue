@@ -6,65 +6,34 @@ export default {
     }
   },
   methods: {
-    handleUnload(event) {
-      event.preventDefault();
-      event.returnValue = '';
-      const confirmationMessage = "確定要登出嗎？";
-
+    handleUnload() {
       const storedOrderList = sessionStorage.getItem("orderList");
       const storedDbCartList = sessionStorage.getItem("dbCartList");
 
       const dbCartList = JSON.parse(storedDbCartList);
-      const delBody = {
-        order_list: dbCartList,
-      };
-
       const newOrderList = JSON.parse(storedOrderList);
-      if (newOrderList) {
-        newOrderList.forEach(element => {
-          element.orderStatus = "カート入り";
-        });
-      }
-      const newBody = {
-        order_list: newOrderList,
+      const body = {
+        order_list: dbCartList,
+        new_list: newOrderList,
       };
-
-      // 刪除舊資料的 fetch 請求
-      const deleteRequest = fetch("http://localhost:8080/del_order", {
+      fetch("http://localhost:8080/change_order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(delBody),
-      }).then(res => res.json());
-
-      // 新增新資料的 fetch 請求
-      const createRequest = deleteRequest.then(() => {
-        return fetch("http://localhost:8080/new_order", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(newBody),
-        }).then(res => res.json());
-      });
-
-      // 確保刪除和新增按照順序執行
-      return Promise.all([deleteRequest, createRequest])
-        .then(([deleteResponse, createResponse]) => {
-          console.log(deleteResponse.message);
-          console.log(createResponse.message);
-          return confirmationMessage;
-        })
-        .catch(err => {
-          console.log(err);
-          return confirmationMessage;
-        });
+        body: JSON.stringify(body),
+      }).catch(err => console.log(err));
     },
-
+    handleStorageChange() {
+      if (sessionStorage.getItem("orderList")) {
+        this.orderList = JSON.parse(sessionStorage.getItem("orderList"));
+        this.itemCount = this.orderList.length;
+      }
+    }
   },
   created() {
     window.addEventListener('beforeunload', this.handleUnload);
+    window.addEventListener('storage', this.handleStorageChange);
   },
   mounted() {
     const useraccount = localStorage.getItem("useraccount");
@@ -92,6 +61,12 @@ export default {
         })
         .catch(err => console.log(err))
     }
+    if (orderList) {
+      this.orderList = JSON.parse(orderList);
+      this.itemCount = this.orderList.length;
+    }
+
+
   },
   beforeDestroy() {
     window.removeEventListener('beforeunload', this.handleUnload);

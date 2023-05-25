@@ -42,13 +42,12 @@ export default {
             console.log(data);
             console.log(data.userName);
             alert("登錄成功，正在跳轉頁面");
-
             this.$router.push("/");
-            // setTimeout(location.reload(), 2000);
-            setTimeout(() => {
-              location.reload();
-            }, 2000);
-            // location.reload();
+            this.$router.afterEach(() => {
+              setTimeout(() => {
+                location.reload();
+              }, 1000);
+            });
           } else {
             alert("帳號或密碼錯誤");
           }

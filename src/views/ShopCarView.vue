@@ -57,9 +57,7 @@ export default {
           }).catch(err => console.log(err))
       }
     },
-    handleUnload() {//離開頁面時，保存數量變更
-      sessionStorage.setItem("orderList", JSON.stringify(this.itemList))
-    },
+
   },
   mounted() {
     const storedOrderList = sessionStorage.getItem("orderList");
@@ -68,12 +66,7 @@ export default {
     }
   },
   //離開頁面的監測
-  beforeRouteLeave(to, from, next) {
-    if (from.path === '/shopCarView') {
-      this.handleUnload();
-    }
-    next();
-  },
+
 };
 </script>
 <template>
