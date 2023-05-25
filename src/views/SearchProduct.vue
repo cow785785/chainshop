@@ -9,6 +9,7 @@ export default {
       ProductView,
       HeaderView,
    },
+   props:["category"],
    data() {
       return {
          quantity: 10,
@@ -73,6 +74,7 @@ export default {
                :quantity="quantity"
                :price="product.price"
                :info="product.productInfo"
+               :image="product.productImg"
                @switchCard="showProduct(index)"
                class="product-card"
             ></ProductInfoView>
@@ -86,6 +88,7 @@ export default {
             :quantity="quantity"
             :price="productList[index].price"
             :describe="productList[index].productDescribe"
+            :image="productList[index].productImg"
             @switch="closeProduct"
          />
       </div>
@@ -104,7 +107,7 @@ export default {
    margin: 1rem;
 }
 .product-area {
-   width: 50%;
+   width: 25%;
    margin: 0;
    display: flex;
    justify-content: center;

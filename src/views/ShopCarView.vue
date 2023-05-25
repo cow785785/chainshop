@@ -1,5 +1,9 @@
 <script>
+import HeaderView from '../components/HeaderView.vue';
 export default {
+  components:{
+    HeaderView,
+  },
   data() {
     return {
       itemList: [],
@@ -70,6 +74,7 @@ export default {
 </script>
 <template>
   <div id="app">
+    <HeaderView></HeaderView>
     <div class="container">
       <div class="item_header">
         <div class="item_detail">商品</div>
@@ -149,7 +154,7 @@ template {
 }
 
 .item_header div {
-  width: 200px;
+  width: 300px;
   color: #888;
   line-height: 30px;
 }
@@ -168,6 +173,7 @@ template {
   width: 80px;
   height: 80px;
   border-radius: 3px;
+  object-fit: cover;
   /* margin-top: 10px; */
   float: left;
 }

@@ -81,18 +81,25 @@ export default {
         <div class="circle">
           <router-link class="link" to="/category">
             <img
-              src="../../public/img/fried.jpg"
-              alt="炸物"
-              @click="saveCategory('炸物')"
+              src="../../public/img/dessert.png"
+              alt="デザート"
+              @click="saveCategory('甜點')"
             />
           </router-link>
-          <p>炸物</p>
+          <p>デザート</p>
         </div>
       </div>
       <div class="circles">
         <div class="circle">
-          <img src="../../public/img/lunch.jpg" alt="午餐" />
-          <p>多種風格午餐</p>
+          
+          <router-link class="link" to="/category">
+            <img 
+              src="../../public/img/lunch.jpg" 
+              alt="午餐" 
+              @click="saveCategory('表情符號')"
+            />
+          </router-link>
+          <p>多種風格</p>
         </div>
         <div class="circle">
           <img src="../../public/img/yakiniku.jpg" alt="燒烤" />

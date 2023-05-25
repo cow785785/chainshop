@@ -46,7 +46,7 @@ export default {
                .then((data) => {
                   console.log(data);
                   this.result = data.message;
-                  alert(result);
+                  alert(this.result);
                });
          };
       },
