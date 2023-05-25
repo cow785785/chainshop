@@ -11,7 +11,7 @@ export default {
       const oldPrice = item.totalPrice / item.quantity;
       item.quantity = newQuantity;
       item.totalPrice = oldPrice * newQuantity;
-      sessionStorage.setItem("orderList", JSON.stringify(this.itemList))
+      sessionStorage.setItem("orderList", JSON.stringify(this.itemList));
     },
     handleSub: function (item, index) {
       if (item.quantity > 1) {
@@ -19,45 +19,45 @@ export default {
         const oldPrice = item.totalPrice / item.quantity;
         item.quantity = newQuantity;
         item.totalPrice = oldPrice * newQuantity;
-        sessionStorage.setItem("orderList", JSON.stringify(this.itemList))
+        sessionStorage.setItem("orderList", JSON.stringify(this.itemList));
       }
     },
     handledelete(item, index) {
       this.itemList.splice(index, 1);
-      sessionStorage.setItem("orderList", JSON.stringify(this.itemList))
+      sessionStorage.setItem("orderList", JSON.stringify(this.itemList));
     },
 
     goOrder() {
-      sessionStorage.setItem("orderList", JSON.stringify(this.itemList))
+      sessionStorage.setItem("orderList", JSON.stringify(this.itemList));
       const storedOrderList = sessionStorage.getItem("orderList");
       console.log(storedOrderList);
       if (storedOrderList) {
-        const newOrderList = JSON.parse(storedOrderList)
-        newOrderList.forEach(element => {
+        const newOrderList = JSON.parse(storedOrderList);
+        newOrderList.forEach((element) => {
           element.orderStatus = "オーダー済み";
         });
         const body = {
           order_list: newOrderList,
-        }
-        console.log(body)
+        };
+        console.log(body);
         fetch("http://localhost:8080/new_order", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(body),
         })
-          .then(res => res.json())
-          .then(data => {
-            console.log(data)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
             sessionStorage.removeItem("orderList");
             this.itemList = [];
             alert(data.message);
             location.reload();
-          }).catch(err => console.log(err))
+          })
+          .catch((err) => console.log(err));
       }
     },
-
   },
   mounted() {
     const storedOrderList = sessionStorage.getItem("orderList");
@@ -66,7 +66,6 @@ export default {
     }
   },
   //離開頁面的監測
-
 };
 </script>
 <template>
@@ -79,14 +78,20 @@ export default {
         <div class="amount">總計</div>
         <div class="operate">操作</div>
       </div>
-      <div class="item_container" v-for="(item, index) in itemList" :key="item.productId">
+      <div
+        class="item_container"
+        v-for="(item, index) in itemList"
+        :key="item.productId"
+      >
         <div class="item_header item_body">
           <div class="item_detail">
             <img v-bind:src="item.productsId.productImg" alt="" />
             <div class="name">{{ item.productsId.productName }}</div>
           </div>
 
-          <div class="price"><span>$</span>{{ item.totalPrice / item.quantity }}</div>
+          <div class="price">
+            <span>$</span>{{ item.totalPrice / item.quantity }}
+          </div>
           <div class="count">
             <button @click="handleSub(item)">-</button>
             {{ item.quantity }}
@@ -98,14 +103,28 @@ export default {
           </div>
         </div>
       </div>
-      <button @click="goOrder">BUY</button>
-      <button @click="getData">TEST</button>
+      <button @click="goOrder" class="btn btn-warning">BUY</button>
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
 template {
   background-color: rgba(0, 0, 0, 0.2);
+}
+#app {
+  height: 100vh;
+  background: #c9ccd3;
+  background-image: linear-gradient(
+    -180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  .btn {
+    margin-top: 0.5rem;
+    width: 5rem;
+    border-radius: 30px;
+  }
+  background-blend-mode: lighten;
 }
 
 .item_header {
@@ -115,6 +134,18 @@ template {
   background-color: #fff;
   border-radius: 3px;
   padding-left: 10px;
+  background-color: #dcd9d4;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    ),
+    radial-gradient(
+      at 50% 0%,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(0, 0, 0, 0.5) 50%
+    );
+  background-blend-mode: soft-light, screen;
 }
 
 .item_header div {
