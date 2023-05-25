@@ -82,7 +82,6 @@ export default {
          this.showModal = true;
       },
       changeImg(e) {
-         console.log(123131);
          const reader = new FileReader();
          reader.readAsDataURL(e.target.files[0]);
          reader.onload = (e) => {
@@ -93,6 +92,7 @@ export default {
          console.log(this.Img);
       },
       updateProduct() {
+         this.editedProduct.productImg = this.Img;
          const body = {
             product: this.editedProduct,
          };
@@ -119,7 +119,7 @@ export default {
             .catch((error) => {
                console.error(error);
             });
-         this.select();
+
          this.showModal = false;
       },
       openDeleteproduct(product) {
@@ -140,7 +140,7 @@ export default {
             .then((response) => response.json())
             .then((data) => {
                console.log(data);
-               this.select();
+               // this.select();
                // 根據 API 的返回結果進行相應的處理
                // 例如更新列表數據或顯示提示信息等
             })
@@ -150,7 +150,9 @@ export default {
          // location.reload();
       },
    },
-   mounted: {},
+   mounted() {
+      this.select();
+   },
 };
 </script>
 <template>
