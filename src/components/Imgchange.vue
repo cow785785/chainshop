@@ -44,19 +44,22 @@ export default {
       this.currentBackgroundIndex =
         (this.currentBackgroundIndex + 1) % this.backgrounds.length;
     }, 3000);
+    setTimeout(() => {
+      this.showFirstElement = true;
+    }, 500);
   },
 };
 </script>
 <template>
   <main>
-    <section class="backgroung-img" :style="backgroundStyle">
+    <section class="backgroung-img fly-in-left-top" :style="backgroundStyle">
       <div class="filter"></div>
       <h3>ぞんぶんにえものを食う</h3>
     </section>
     <section class="info-circles" v-show="show">
-      <h3>たようびしょくいちおうく</h3>
+      <h3 class="fade-in">たようびしょくいちおうく</h3>
       <div class="circles">
-        <div class="circle">
+        <div class="circle fly-in-left">
           <router-link class="link" to="/category">
             <img
               class="breakfast"
@@ -68,7 +71,7 @@ export default {
           <p>多様なちょうしょく</p>
         </div>
 
-        <div class="circle">
+        <div class="circle fly-in-top">
           <router-link class="link" to="/category">
             <img
               src="../../public/img/drink.jpg"
@@ -78,27 +81,27 @@ export default {
           </router-link>
           <p>爽快に飲む</p>
         </div>
-        <div class="circle">
+        <div class="circle fly-in-right">
           <router-link class="link" to="/category">
             <img
-              src="../../public/img/dessert.png"
-              alt="デザート"
-              @click="saveCategory('甜點')"
+              src="../../public/img/fried.jpg"
+              alt="炸物"
+              @click="saveCategory('炸物')"
             />
           </router-link>
-          <p>デザート</p>
+          <p>万悪の根源-揚げ物</p>
         </div>
       </div>
       <div class="circles">
-        <div class="circle">
+        <div class="circle fly-in-bottom">
           <img src="../../public/img/lunch.jpg" alt="午餐" />
           <p>多様なスタイルのランチ</p>
         </div>
-        <div class="circle">
+        <div class="circle fly-in-bottom">
           <img src="../../public/img/yakiniku.jpg" alt="燒烤" />
           <p>クラシックな焼き肉</p>
         </div>
-        <div class="circle">
+        <div class="circle fly-in-right">
           <img src="../../public/img/salad.jpg" alt="蔬菜" />
           <p>野菜の摂取</p>
         </div>
@@ -114,6 +117,20 @@ export default {
 </template>
 <style lang="scss" scoped>
 main {
+  .fly-in-left-top {
+    animation: fly-in-left 2.5s ease;
+  }
+
+  @keyframes fly-in-left {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
   section.backgroung-img {
     display: flex;
     justify-content: center;
@@ -146,6 +163,82 @@ main {
     opacity: 1;
     padding: 2rem 1rem;
     margin-top: 4rem;
+    //h3
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fade-in 1s ease;
+    }
+
+    //左邊飛入
+    .fly-in-left {
+      animation: fly-in-left 3.5s ease;
+    }
+
+    @keyframes fly-in-left {
+      from {
+        transform: translateX(-200%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    //右邊飛入
+    @keyframes fly-in-right {
+      from {
+        transform: translateX(200%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .fly-in-right {
+      animation: fly-in-right 3.5s ease;
+    }
+
+    //上面飛入
+    @keyframes fly-in-top {
+      from {
+        transform: translateY(-200%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .fly-in-top {
+      animation: fly-in-top 3.5s ease;
+    }
+
+    //下方飛入
+    @keyframes fly-in-bottom {
+      from {
+        transform: translateY(200%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .fly-in-bottom {
+      animation: fly-in-bottom 3.5s ease;
+    }
   }
 
   h3 {
