@@ -10,6 +10,7 @@ export default {
          imgUrl: "../../public/img/hm1.jpg",
          selectedQuantity: "1",
          orderList: [],
+         checkList: [],
       };
    },
    methods: {
@@ -21,6 +22,9 @@ export default {
          this.$emit("switchCard");
       },
       putIntoCart(code, selectedQuantity) {
+         console.log(this.orderList);
+         console.log(this.checkList);
+         console.log(code);
          const useraccount = localStorage.getItem("useraccount");
          const productCode = code;
          const quantity = parseInt(selectedQuantity);
@@ -61,7 +65,7 @@ export default {
          const existingOrderIndex = this.orderList.findIndex(
             (order) => order.productCode === productCode
          );
-
+         console.log(existingOrderIndex);
          if (existingOrderIndex !== -1) {
             // 如果存在相同的 productCode 物件，將其 quantity 加總
             this.orderList[existingOrderIndex].quantity += quantity;
@@ -75,14 +79,20 @@ export default {
                quantity: quantity,
                totalPrice: totalPrice,
                deliveryAddress: address,
+               orderStatus: "カート入り",
                productsId: {
-                  productImg: this.image,
+                  // 修改後記得打開
+                  // productImg: this.image,
                   productName: this.title,
                },
             };
+            console.log(newOrder);
+            console.log(this.orderList);
             this.orderList.push(newOrder);
+            console.log(this.orderList);
          }
          sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
+         this.checkList.push(this.orderList);
          alert("已成功加入至購物車");
       },
    },

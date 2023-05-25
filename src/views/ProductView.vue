@@ -69,9 +69,10 @@ export default {
                quantity: quantity,
                totalPrice: totalPrice,
                deliveryAddress: address,
-               orderStatus:"カート入り",
+               orderStatus: "カート入り",
                productsId: {
-                  productImg: this.image,
+                  // 修改後記得打開
+                  // productImg: this.image,
                   productName: this.title,
                },
             };
