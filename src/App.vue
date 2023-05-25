@@ -24,9 +24,16 @@ export default {
         body: JSON.stringify(body),
       }).catch(err => console.log(err));
     },
+    handleStorageChange() {
+      if (sessionStorage.getItem("orderList")) {
+        this.orderList = JSON.parse(sessionStorage.getItem("orderList"));
+        this.itemCount = this.orderList.length;
+      }
+    }
   },
   created() {
     window.addEventListener('beforeunload', this.handleUnload);
+    window.addEventListener('storage', this.handleStorageChange);
   },
   mounted() {
     const useraccount = localStorage.getItem("useraccount");
@@ -54,6 +61,12 @@ export default {
         })
         .catch(err => console.log(err))
     }
+    if (orderList) {
+      this.orderList = JSON.parse(orderList);
+      this.itemCount = this.orderList.length;
+    }
+
+
   },
   beforeDestroy() {
     window.removeEventListener('beforeunload', this.handleUnload);
