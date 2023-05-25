@@ -2,11 +2,13 @@
 import MemberSide from "../components/MemberSide.vue";
 import HeaderView from "../components/HeaderView.vue";
 import Orderdetail from "../components/OrderdetailInfo.vue";
+import CartBtn from "../components/CartBtn.vue";
 export default {
   components: {
     MemberSide,
     HeaderView,
     Orderdetail,
+    CartBtn,
   },
   data() {
     return {
@@ -240,6 +242,7 @@ export default {
         </div>
       </div>
     </div>
+    <CartBtn></CartBtn>
   </div>
 </template>
 <style lang="scss" scoped>

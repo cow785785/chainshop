@@ -91,15 +91,33 @@ export default {
       </div>
       <div class="circles">
         <div class="circle">
-          <img src="../../public/img/lunch.jpg" alt="午餐" />
+          <router-link class="link" to="/category">
+            <img 
+              src="../../public/img/lunch.jpg" 
+              alt="午餐" 
+              @click="saveCategory('午餐')"
+            />
+          </router-link>
           <p>多様なスタイルのランチ</p>
-        </div>
+          </div>
         <div class="circle">
-          <img src="../../public/img/yakiniku.jpg" alt="燒烤" />
+          <router-link class="link" to="/category">
+            <img 
+              src="../../public/img/yakiniku.jpg" 
+              alt="燒烤" 
+              @click="saveCategory('燒烤')"
+            />
+          </router-link>
           <p>クラシックな焼き肉</p>
         </div>
         <div class="circle">
-          <img src="../../public/img/salad.jpg" alt="蔬菜" />
+          <router-link class="link" to="/category">
+            <img 
+              src="../../public/img/salad.jpg" 
+              alt="蔬菜" 
+              @click="saveCategory('蔬菜')"
+            />
+          </router-link>
           <p>野菜の摂取</p>
         </div>
       </div>
