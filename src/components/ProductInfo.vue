@@ -142,9 +142,11 @@ export default {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      width: 100%;
       img {
-         max-width: 80%;
-         max-height: 50%;
+         width: 100%;
+         height: 50%;
+         object-fit: cover;
          border-radius: 10px;
       }
       margin: 0.5rem;

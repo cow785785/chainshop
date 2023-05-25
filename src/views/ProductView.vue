@@ -69,7 +69,7 @@ export default {
                quantity: quantity,
                totalPrice: totalPrice,
                deliveryAddress: address,
-               orderStatus:"カート入り",
+               orderStatus: "カート入り",
                productsId: {
                   productImg: this.image,
                   productName: this.title,
@@ -92,7 +92,7 @@ export default {
 
 <template>
    <div class="contain">
-      <h2 class="back" @click="changeShow">Back to Menu</h2>
+      <button class="back btn btn-secondary" @click="changeShow">Back to Menu</button>
       <div class="product">
          <img v-bind:src="image" alt="" />
          <div class="text-area">
@@ -101,20 +101,12 @@ export default {
             <p>${{ price }}</p>
             <div class="count-area">
                <!-- 商品數量用select抓 可以用資料庫中的數量當作極限 -->
-               <select
-                  name="inventory"
-                  id="inventory"
-                  v-model="selectedQuantity"
-               >
+               <select name="inventory" id="inventory" v-model="selectedQuantity">
                   <option v-for="count in inventory">
                      {{ count }}
                   </option>
                </select>
-               <button
-                  @click="putIntoCart(code, selectedQuantity)"
-                  class="cart btn btn-primary"
-                  type="button"
-               >
+               <button @click="putIntoCart(code, selectedQuantity)" class="cart btn btn-primary" type="button">
                   カートに入れる
                </button>
             </div>
@@ -126,11 +118,12 @@ export default {
 
 <style lang="scss" scoped>
 .contain {
-   height: 100vh;
+   height: 80vh;
    display: flex;
    flex-direction: column;
    justify-content: center;
    align-items: center;
+   flex-wrap: nowrap;
 }
 
 .product {
@@ -144,18 +137,23 @@ export default {
 }
 
 .text-area {
+   min-width: 200px;
    text-align: center;
    margin-left: 1rem;
 }
 
 img {
-   max-width: 55%;
-   object-fit: contain;
+   width: 500px;
+   height: 500px;
+   min-width: 500px;
+   object-fit: cover;
+   border-radius: 16px;
 }
 
 .back {
-   width: 100%;
+   display: flex;
    justify-content: start;
+   font-size: 24px;
    cursor: pointer;
 }
 </style>

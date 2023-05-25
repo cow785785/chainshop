@@ -75,7 +75,7 @@ export default {
             :image="product.productImg"
             :code="product.productCode"
             @switchCard="showProduct(index)"
-            class="product-card col-md"
+            class="product-card"
          ></ProductInfoView>
          <!-- </div> -->
       </div>
@@ -101,7 +101,6 @@ export default {
 .row {
    display: flex;
    margin-top: 0.5rem;
-   justify-content: center;
 }
 .product-card {
    margin: 1rem;

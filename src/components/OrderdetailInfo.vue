@@ -23,7 +23,7 @@ export default {
 
     },
     mounted() {
-        
+
     },
 }
 </script>
@@ -88,6 +88,8 @@ export default {
         .long {
             min-width: 200px;
         }
+
+
     }
 
     .detail {
@@ -108,8 +110,8 @@ export default {
             width: 80px;
             height: 80px;
             background-color: aqua;
+            object-fit: cover;
         }
-
     }
 }
 </style>

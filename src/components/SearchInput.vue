@@ -19,13 +19,13 @@ export default {
 <template>
    <div class="search-area">
       <input
-         @change=""
+         @change="storeKeyword"
          type="text"
-         placeholder="請輸入搜尋關鍵字"
+         placeholder="何食べようか！"
          v-model="keyword"
       />
       <button type="button">
-         <RouterLink to="/searchProduct" @click="storeKeyword">查詢</RouterLink>
+         <RouterLink to="/searchProduct" @click="storeKeyword" :category="keyword">検索</RouterLink>
       </button>
    </div>
 </template>

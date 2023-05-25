@@ -105,9 +105,13 @@ export default {
         <h1>地獄のキッチン</h1>
       </RouterLink>
     </section>
-
     <nav>
       <ul>
+        <li>
+          <div class="dropdown">
+            <SearchInput class="search"></SearchInput>
+          </div>
+        </li>
         <li>
           <div class="dropdown">
             <RouterLink to="loginView" class="dropbtn" @click="checkLogin">
@@ -121,42 +125,26 @@ export default {
         </li>
         <li>
           <div class="dropdown">
-            <RouterLink to="/member"
-              ><i class="fa-solid fa-crown" style="color: #f3d55d"></i
-              >会員センター</RouterLink
-            >
+            <RouterLink to="/member"><i class="fa-solid fa-crown" style="color: #f3d55d"></i>会員センター</RouterLink>
             <div class="dropdown-content">
-              <RouterLink to="/order"
-                ><i class="fa-solid fa-clock-rotate-left"></i
-                >お買い物履歴</RouterLink
-              >
-              <a href="#">選項 2</a>
-              <a href="#">選項 3</a>
+              <RouterLink to="/order"><i class="fa-solid fa-clock-rotate-left"></i>お買い物履歴</RouterLink>
+              
             </div>
           </div>
         </li>
         <li>
           <div class="dropdown">
-            <RouterLink to="/product"
-              ><i class="fa-solid fa-clock-rotate-left"></i>メニュー</RouterLink
-            >
+            <RouterLink to="/"><i class="fa-solid fa-clock-rotate-left"></i>メニュー</RouterLink>
             <div class="dropdown-content">
-              <a href="#">選項 1</a>
-              <a href="#">選項 2</a>
-              <a href="#">選項 3</a>
             </div>
           </div>
         </li>
         <li>
-          <RouterLink to="/shopCarView"
-            ><i class="fa-solid fa-cart-shopping" style="color: #c35113"></i
-            >カート
+          <RouterLink to="/shopCarView"><i class="fa-solid fa-cart-shopping" style="color: #c35113"></i>カート
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/question"
-            ><i class="fa-solid fa-circle-question"></i>問い合わせ</RouterLink
-          >
+          <RouterLink to="/question"><i class="fa-solid fa-circle-question"></i>問い合わせ</RouterLink>
         </li>
       </ul>
     </nav>
@@ -174,7 +162,7 @@ export default {
 
   section.logo {
     display: flex;
-    flex: 2 1 400px;
+    flex: 2 1 200px;
     align-items: center;
 
     .toplogo {
@@ -198,6 +186,7 @@ export default {
 
     .dropdown {
       position: relative;
+      margin-right: 8px;
       z-index: 1;
 
       .dropdown-content {
