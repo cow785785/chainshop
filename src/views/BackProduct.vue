@@ -74,7 +74,7 @@ export default {
             productCode: product.productCode,
             productName: product.productName,
             price: product.price,
-            productImg: this.Img,
+            productImg: product.productImg,
             productInfo: product.productInfo,
             productDescribe: product.productDescribe,
             category: product.category,
@@ -92,7 +92,10 @@ export default {
          console.log(this.Img);
       },
       updateProduct() {
-         this.editedProduct.productImg = this.Img;
+         if (this.Img !== "") {
+            this.editedProduct.productImg = this.Img;
+         }
+
          const body = {
             product: this.editedProduct,
          };
