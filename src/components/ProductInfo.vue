@@ -11,6 +11,7 @@ export default {
          selectedQuantity: "1",
          orderList: [],
          checkList: [],
+         numList: [],
       };
    },
    methods: {
@@ -22,9 +23,6 @@ export default {
          this.$emit("switchCard");
       },
       putIntoCart(code, selectedQuantity) {
-         console.log(this.orderList);
-         console.log(this.checkList);
-         console.log(code);
          const useraccount = localStorage.getItem("useraccount");
          const productCode = code;
          const quantity = parseInt(selectedQuantity);
@@ -86,13 +84,17 @@ export default {
                   productName: this.title,
                },
             };
-            console.log(newOrder);
-            console.log(this.orderList);
+
             this.orderList.push(newOrder);
-            console.log(this.orderList);
+            console.log(newOrder);
+            this.checkList.push(newOrder);
+            this.numList.push(1);
          }
          sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
-         this.checkList.push(this.orderList);
+
+         console.log(this.checkList);
+         console.log(this.numList);
+         sessionStorage.setItem("checkList", JSON.stringify(this.checkList));
          alert("已成功加入至購物車");
       },
    },

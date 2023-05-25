@@ -33,7 +33,7 @@ export default {
    },
    created() {
       window.addEventListener("beforeunload", this.handleUnload);
-      // window.addEventListener("storage", this.handleStorageChange);
+      window.addEventListener("storage", this.handleStorageChange);
    },
    mounted() {
       const useraccount = localStorage.getItem("useraccount");
