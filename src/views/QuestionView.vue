@@ -129,6 +129,7 @@ p {
 
 li {
   text-align: -webkit-match-parent;
+  list-style-type: none;
 }
 
 .card__mini:first-child {

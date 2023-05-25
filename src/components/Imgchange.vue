@@ -51,10 +51,10 @@ export default {
   <main>
     <section class="backgroung-img" :style="backgroundStyle">
       <div class="filter"></div>
-      <h3>盡情開撈</h3>
+      <h3>ぞんぶんにえものを食う</h3>
     </section>
     <section class="info-circles" v-show="show">
-      <h3>精品美食，應有盡有</h3>
+      <h3>たようびしょくいちおうく</h3>
       <div class="circles">
         <div class="circle">
           <router-link class="link" to="/category">
@@ -65,7 +65,7 @@ export default {
               @click="saveCategory('早餐')"
             />
           </router-link>
-          <p>多種早餐</p>
+          <p>多様なちょうしょく</p>
         </div>
 
         <div class="circle">
@@ -76,7 +76,7 @@ export default {
               @click="saveCategory('飲料')"
             />
           </router-link>
-          <p>爽喝就喝</p>
+          <p>爽快に飲む</p>
         </div>
         <div class="circle">
           <router-link class="link" to="/category">
@@ -86,26 +86,26 @@ export default {
               @click="saveCategory('炸物')"
             />
           </router-link>
-          <p>炸物</p>
+          <p>万悪の根源-揚げ物</p>
         </div>
       </div>
       <div class="circles">
         <div class="circle">
           <img src="../../public/img/lunch.jpg" alt="午餐" />
-          <p>多種風格午餐</p>
+          <p>多様なスタイルのランチ</p>
         </div>
         <div class="circle">
           <img src="../../public/img/yakiniku.jpg" alt="燒烤" />
-          <p>經典燒烤，肯定要有</p>
+          <p>クラシックな焼き肉</p>
         </div>
         <div class="circle">
           <img src="../../public/img/salad.jpg" alt="蔬菜" />
-          <p>補充蔬菜</p>
+          <p>野菜の摂取</p>
         </div>
       </div>
     </section>
     <section v-if="!show" class="product-area">
-      <h3>商品清單</h3>
+      <h3>商品リスト</h3>
       <!-- <ProductInfoView :category="category"></ProductInfoView> -->
     </section>
   </main>

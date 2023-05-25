@@ -102,7 +102,7 @@ export default {
     <section class="logo">
       <RouterLink to="/" class="toplogo">
         <img src="../../public/R.png" alt="網頁LOGO" />
-        <h1>商店名稱</h1>
+        <h1>地獄のキッチン</h1>
       </RouterLink>
     </section>
 
