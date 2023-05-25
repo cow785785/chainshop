@@ -14,7 +14,7 @@ export default {};
         <a target="_blank" href="/question">サイトマップ</a>
       </li>
       <li class="otherLink__item">
-        <a target="_blank" href="/question">問い合わせ</a>
+        <a target="_blank" href="/question">お問い合わせ</a>
       </li>
       <div class="pos">&copy; 版權為豬豬所有</div>
       <div class="links">
