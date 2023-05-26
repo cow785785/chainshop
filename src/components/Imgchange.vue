@@ -85,11 +85,11 @@ export default {
           <router-link class="link" to="/category">
             <img
               src="../../public/img/fried.jpg"
-              alt="炸物"
-              @click="saveCategory('炸物')"
+              alt="甜點"
+              @click="saveCategory('甜點')"
             />
           </router-link>
-          <p>万悪の根源-揚げ物</p>
+          <p>万悪の根源-スイーツ</p>
         </div>
       </div>
       <div class="circles">
