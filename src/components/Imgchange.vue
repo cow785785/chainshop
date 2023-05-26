@@ -84,7 +84,7 @@ export default {
         <div class="circle fly-in-right">
           <router-link class="link" to="/category">
             <img
-              src="../../public/img/dessert.png"
+              src="../../public/img/fried.jpg"
               alt="甜點"
               @click="saveCategory('甜點')"
             />
