@@ -160,6 +160,9 @@ export default {
   </div>
 </template>
 <style lang="scss" scoped>
+.register {
+  background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+}
 .container {
   width: 100vw;
   height: 100vh;
