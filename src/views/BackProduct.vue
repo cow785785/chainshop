@@ -15,6 +15,7 @@ export default {
             productCode: "",
             productName: "",
             price: 0,
+            inventory: 0,
             productImg: "",
             productInfo: "",
             productDescribe: "",
@@ -75,6 +76,7 @@ export default {
             productCode: product.productCode,
             productName: product.productName,
             price: product.price,
+            inventory: product.inventory,
             productImg: product.productImg,
             productInfo: product.productInfo,
             productDescribe: product.productDescribe,
@@ -96,7 +98,7 @@ export default {
          if (this.Img !== "") {
             this.editedProduct.productImg = this.Img;
          }
-
+         console.log(this.editedProduct);
          const body = {
             product: this.editedProduct,
          };
@@ -190,6 +192,7 @@ export default {
                   <th>productCode</th>
                   <th>productName</th>
                   <th>price</th>
+                  <th>inventory</th>
                   <th>productImg</th>
                   <th>productInfo</th>
                   <th>productDescribe</th>
@@ -203,6 +206,7 @@ export default {
                      <td>{{ product.productCode }}</td>
                      <td>{{ product.productName }}</td>
                      <td>{{ product.price }}</td>
+                     <td>{{ product.inventory }}</td>
                      <td><img v-bind:src="product.productImg" /></td>
                      <td>{{ product.productInfo }}</td>
                      <td>{{ product.productDescribe }}</td>
@@ -227,6 +231,7 @@ export default {
                   <th>productCode</th>
                   <th>productName</th>
                   <th>price</th>
+                  <th>inventory</th>
                   <th>productImg</th>
                   <th>productInfo</th>
                   <th>productDescribe</th>
@@ -240,6 +245,7 @@ export default {
                      <td>{{ product.productCode }}</td>
                      <td>{{ product.productName }}</td>
                      <td>{{ product.price }}</td>
+                     <td>{{ product.inventory }}</td>
                      <td><img v-bind:src="product.productImg" /></td>
                      <td>{{ product.productInfo }}</td>
                      <td>{{ product.productDescribe }}</td>
@@ -284,6 +290,14 @@ export default {
                   type="text"
                   id="price"
                   v-model="editedProduct.price"
+                  required
+               />
+
+               <label for="inventory">inventory:</label>
+               <input
+                  type="text"
+                  id="inventory"
+                  v-model="editedProduct.inventory"
                   required
                />
 

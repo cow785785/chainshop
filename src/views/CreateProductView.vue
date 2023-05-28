@@ -6,6 +6,7 @@ export default {
          productCode: null,
          productName: null,
          productPrice: null,
+         productInventory: null,
          productCategory: null,
          productImg: "",
          productInfo: null,
@@ -25,6 +26,7 @@ export default {
                   "productCode": this.productCode,
                   "productName": this.productName,
                   "price": this.productPrice,
+                  "inventory": this.productInventory,
                   "category": this.productCategory,
                   "productImg": e.target.result,
                   "productInfo": this.productInfo,
@@ -86,6 +88,12 @@ export default {
          <div class="product-price">
             <label for="">商品價錢</label>
             <input type="number" v-model="productPrice" />
+         </div>
+
+         <!--商品庫存-->
+         <div class="product-inventory">
+            <label for="">商品庫存</label>
+            <input type="number" v-model="productInventory" />
          </div>
 
          <!--商品分類-->

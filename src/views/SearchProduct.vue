@@ -9,7 +9,7 @@ export default {
       ProductView,
       HeaderView,
    },
-   props:["category"],
+   props: ["category"],
    data() {
       return {
          quantity: 10,
@@ -17,6 +17,7 @@ export default {
          card: true,
          info: false,
          index: null,
+         searchName: sessionStorage.getItem("keyword"),
       };
    },
    methods: {
@@ -71,7 +72,7 @@ export default {
          >
             <ProductInfoView
                :title="product.productName"
-               :inventory="quantity"
+               :inventory="product.inventory"
                :price="product.price"
                :info="product.productInfo"
                :image="product.productImg"
@@ -86,7 +87,7 @@ export default {
       <div v-if="info" class="product">
          <ProductView
             :title="productList[index].productName"
-            :inventory="quantity"
+            :inventory="productList[index].inventory"
             :price="productList[index].price"
             :describe="productList[index].productDescribe"
             :image="productList[index].productImg"
