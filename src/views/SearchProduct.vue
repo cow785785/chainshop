@@ -17,13 +17,14 @@ export default {
          card: true,
          info: false,
          index: null,
-         searchName: sessionStorage.getItem("keyword"),
+         searchName: localStorage.getItem("keyword"),
       };
    },
    methods: {
       getCategortProduct() {
+         console.log;
          console.log(this.category);
-         let reqCategory = { searchName: sessionStorage.getItem("keyword") };
+         let reqCategory = { searchName: localStorage.getItem("keyword") };
          console.log(reqCategory);
          fetch("http://localhost:8080/find_product_by_name_or_category", {
             method: "POST",
