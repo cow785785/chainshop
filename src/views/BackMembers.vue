@@ -97,12 +97,28 @@ export default {
       this.showModal = false;
     },
 
-    confirmDelete(member) {
-      // 彈出刪除確認彈窗
-      if (confirm("確定要刪除該會員嗎？")) {
-        // 用戶確認刪除，調用 deleteMember 方法執行刪除操作
-        this.deleteMember(member);
-      }
+    stopMember(member) {
+      const body = {
+        useraccount: member.useraccount,
+      };
+      fetch("http://localhost:8080/stopMember", {
+        body: JSON.stringify(body),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          alert(data.message);
+          this.select(); // 更新會員列表
+          // 根據 API 的返回結果進行相應的處理
+          // 例如更新列表數據或顯示提示信息等
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     deleteMember(member) {
       fetch("http://localhost:8080/deleteMember", {
@@ -173,7 +189,7 @@ export default {
             <th>Address</th>
             <th>Phone</th>
             <th>Registration Time</th>
-            <th>status</th>
+            <th>active</th>
             <th>point</th>
             <th>email</th>
             <th>captcha</th>
@@ -195,7 +211,7 @@ export default {
               <td>{{ member.address }}</td>
               <td>{{ member.phone }}</td>
               <td>{{ member.registrationTime }}</td>
-              <td>{{ member.status }}</td>
+              <td>{{ member.active }}</td>
               <td>{{ member.point }}</td>
               <td>{{ member.email }}</td>
               <td>{{ member.captcha }}</td>
@@ -203,7 +219,7 @@ export default {
                 <button @click="openModal(member)">修改</button>
               </td>
               <td>
-                <button @click="confirmDelete(member)">刪除</button>
+                <button @click="stopMember(member)">停用</button>
               </td>
             </tr>
           </tbody>
@@ -242,7 +258,7 @@ export default {
                 <button @click="openModal(member)">修改</button>
               </td>
               <td>
-                <button @click="confirmDelete(member)">刪除</button>
+                <button @click="confirmDelete(member)">停用</button>
               </td>
             </tr>
           </tbody>
