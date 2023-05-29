@@ -9,16 +9,27 @@ export default {
     return {
       useraccount: "",
       password: "",
+      newPassword: "",
       loggedInUser: "", // 忘記密碼狀態
       loginAttempts: 0, //記錄錯誤次數
       loginDisabled: false, // 紀錄登入錯誤鎖定登入狀態變數
       isCheck: true,
       forgotPassword: false,
+      loginLocked: false, // 紀錄帳號是否被鎖定
+      lockEndTime: null, // 鎖定的截止時間
     };
   },
   methods: {
     login() {
+      // 检查账号是否已被锁定
+      if (this.loginLocked && this.lockEndTime > new Date()) {
+        alert("账号已被锁定，请稍后再试");
+        return;
+      }
       if (this.useraccount == 1234 && this.password == 1234) {
+        this.loginAttempts = 0;
+        this.loginLocked = false;
+        this.lockEndTime = null;
         this.$router.push("/backSystem");
         return;
       }
@@ -56,9 +67,11 @@ export default {
             this.loginAttempts++;
             // 檢查錯誤次數是否達到3次
             if (this.loginAttempts === 3) {
-              this.loginDisabled = true; // 禁用登入按鈕
+              this.loginLocked = true; // 鎖定帳號
+              const lockDuration = 24 * 60 * 60 * 1000; // 24小時
+              this.lockEndTime = new Date().getTime() + lockDuration; // 計算鎖定的截止時間
+
               alert("今天不能再登入此帳號");
-              // 進行相應的處理，例如禁止登入或重定向到其他頁面
               return;
             }
             alert("帳號或密碼錯誤");
@@ -74,6 +87,10 @@ export default {
     },
     forgotPasswordClicked() {
       const confirmModify = confirm("是否要修改密碼？");
+
+      if (!confirmModify) {
+        return;
+      }
 
       if (confirmModify) {
         this.useraccount = prompt("請輸入帳號");
@@ -95,6 +112,10 @@ export default {
             if (this.useraccount) {
               const newPassword = prompt("請輸入新密碼");
               if (newPassword) {
+                if (newPassword === this.password) {
+                  alert("新密碼不能與舊密碼相同");
+                  return;
+                }
                 // 發送修改密碼的請求到後端 API
                 fetch("http://localhost:8080/updatePassword", {
                   method: "POST",

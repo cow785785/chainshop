@@ -13,7 +13,11 @@ export default {
       birthday: "",
       address: "",
       phone: "",
-      isCheck: true,
+      email: "",
+      showcaptcha: false,
+      captcha: 0,
+      responseData: {},
+      isCheck: false,
     };
   },
   methods: {
@@ -29,6 +33,7 @@ export default {
         birthDate: this.birthday,
         address: this.address,
         phone: this.phone,
+        email: this.email,
       };
       console.log(body);
       fetch("http://localhost:8080/addMember", {
@@ -45,24 +50,30 @@ export default {
             alert("輸入有誤，或是有空格沒填寫");
             return;
           }
-          alert(
-            "會員註冊成功！\n" +
-              "會員資料\n會員 帳號 :" +
-              data.userAccount +
-              "\n會員名稱：" +
-              data.userName +
-              "\n會員密碼:" +
-              data.password +
-              "\n會員生日：" +
-              data.birthDate +
-              "\n會員地址：" +
-              data.address +
-              "\n會員電話：" +
-              data.phone +
-              "\n訊息 : " +
-              data.message,
-            this.$router.push("/loginView")
-          );
+          this.responseData = data; // 將返回的數據保存到responseData屬性中
+          this.showcaptcha = true; // 顯示彈出視窗
+          // alert(
+          //   "會員註冊成功！\n" +
+          //     "會員資料\n會員 帳號 :" +
+          //     data.userAccount +
+          //     "\n會員名稱：" +
+          //     data.userName +
+          //     "\n會員密碼:" +
+          //     data.password +
+          //     "\n會員生日：" +
+          //     data.birthDate +
+          //     "\n會員地址：" +
+          //     data.address +
+          //     "\n會員電話：" +
+          //     data.phone +
+          //     "\n會員點數 : " +
+          //     data.point +
+          //     "\n會員信箱 : " +
+          //     data.email +
+          //     "\n訊息 : " +
+          //     data.message,
+          //   this.$router.push("/loginView")
+          // );
         })
         .catch((error) => {
           console.error(error);
@@ -101,6 +112,31 @@ export default {
         .catch((error) => {
           console.error(error);
           alert("檢查帳號時發生錯誤");
+        });
+    },
+    checkcaptcha() {
+      const body = {
+        captcha: this.captcha,
+      };
+      fetch("http://localhost:8080/checkcaptcha", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.message == "驗證成功") {
+            console.log(message);
+            this.isCheck = true; // 設置為成功
+          } else {
+            this.isCheck = false; // 设置为验证失败
+          }
+        })
+        .catch((error) => {
+          console.error(error);
         });
     },
   },
@@ -148,13 +184,66 @@ export default {
           placeholder="ex:09-12345678或886開頭"
           v-model="phone"
         />
-      </div>
-      <div class="keep">
-        <label for="checkbox">記住帳號</label>
-        <input type="checkbox" />
+
+        <label for="email">信箱</label>
+        <input type="text" placeholder="@gmail" v-model="email" />
       </div>
       <div class="btn-area">
         <button @click="regis">註冊</button>
+      </div>
+    </div>
+    <!-- 彈出視窗 -->
+    <div class="popup" v-if="showcaptcha">
+      <div class="popup-content">
+        <div class="bg-img"></div>
+        <form class="member-form">
+          <tr>
+            <p>會員註冊成功！</p>
+          </tr>
+
+          <tr>
+            <p>會員資料：</p>
+          </tr>
+          <tr>
+            <p>會員帳號：{{ responseData.userAccount }}</p>
+          </tr>
+          <tr>
+            <p>會員名稱：{{ responseData.userName }}</p>
+          </tr>
+          <tr>
+            <p>會員密碼：{{ responseData.password }}</p>
+          </tr>
+          <tr>
+            <p>會員生日：{{ responseData.birthDate }}</p>
+          </tr>
+          <tr>
+            <p>會員地址：{{ responseData.address }}</p>
+          </tr>
+          <tr>
+            <p>會員電話：{{ responseData.phone }}</p>
+          </tr>
+          <tr>
+            <p>會員點數：{{ responseData.point }}</p>
+          </tr>
+          <tr>
+            <p>會員信箱：{{ responseData.email }}</p>
+          </tr>
+          <tr>
+            <input
+              type="text"
+              placeholder="請輸入收到的驗證碼"
+              v-model="captcha"
+            />
+            <button @click="checkcaptcha">驗證</button>
+            <span v-if="isCheck" style="color: green; margin-left: 10px"
+              >✓</span
+            >
+            <span v-else style="color: red; margin-left: 10px">✕</span>
+          </tr>
+          <tr>
+            <button>關閉</button>
+          </tr>
+        </form>
       </div>
     </div>
   </div>
@@ -162,6 +251,53 @@ export default {
 <style lang="scss" scoped>
 .register {
   background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+  .popup {
+    .member-form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: normal;
+      background-color: aliceblue;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      height: 100%;
+      width: 50vw;
+      transform: translate(-50%, -50%);
+      /* 其他样式属性 */
+      border: 2px solid black;
+      .tfoot {
+        text-align: center;
+      }
+      tr {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      .myButton {
+        box-shadow: inset 0px 39px 0px -24px #e67a73;
+        background-color: #e4685d;
+        border-radius: 4px;
+        border: 1px solid #ffffff;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 15px;
+        padding: 6px 15px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #b23e35;
+        margin-left: 0.5rem;
+      }
+      .myButton:hover {
+        background-color: #eb675e;
+      }
+      .myButton:active {
+        position: relative;
+        top: 1px;
+      }
+    }
+  }
 }
 .container {
   width: 100vw;
