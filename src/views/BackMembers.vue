@@ -14,6 +14,10 @@ export default {
         birthDate: "",
         address: "",
         phone: "",
+        status: "",
+        point: "",
+        email: "",
+        captcha: "",
       },
       searchKeyword: "", // 新增搜尋關鍵字的屬性
     };
@@ -126,6 +130,17 @@ export default {
   mounted() {
     this.searchAllMembersInfo();
   },
+  computed: {
+    maskedPassword() {
+      if (this.editedMember && this.editedMember.password) {
+        return (
+          this.editedMember.password.slice(0, 4) +
+          "*".repeat(this.editedMember.password.length - 4)
+        );
+      }
+      return "";
+    },
+  },
 };
 </script>
 <template>
@@ -158,6 +173,10 @@ export default {
             <th>Address</th>
             <th>Phone</th>
             <th>Registration Time</th>
+            <th>status</th>
+            <th>point</th>
+            <th>email</th>
+            <th>captcha</th>
             <th>修改</th>
             <th>刪除</th>
           </tr>
@@ -165,12 +184,21 @@ export default {
             <tr v-for="member in members" :key="member.id">
               <td>{{ member.id }}</td>
               <td>{{ member.useraccount }}</td>
-              <td>{{ member.password }}</td>
+              <td>
+                {{
+                  member.password.slice(0, 4) +
+                  "*".repeat(member.password.length - 4)
+                }}
+              </td>
               <td>{{ member.username }}</td>
               <td>{{ member.birthDate }}</td>
               <td>{{ member.address }}</td>
               <td>{{ member.phone }}</td>
               <td>{{ member.registrationTime }}</td>
+              <td>{{ member.status }}</td>
+              <td>{{ member.point }}</td>
+              <td>{{ member.email }}</td>
+              <td>{{ member.captcha }}</td>
               <td>
                 <button @click="openModal(member)">修改</button>
               </td>
@@ -199,7 +227,12 @@ export default {
             <tr v-for="member in searchMembersInfo()" :key="member.id">
               <td>{{ member.id }}</td>
               <td>{{ member.useraccount }}</td>
-              <td>{{ member.password }}</td>
+              <td>
+                {{
+                  member.password.slice(0, 4) +
+                  "*".repeat(member.password.length - 4)
+                }}
+              </td>
               <td>{{ member.username }}</td>
               <td>{{ member.birthDate }}</td>
               <td>{{ member.address }}</td>
@@ -235,7 +268,8 @@ export default {
           <input
             type="text"
             id="password"
-            v-model="editedMember.password"
+            :value="maskedPassword"
+            disabled
             required
           />
 
@@ -280,7 +314,7 @@ export default {
   flex-direction: column;
   align-items: center;
   margin-top: 50px;
-  width: 100vw;
+  width: 150vw;
   height: 100vh;
 
   .myButton {
