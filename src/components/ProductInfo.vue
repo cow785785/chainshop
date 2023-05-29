@@ -7,7 +7,7 @@ export default {
    data() {
       return {
          show: true,
-         imgUrl: "../../public/img/hm1.jpg",
+         // imgUrl: "../../public/img/",
          selectedQuantity: "1",
          orderList: [],
       };
@@ -56,7 +56,12 @@ export default {
                   );
                });
          } else {
-            this.addToCartWithAddress(this.address, productCode, quantity, index);
+            this.addToCartWithAddress(
+               this.address,
+               productCode,
+               quantity,
+               index
+            );
          }
       },
       addToCartWithAddress(address, productCode, quantity, index) {
@@ -66,14 +71,18 @@ export default {
             this.orderList = JSON.parse(storedOrderList);
 
             const existingOrderIndex = this.orderList.findIndex(
-               (order) => order.productCode === productCode);
+               (order) => order.productCode === productCode
+            );
 
             // 如果存在相同的 productCode 物件，将其数量加总
             if (existingOrderIndex !== -1) {
                this.orderList[existingOrderIndex].quantity += quantity;
                this.orderList[existingOrderIndex].totalPrice =
                   this.price * this.orderList[existingOrderIndex].quantity;
-               sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
+               sessionStorage.setItem(
+                  "orderList",
+                  JSON.stringify(this.orderList)
+               );
                alert("已成功加入至購物車");
                return; // 提前返回，结束函数执行
             }
@@ -123,7 +132,11 @@ export default {
                   </option>
                </select>
             </div>
-            <button class="cart btn btn-sm btn-primary" @click="putIntoCart(code, selectedQuantity, index)" type="button">
+            <button
+               class="cart btn btn-sm btn-primary"
+               @click="putIntoCart(code, selectedQuantity, index)"
+               type="button"
+            >
                カートに入れる
             </button>
          </div>

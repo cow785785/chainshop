@@ -49,6 +49,7 @@ export default {
                   console.log(data);
                   this.result = data.message;
                   alert(this.result);
+                  this.$router.push("/backProduct");
                });
          };
       },
@@ -119,12 +120,12 @@ export default {
             <label for="">商品詳述</label>
             <input type="text" v-model="productDescribe" />
          </div>
-
-         <RouterLink to="/backProduct"
+         <button type="button" @click="createProduct">送出</button>
+         <!-- <RouterLink to="/backProduct"
             ><button type="button" @click="createProduct">
                送出
             </button></RouterLink
-         >
+         > -->
       </form>
       <p>{{ result }}</p>
    </div>

@@ -5,7 +5,7 @@ export default {
       return {
          show: false,
          selectedQuantity: "1",
-         imgUrl: "../../public/img/hm1.jpg",
+         // imgUrl: "../../public/img/",
          address: "",
          orderList: [],
       };
@@ -92,7 +92,9 @@ export default {
 
 <template>
    <div class="contain">
-      <button class="back btn btn-secondary" @click="changeShow">Back to Menu</button>
+      <button class="back btn btn-secondary" @click="changeShow">
+         Back to Menu
+      </button>
       <div class="product">
          <img v-bind:src="image" alt="" />
          <div class="text-area">
@@ -101,12 +103,16 @@ export default {
             <p>${{ price }}</p>
             <div class="count-area">
                <!-- 商品數量用select抓 可以用資料庫中的數量當作極限 -->
-               <select name="inventory"  v-model="selectedQuantity">
+               <select name="inventory" v-model="selectedQuantity">
                   <option v-for="count in inventory">
                      {{ count }}
                   </option>
                </select>
-               <button @click="putIntoCart(code, selectedQuantity)" class="cart btn btn-primary" type="button">
+               <button
+                  @click="putIntoCart(code, selectedQuantity)"
+                  class="cart btn btn-primary"
+                  type="button"
+               >
                   カートに入れる
                </button>
             </div>

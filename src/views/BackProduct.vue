@@ -127,6 +127,7 @@ export default {
             });
 
          this.showModal = false;
+         window.location.reload();
       },
       openDeleteproduct(product) {
          if (confirm("確定要刪除該資料嗎？")) {
@@ -149,6 +150,8 @@ export default {
                // this.select();
                // 根據 API 的返回結果進行相應的處理
                // 例如更新列表數據或顯示提示信息等
+               alert(data.message);
+               window.location.reload();
             })
             .catch((error) => {
                console.error(error);
@@ -164,6 +167,7 @@ export default {
 <template>
    <div class="all-area">
       <h2>產品資料管理</h2>
+      <!-- 搜尋&按鈕區 -->
       <div class="productinfo-area">
          <input
             type="text"
@@ -183,26 +187,28 @@ export default {
             </button></RouterLink
          >
       </div>
+      <!-- 列出商品清單 -->
       <div class="product-list">
-         <!-- 搜尋 -->
+         <!-- 搜尋商品清單 -->
          <div v-if="searchShow" class="table-container">
             <table>
                <tr>
-                  <th>ID</th>
-                  <th>productCode</th>
-                  <th>productName</th>
-                  <th>price</th>
-                  <th>inventory</th>
-                  <th>productImg</th>
-                  <th>productInfo</th>
-                  <th>productDescribe</th>
-                  <th>category</th>
+                  <!-- 將ID欄位隱藏 -->
+                  <!-- <th>ID</th> -->
+                  <th>商品代碼</th>
+                  <th>商品名稱</th>
+                  <th>價格</th>
+                  <th>庫存</th>
+                  <th>圖片</th>
+                  <th>簡介</th>
+                  <th class="th">詳細資訊</th>
+                  <th>分類</th>
                   <th>修改</th>
                   <th>刪除</th>
                </tr>
                <tbody id="data-body">
                   <tr v-for="product in products" :key="product.id">
-                     <td>{{ product.id }}</td>
+                     <!-- <td>{{ product.id }}</td> -->
                      <td>{{ product.productCode }}</td>
                      <td>{{ product.productName }}</td>
                      <td>{{ product.price }}</td>
@@ -223,25 +229,25 @@ export default {
                </tbody>
             </table>
          </div>
-
+         <!-- 所有商品清單 -->
          <div v-if="isCheck" class="table-container">
             <table>
                <tr>
-                  <th>ID</th>
-                  <th>productCode</th>
-                  <th>productName</th>
-                  <th>price</th>
-                  <th>inventory</th>
-                  <th>productImg</th>
-                  <th>productInfo</th>
-                  <th>productDescribe</th>
-                  <th>category</th>
+                  <!-- <th>ID</th> -->
+                  <th>商品代碼</th>
+                  <th>商品名稱</th>
+                  <th>價格</th>
+                  <th>庫存</th>
+                  <th>圖片</th>
+                  <th>簡介</th>
+                  <th class="th">詳細資訊</th>
+                  <th>分類</th>
                   <th>修改</th>
                   <th>刪除</th>
                </tr>
                <tbody id="data-body">
                   <tr v-for="product in products" :key="product.id">
-                     <td>{{ product.id }}</td>
+                     <!-- <td>{{ product.id }}</td> -->
                      <td>{{ product.productCode }}</td>
                      <td>{{ product.productName }}</td>
                      <td>{{ product.price }}</td>
@@ -263,7 +269,7 @@ export default {
             </table>
          </div>
       </div>
-      <!-- 彈出視窗 -->
+      <!-- 彈出視窗(修改商品) -->
       <div v-if="showModal" class="modal">
          <div class="modal-content">
             <!-- 這裡放彈出窗口的内容 -->
@@ -371,12 +377,15 @@ export default {
       display: flex;
       justify-content: center;
       align-items: flex-start;
+      width: 100%;
       table {
          margin-top: 80px;
          border: 2px solid black;
+         word-break: break-all;
          th {
             border: 2px solid black;
             background-color: antiquewhite;
+            text-align: center;
          }
       }
    }
@@ -389,12 +398,15 @@ table {
    width: 100%;
    border-collapse: collapse;
 }
-
+.th {
+   width: 250px;
+}
 th,
 td {
    border: 1px solid #dddddd;
    text-align: left;
    padding: 8px;
+   text-align: center;
 }
 .search-area {
    margin-top: 20px;
@@ -443,5 +455,7 @@ td {
 }
 img {
    width: 100px;
+   height: 120px;
+   object-fit: contain;
 }
 </style>
