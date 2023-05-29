@@ -9,54 +9,89 @@ export default {
     data() {
         return {
             orderNumber: this.orderdetail.orderNumber,
-            productName: this.orderdetail.productsId.productName,
-            productCode: this.orderdetail.productCode,
             totalPrice: this.orderdetail.totalPrice,
             quantity: this.orderdetail.quantity,
             address: this.orderdetail.deliveryAddress,
             orderStatus: this.orderdetail.orderStatus,
             orderTime: this.orderdetail.orderTime.substring(0, 10),
-            imgLink: this.orderdetail.productsId.productImg,
+            infoList: [],
+            showInfo: false,
+            checkData: false,
         }
     },
     methods: {
-
+        getInfo(orderNumber) {
+            this.showInfo = !this.showInfo
+            if (!this.checkData) {
+                fetch("http://localhost:8080/get_orderdetail_info_by_order_number", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: orderNumber,
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        this.infoList = data;
+                        this.checkData = true;
+                    })
+                    .catch(err => console.log(err));
+            }
+        },
     },
     mounted() {
-
+        // const orderNumber = this.orderNumber;
+        // fetch("http://localhost:8080/get_orderdetail_info_by_order_number", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: orderNumber,
+        // })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log(data);
+        //         this.infoList = data
+        //     })
+        //     .catch(err => console.log(err));
     },
 }
 </script>
 <template>
     <div class="orderdetail">
+
         <div class="title">
             <div class="info time">
                 <p>注文日</p>
                 {{ orderTime }}
             </div>
-            <div class="info total">
-                <p>合計</p>
-                {{ totalPrice }}
-            </div>
             <div class="info long addr">
                 <p>お届け先</p>
                 {{ address }}
             </div>
-            <div class="info long ordercode">
+            <div class="info long orderNumber">
                 <p>注文番号：{{ orderNumber }} </p>
-
+                {{ orderStatus }}
             </div>
+            <div class="info total">
+                <p>合計</p>
+                {{ totalPrice }}¥
+            </div>
+            <div class="get" @click="getInfo(orderNumber)">詳細を見る≫</div>
         </div>
-        <div class="detail">
-            <img :src="imgLink" alt="" class="info img">
-            <div class="info long product">
-                <h4>{{ productName }}</h4>
-                {{ productCode }}
-                <p>個数：{{ quantity }}</p>
+        <div v-for="detail in infoList" class="detail" v-show="showInfo">
+            <img :src="detail.productsId.productImg" alt="" class="info img">
+            <div class="info product">
+                <h4>{{ detail.productsId.productName }}</h4>
+                {{ detail.productsId.productCode }}
+                <p>個数：{{ detail.infoQuantity }}</p>
             </div>
-            <div class="info status">
-
-                <p>{{ orderStatus }}</p>
+            <div class="info long">
+                <p>{{ detail.productsId.productInfo }}</p>
+                <p> {{ detail.productsId.productDescribe }}</p>
+            </div>
+            <div class="info total">
+                <p>小計：{{ detail.infoTotal }}¥</p>
             </div>
         </div>
     </div>
@@ -67,8 +102,9 @@ export default {
     border: 1px solid rgb(211, 211, 211);
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    opacity: 0.8;
+    opacity: 0.85;
     min-width: min-content;
+    max-width: 920px;
 
     &:hover {
         opacity: 1;
@@ -79,6 +115,8 @@ export default {
         border-bottom: 1px solid rgb(211, 211, 211);
         background-color: aliceblue;
         align-items: center;
+        position: relative;
+        justify-content: space-between;
 
         .info {
             margin: 1rem;
@@ -89,27 +127,45 @@ export default {
             min-width: 200px;
         }
 
-
+        .get {
+            position: absolute;
+            font-size: 8px;
+            color: blue;
+            right: 8px;
+            bottom: 0;
+            cursor: pointer;
+            user-select: none;
+        }
     }
 
     .detail {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        align-items: center;
+        margin: 12px;
+        border: 1px solid rgb(199, 199, 199);
+        border-radius: 15px;
+        transition: 0.3s;
+
+        &:hover {
+            background-color: rgb(84, 117, 146);
+            color: white;
+        }
 
         .info {
             margin: 8px;
-            min-width: 50px;
+            min-width: 80px;
+            flex: 1;
         }
 
         .long {
-            min-width: 65%;
+            min-width: 35%;
         }
 
         .img {
-            width: 80px;
+            max-width: 80px;
             height: 80px;
-            background-color: aqua;
+            border-radius: 4px;
             object-fit: cover;
         }
     }
