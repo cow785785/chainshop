@@ -11,11 +11,11 @@ export default {
    methods: {
       storeKeyword() {
          if (window.location.href === "http://localhost:5173/searchProduct") {
-            sessionStorage.setItem("keyword", this.keyword);
+            localStorage.setItem("keyword", this.keyword);
             window.location.reload();
          }
-         sessionStorage.setItem("keyword", this.keyword);
-         console.log(sessionStorage.getItem("keyword"));
+         localStorage.setItem("keyword", this.keyword);
+         console.log(localStorage.getItem("keyword"));
          console.log(window.location.href);
       },
    },
