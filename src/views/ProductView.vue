@@ -5,7 +5,7 @@ export default {
       return {
          show: false,
          selectedQuantity: "1",
-         imgUrl: "../../public/img/hm1.jpg",
+         // imgUrl: "../../public/img/",
          address: "",
          orderList: [],
       };
@@ -54,7 +54,9 @@ export default {
 
 <template>
    <div class="contain">
-      <button class="back btn btn-secondary" @click="changeShow">Back to Menu</button>
+      <button class="back btn btn-secondary" @click="changeShow">
+         Back to Menu
+      </button>
       <div class="product">
          <img v-bind:src="image" alt="" />
          <div class="text-area">
@@ -68,7 +70,11 @@ export default {
                      {{ count }}
                   </option>
                </select>
-               <button @click="putIntoCart(code, selectedQuantity)" class="cart btn btn-primary" type="button">
+               <button
+                  @click="putIntoCart(code, selectedQuantity)"
+                  class="cart btn btn-primary"
+                  type="button"
+               >
                   カートに入れる
                </button>
             </div>

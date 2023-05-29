@@ -6,6 +6,7 @@ export default {
          productCode: null,
          productName: null,
          productPrice: null,
+         productInventory: null,
          productCategory: null,
          productImg: "",
          productInfo: null,
@@ -25,6 +26,7 @@ export default {
                   "productCode": this.productCode,
                   "productName": this.productName,
                   "price": this.productPrice,
+                  "inventory": this.productInventory,
                   "category": this.productCategory,
                   "productImg": e.target.result,
                   "productInfo": this.productInfo,
@@ -47,6 +49,7 @@ export default {
                   console.log(data);
                   this.result = data.message;
                   alert(this.result);
+                  this.$router.push("/backProduct");
                });
          };
       },
@@ -88,6 +91,12 @@ export default {
             <input type="number" v-model="productPrice" />
          </div>
 
+         <!--商品庫存-->
+         <div class="product-inventory">
+            <label for="">商品庫存</label>
+            <input type="number" v-model="productInventory" />
+         </div>
+
          <!--商品分類-->
          <div class="product-category">
             <label for="">商品分類</label>
@@ -111,12 +120,12 @@ export default {
             <label for="">商品詳述</label>
             <input type="text" v-model="productDescribe" />
          </div>
-
-         <RouterLink to="/backProduct"
+         <button type="button" @click="createProduct">送出</button>
+         <!-- <RouterLink to="/backProduct"
             ><button type="button" @click="createProduct">
                送出
             </button></RouterLink
-         >
+         > -->
       </form>
       <p>{{ result }}</p>
    </div>

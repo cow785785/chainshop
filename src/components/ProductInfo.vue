@@ -7,7 +7,7 @@ export default {
    data() {
       return {
          show: true,
-         imgUrl: "../../public/img/hm1.jpg",
+         // imgUrl: "../../public/img/",
          selectedQuantity: "1",
          orderList: [],
       };
@@ -77,7 +77,11 @@ export default {
                   </option>
                </select>
             </div>
-            <button class="cart btn btn-sm btn-primary" @click="putIntoCart(code, selectedQuantity)" type="button">
+            <button
+               class="cart btn btn-sm btn-primary"
+               @click="putIntoCart(code, selectedQuantity)"
+               type="button"
+            >
                カートに入れる
             </button>
          </div>

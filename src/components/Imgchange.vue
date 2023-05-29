@@ -118,7 +118,7 @@ export default {
                   <img
                      src="../../public/img/salad.jpg"
                      alt="蔬菜"
-                     @click="saveCategory('蔬菜')"
+                     @click="saveCategory('沙拉')"
                   />
                </router-link>
                <p>野菜の摂取</p>

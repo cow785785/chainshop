@@ -10,7 +10,13 @@ export default {
    },
    methods: {
       storeKeyword() {
+         if (window.location.href === "http://localhost:5173/searchProduct") {
+            sessionStorage.setItem("keyword", this.keyword);
+            window.location.reload();
+         }
          sessionStorage.setItem("keyword", this.keyword);
+         console.log(sessionStorage.getItem("keyword"));
+         console.log(window.location.href);
       },
    },
 };
@@ -25,7 +31,12 @@ export default {
          v-model="keyword"
       />
       <button type="button">
-         <RouterLink to="/searchProduct" @click="storeKeyword" :category="keyword">検索</RouterLink>
+         <RouterLink
+            to="/searchProduct"
+            @click="storeKeyword"
+            :category="keyword"
+            >検索</RouterLink
+         >
       </button>
    </div>
 </template>
