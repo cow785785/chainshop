@@ -121,7 +121,7 @@ export default {
           this.userPoint = "userPoint尚未導入";
           this.userPhone = data.phone;
           this.userAddress = data.address;
-          this.userPassword = Math.random();
+          this.userPassword = ((data.password).substr(0, 4) + "*".repeat((data.password).length - 4));
           console.log(data);
         })
         .catch((err) => {
@@ -138,95 +138,42 @@ export default {
   <div class="member">
     <HeaderView />
     <div class="member-contain">
-      <MemberSide
-        :useraccount="useraccount"
-        :userPoint="userPoint"
-        class="side"
-      />
+      <MemberSide :useraccount="useraccount" :userPoint="userPoint" class="side" />
       <div class="member-detail">
         <div class="member-account">
           <h4>{{ useraccount }}</h4>
 
           <h3>{{ userName }}，こんにちは！</h3>
           <div class="form-floating input-area pwd">
-            <input
-              type="password"
-              class="form-control input pwd"
-              id="pwd"
-              v-model="userPassword"
-              :disabled="pwdChange"
-            />
+            <input type="text" class="form-control input pwd" id="pwd" v-model="userPassword" :disabled="pwdChange" />
             <label for="pwd">パスワード：</label>
-            <i
-              class="icon fa-solid fa-pen"
-              @click="changePwd"
-              v-if="pwdChange"
-            ></i>
+            <i class="icon fa-solid fa-pen" @click="changePwd" v-if="pwdChange"></i>
           </div>
           <div class="form-floating input-area birth">
-            <input
-              type="text"
-              class="form-control input birth"
-              id="birth"
-              v-model="userBirth"
-              disabled="true"
-            />
+            <input type="text" class="form-control input birth" id="birth" v-model="userBirth" disabled="true" />
             <label for="birth">誕生日：</label>
           </div>
           <div class="form-floating input-area point">
-            <input
-              type="text"
-              class="form-control input point"
-              id="point"
-              v-model="userPoint"
-              disabled="true"
-            />
+            <input type="text" class="form-control input point" id="point" v-model="userPoint" disabled="true" />
             <label for="point">ポイント：</label>
           </div>
           <div class="form-floating input-area phone">
-            <input
-              type="tel"
-              class="form-control input phone"
-              id="phone"
-              pattern="[0-9]{2}-[0-9]{8}"
-              required
-              v-model="userPhone"
-              :disabled="phoneChange"
-              @input="someChange"
-            />
+            <input type="tel" class="form-control input phone" id="phone" pattern="[0-9]{2}-[0-9]{8}" required
+              v-model="userPhone" :disabled="phoneChange" @input="someChange" />
             <label for="phone">電話番号：</label>
-            <i
-              class="icon fa-solid fa-pen"
-              @click="changePhone"
-              v-if="phoneChange"
-            ></i>
+            <i class="icon fa-solid fa-pen" @click="changePhone" v-if="phoneChange"></i>
           </div>
           <div class="form-floating input-area address">
-            <input
-              type="text"
-              class="form-control input address"
-              id="address"
-              v-model="userAddress"
-              :disabled="addressChange"
-              @input="someChange"
-            />
-            <i
-              class="icon fa-solid fa-pen"
-              @click="changeAddr"
-              v-if="addressChange"
-            ></i>
+            <input type="text" class="form-control input address" id="address" v-model="userAddress"
+              :disabled="addressChange" @input="someChange" />
+            <i class="icon fa-solid fa-pen" @click="changeAddr" v-if="addressChange"></i>
             <label for="address">アドレス：</label>
           </div>
-          <button
-            type="button"
-            class="btn btn-primary update-btn"
-            v-show="haveChange"
-            @click="update"
-          >
+          <button type="button" class="btn btn-primary update-btn" v-show="haveChange" @click="update">
             変更を保存
           </button>
         </div>
-        <div class="member-order">
+        <!-- <div class="member-order">
           <div class="title">
             <RouterLink to="/order">オーダー管理 >></RouterLink>
             <button type="button" class="btn get" @click="getOrder">
@@ -239,7 +186,7 @@ export default {
               :orderdetail="orderdetail"
             />
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <CartBtn></CartBtn>

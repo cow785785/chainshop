@@ -5,25 +5,24 @@ export default {
             itemCount: 0, // 購物車項目數量
             showCartModal: false, // 是否顯示購物車視窗
             // 其他購物車相關數據和方法...
-            orderList: [
-                { id: 1, name: '商品1', price: 100, quantity: 2 },
-                { id: 2, name: '商品2', price: 50, quantity: 1 },
-                { id: 3, name: '商品3', price: 200, quantity: 3 },
-            ],
+            orderList: [],
+            isEmpty: true,
         };
     },
     methods: {
         toggleCart() {
             this.showCartModal = !this.showCartModal;
         }
+        
     },
     mounted() {
         setTimeout(() => {
             if (sessionStorage.getItem("orderList")) {
                 this.orderList = JSON.parse(sessionStorage.getItem("orderList"));
                 this.itemCount = this.orderList.length;
+                this.isEmpty = false;
             }
-        }, 1500)
+        }, 500)
 
     },
 };
@@ -39,18 +38,19 @@ export default {
             <div class="cart-title">
                 <h3>ショッピングカート</h3>
             </div>
-            <ul>
+            <ul class="cart-container" v-if="!isEmpty">
                 <li v-for="item in orderList" :key="item.id" class="item">
-                    <p>コード：{{ item.productCode }}-</p>
-                    <p>総額：{{ item.totalPrice }}¥</p>
-                    <p>個数：{{ item.quantity }}</p>
+                    <p>コード：{{ item.productsId.productCode }}-</p>
+                    <p>総額：{{ item.infoTotal }}¥</p>
+                    <p>個数：{{ item.infoQuantity }}</p>
                 </li>
             </ul>
+            <div class="cart-empty" v-else>
+                <h3>何か入れましょう！</h3>
+            </div>
             <div class="cart-footer">
                 <button class="btn close-btn" @click="toggleCart">閉める</button>
-                <RouterLink to="/order">オーダー管理 >></RouterLink>
             </div>
-
         </div>
     </div>
 </template>
@@ -64,7 +64,8 @@ export default {
         top: 15%;
         right: 0;
         width: 300px;
-        height: 50vw;
+        height: 65vh;
+        min-height: 300px;
         transform: translateY(-50%);
         background-color: #fff;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
@@ -97,8 +98,16 @@ export default {
             }
         }
 
+        .cart-empty {
+            position: absolute;
+            top: 50%;
+            left: 16px;
+        }
+
         .cart-footer {
-            text-align: center;
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
 
             .close-btn {
                 color: gray;

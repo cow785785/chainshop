@@ -20,81 +20,35 @@ export default {
       changeShow() {
          this.$emit("switchCard");
       },
-      putIntoCart(code, selectedQuantity, index) {
-         const useraccount = localStorage.getItem("useraccount");
-         const productCode = code;
-         const quantity = parseInt(selectedQuantity);
-         //若沒有地址則透過API去取得
-         if (!this.address) {
-            fetch("http://localhost:8080/selectMember", {
-               method: "POST",
-               headers: {
-                  "Content-Type": "application/json",
-               },
-               body: JSON.stringify({
-                  useraccount: useraccount,
-               }),
-            })
-               .then((res) => res.json())
-               .then((data) => {
-                  this.address = data.address;
-                  this.addToCartWithAddress(
-                     this.address,
-                     productCode,
-                     quantity,
-                     index
-                  );
-               })
-               .catch((err) => {
-                  console.log(err);
-                  // 處理錯誤，例如顯示錯誤訊息或使用預設值
-                  this.addToCartWithAddress(
-                     "Default Address",
-                     productCode,
-                     quantity,
-                     index
-                  );
-               });
-         } else {
-            this.addToCartWithAddress(this.address, productCode, quantity, index);
-         }
-      },
-      addToCartWithAddress(address, productCode, quantity, index) {
+      putIntoCart(code, selectedQuantity) {
          const storedOrderList = sessionStorage.getItem("orderList");
-         // 检查是否有存储的订单列表数据
          if (storedOrderList) {
             this.orderList = JSON.parse(storedOrderList);
-
-            const existingOrderIndex = this.orderList.findIndex(
-               (order) => order.productCode === productCode);
-
-            // 如果存在相同的 productCode 物件，将其数量加总
-            if (existingOrderIndex !== -1) {
-               this.orderList[existingOrderIndex].quantity += quantity;
-               this.orderList[existingOrderIndex].totalPrice =
-                  this.price * this.orderList[existingOrderIndex].quantity;
-               sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
-               alert("已成功加入至購物車");
-               return; // 提前返回，结束函数执行
-            }
          }
+         const quantity = parseInt(selectedQuantity);
+         const existingOrderIndex = this.orderList.findIndex(
+            (order) => order.productsId.productCode === code
+         );
 
-         // 如果不存在相同的 productCode 物件，或者没有存储的订单列表数据，则创建一个新的订单对象
-         const totalPrice = this.price * quantity;
-         const newOrder = {
-            useraccount: localStorage.getItem("useraccount"),
-            productCode: productCode,
-            quantity: quantity,
-            totalPrice: totalPrice,
-            deliveryAddress: address,
-            productsId: {
-               productImg: this.image,
-               productName: this.title,
-            },
-         };
-         this.orderList.push(newOrder);
+         if (existingOrderIndex !== -1) {
+            // 如果存在相同的 productCode 物件，將其 quantity 加總
+            this.orderList[existingOrderIndex].infoQuantity += quantity;
+            this.orderList[existingOrderIndex].infoTotal =
+               this.price * this.orderList[existingOrderIndex].infoQuantity;
+         } else {
+            const totalPrice = this.price * quantity;
+            const newOrder = {
+               infoQuantity: quantity,
+               infoTotal: totalPrice,
+               productsId: {
+                  productImg: this.image,
+                  productName: this.title,
+                  productCode: code,
+               },
+            };
+            this.orderList.push(newOrder);
+         }
          sessionStorage.setItem("orderList", JSON.stringify(this.orderList));
-         alert("已成功加入至購物車");
       },
    },
    mounted() {
@@ -123,7 +77,7 @@ export default {
                   </option>
                </select>
             </div>
-            <button class="cart btn btn-sm btn-primary" @click="putIntoCart(code, selectedQuantity, index)" type="button">
+            <button class="cart btn btn-sm btn-primary" @click="putIntoCart(code, selectedQuantity)" type="button">
                カートに入れる
             </button>
          </div>

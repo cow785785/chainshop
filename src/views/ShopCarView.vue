@@ -1,7 +1,7 @@
 <script>
 import HeaderView from '../components/HeaderView.vue';
 export default {
-  components:{
+  components: {
     HeaderView,
   },
   data() {
@@ -11,18 +11,18 @@ export default {
   },
   methods: {
     handlePlus: function (item) {
-      const newQuantity = item.quantity + 1;
-      const oldPrice = item.totalPrice / item.quantity;
-      item.quantity = newQuantity;
-      item.totalPrice = oldPrice * newQuantity;
+      const newQuantity = item.infoQuantity + 1;
+      const oldPrice = item.infoTotal / item.infoQuantity;
+      item.infoQuantity = newQuantity;
+      item.infoTotal = oldPrice * newQuantity;
       sessionStorage.setItem("orderList", JSON.stringify(this.itemList));
     },
     handleSub: function (item, index) {
-      if (item.quantity > 1) {
-        const newQuantity = item.quantity - 1;
-        const oldPrice = item.totalPrice / item.quantity;
-        item.quantity = newQuantity;
-        item.totalPrice = oldPrice * newQuantity;
+      if (item.infoQuantity > 1) {
+        const newQuantity = item.infoQuantity - 1;
+        const oldPrice = item.infoTotal / item.infoQuantity;
+        item.infoQuantity = newQuantity;
+        item.infoTotal = oldPrice * newQuantity;
         sessionStorage.setItem("orderList", JSON.stringify(this.itemList));
       }
     },
@@ -34,15 +34,25 @@ export default {
     goOrder() {
       sessionStorage.setItem("orderList", JSON.stringify(this.itemList));
       const storedOrderList = sessionStorage.getItem("orderList");
+      const useraccount = localStorage.getItem("useraccount")
       console.log(storedOrderList);
       if (storedOrderList) {
         const newOrderList = JSON.parse(storedOrderList);
-        newOrderList.forEach((element) => {
-          element.orderStatus = "オーダー済み";
-        });
+        const deliveryAddress = "尚未設定";
+
+        const orderdetails = {
+          useraccount: useraccount,
+          quantity: newOrderList.length,
+          totalPrice: newOrderList.reduce((sum, item) => sum + item.infoTotal, 0),
+          orderStatus: "オーダー済み",
+          deliveryAddress: deliveryAddress
+        }
+
         const body = {
           order_list: newOrderList,
+          orderdetails: orderdetails,
         };
+
         console.log(body);
         fetch("http://localhost:8080/new_order", {
           method: "POST",
@@ -54,10 +64,23 @@ export default {
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
-            sessionStorage.removeItem("orderList");
-            this.itemList = [];
+            if (data.message == "新增成功") {
+              sessionStorage.removeItem("orderList");
+              this.itemList = [];
+              fetch("http://localhost:8080/clear_cart", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: useraccount,
+              }).then(() => {
+                sessionStorage.removeItem("dbCartList");
+                sessionStorage.removeItem("orderdetail");
+              }
+              )
+                .catch(err => console.log(err))
+            }
             alert(data.message);
-            location.reload();
           })
           .catch((err) => console.log(err));
       }
@@ -83,11 +106,7 @@ export default {
         <div class="amount">總計</div>
         <div class="operate">操作</div>
       </div>
-      <div
-        class="item_container"
-        v-for="(item, index) in itemList"
-        :key="item.productId"
-      >
+      <div class="item_container" v-for="(item, index) in itemList" :key="item.productsId.productCode">
         <div class="item_header item_body">
           <div class="item_detail">
             <img v-bind:src="item.productsId.productImg" alt="" />
@@ -95,41 +114,47 @@ export default {
           </div>
 
           <div class="price">
-            <span>$</span>{{ item.totalPrice / item.quantity }}
+            <span>$</span>{{ item.infoTotal / item.infoQuantity }}
           </div>
           <div class="count">
             <button @click="handleSub(item)">-</button>
-            {{ item.quantity }}
+            {{ item.infoQuantity }}
             <button @click="handlePlus(item, index)">+</button>
           </div>
-          <div class="amount">{{ item.totalPrice }}</div>
+          <div class="amount">{{ item.infoTotal }}</div>
           <div class="operate">
             <button @click="handledelete(item, index)">刪除</button>
           </div>
         </div>
       </div>
-      <button @click="goOrder" class="btn btn-warning">BUY</button>
     </div>
+    <button @click="goOrder" class="btn btn-warning">BUY</button>
   </div>
 </template>
 <style lang="scss" scoped>
 template {
   background-color: rgba(0, 0, 0, 0.2);
 }
+
 #app {
   height: 100vh;
   background: #c9ccd3;
-  background-image: linear-gradient(
-    -180deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
+  background-blend-mode: lighten;
+  background-image: linear-gradient(-180deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(0, 0, 0, 0.5) 100%);
+
   .btn {
     margin-top: 0.5rem;
     width: 5rem;
     border-radius: 30px;
   }
-  background-blend-mode: lighten;
+
+  .container {
+    height: 75vh;
+    overflow-y: scroll;
+  }
+
 }
 
 .item_header {
@@ -140,16 +165,12 @@ template {
   border-radius: 3px;
   padding-left: 10px;
   background-color: #dcd9d4;
-  background-image: linear-gradient(
-      to bottom,
+  background-image: linear-gradient(to bottom,
       rgba(255, 255, 255, 0.5) 0%,
-      rgba(0, 0, 0, 0.5) 100%
-    ),
-    radial-gradient(
-      at 50% 0%,
+      rgba(0, 0, 0, 0.5) 100%),
+    radial-gradient(at 50% 0%,
       rgba(255, 255, 255, 0.1) 0%,
-      rgba(0, 0, 0, 0.5) 50%
-    );
+      rgba(0, 0, 0, 0.5) 50%);
   background-blend-mode: soft-light, screen;
 }
 

@@ -25,7 +25,7 @@ export default {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                this.orderList = data;
+                this.orderList = data
             })
             .catch(err => console.log(err));
     },
@@ -42,6 +42,9 @@ export default {
 </template>
 <style lang="scss" scoped>
 .detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0 50px;
 }
 </style>
