@@ -116,7 +116,8 @@ export default {
     },
     checkcaptcha() {
       const body = {
-        captcha: this.captcha,
+        useraccount: this.account,
+        captcha: parseInt(this.captcha),
       };
       fetch("http://localhost:8080/checkcaptcha", {
         method: "POST",
@@ -131,8 +132,9 @@ export default {
           if (data.message == "驗證成功") {
             console.log(message);
             this.isCheck = true; // 設置為成功
+            alert("驗證成功");
           } else {
-            this.isCheck = false; // 设置为验证失败
+            // this.isCheck = false; // 设置为验证失败
           }
         })
         .catch((error) => {
@@ -164,6 +166,7 @@ export default {
           type="password"
           placeholder="(至少要8位數和大寫字母)"
           v-model="password"
+          :style="{ border: password.length < 8 ? '1px solid red' : '' }"
         />
 
         <label for="password">確認密碼</label>
@@ -238,7 +241,9 @@ export default {
             <span v-if="isCheck" style="color: green; margin-left: 10px"
               >✓</span
             >
-            <span v-else style="color: red; margin-left: 10px">✕</span>
+            <!-- <span v-else="isCheck" style="color: red; margin-left: 10px"
+              >✕</span
+            > -->
           </tr>
           <tr>
             <button>關閉</button>
