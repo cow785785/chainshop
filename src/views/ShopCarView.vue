@@ -1,12 +1,14 @@
 <script>
 import HeaderView from '../components/HeaderView.vue';
+import BuyConfirmPopup from '../components/BuyConfirmPopup.vue';
 export default {
   components: {
-    HeaderView,
+    HeaderView, BuyConfirmPopup,
   },
   data() {
     return {
       itemList: [],
+      showConfirm: false,
     };
   },
   methods: {
@@ -30,61 +32,12 @@ export default {
       this.itemList.splice(index, 1);
       sessionStorage.setItem("orderList", JSON.stringify(this.itemList));
     },
-
-    goOrder() {
-      sessionStorage.setItem("orderList", JSON.stringify(this.itemList));
-      const storedOrderList = sessionStorage.getItem("orderList");
-      const useraccount = localStorage.getItem("useraccount")
-      console.log(storedOrderList);
-      if (storedOrderList) {
-        const newOrderList = JSON.parse(storedOrderList);
-        const deliveryAddress = "尚未設定";
-
-        const orderdetails = {
-          useraccount: useraccount,
-          quantity: newOrderList.length,
-          totalPrice: newOrderList.reduce((sum, item) => sum + item.infoTotal, 0),
-          orderStatus: "オーダー済み",
-          deliveryAddress: deliveryAddress
-        }
-
-        const body = {
-          order_list: newOrderList,
-          orderdetails: orderdetails,
-        };
-
-        console.log(body);
-        fetch("http://localhost:8080/new_order", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            if (data.message == "新增成功") {
-              sessionStorage.removeItem("orderList");
-              this.itemList = [];
-              fetch("http://localhost:8080/clear_cart", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: useraccount,
-              }).then(() => {
-                sessionStorage.removeItem("dbCartList");
-                sessionStorage.removeItem("orderdetail");
-              }
-              )
-                .catch(err => console.log(err))
-            }
-            alert(data.message);
-          })
-          .catch((err) => console.log(err));
-      }
+    closeConfirm() {
+      this.showConfirm = false;
     },
+    goConfirm() {
+      this.showConfirm = true;
+    }
   },
   mounted() {
     const storedOrderList = sessionStorage.getItem("orderList");
@@ -128,7 +81,11 @@ export default {
         </div>
       </div>
     </div>
-    <button @click="goOrder" class="btn btn-warning">BUY</button>
+    <button @click="goConfirm" class="btn btn-warning">BUY</button>
+    <transition name="fade">
+      <BuyConfirmPopup @closeConfirm="closeConfirm" v-show="showConfirm" :isOpen="showConfirm" :orderList="itemList">
+      </BuyConfirmPopup>
+    </transition>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -152,7 +109,19 @@ template {
 
   .container {
     height: 75vh;
-    overflow-y: scroll;
+    overflow-y: auto;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+    visibility: hidden;
   }
 
 }
