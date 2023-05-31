@@ -10,6 +10,7 @@ export default {
          // imgUrl: "../../public/img/",
          selectedQuantity: "1",
          orderList: [],
+
       };
    },
    methods: {
@@ -71,17 +72,14 @@ export default {
          <div class="buy-area">
             <div class="count-area">
                <!-- 商品數量用select抓 可以用資料庫中的數量當作極限 -->
-               <select name="inventory" v-model="selectedQuantity">
+               <select name="inventory" v-model="selectedQuantity" v-if="inventory > 0">
                   <option v-for="product in inventory">
                      {{ product }}
                   </option>
                </select>
             </div>
-            <button
-               class="cart btn btn-sm btn-primary"
-               @click="putIntoCart(code, selectedQuantity)"
-               type="button"
-            >
+            <button class="cart btn btn-sm btn-primary" @click="putIntoCart(code, selectedQuantity)" type="button"
+               :disabled="inventory <= 0">
                カートに入れる
             </button>
          </div>

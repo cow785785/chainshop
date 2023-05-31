@@ -65,8 +65,8 @@ export default {
             <p>${{ price }}</p>
             <div class="count-area">
                <!-- 商品數量用select抓 可以用資料庫中的數量當作極限 -->
-               <select name="inventory" v-model="selectedQuantity">
-                  <option v-for="count in inventory">
+               <select name="inventory" v-model="selectedQuantity" v-if="inventory > 0">
+                  <option v-for="count in inventory" >
                      {{ count }}
                   </option>
                </select>
@@ -74,6 +74,7 @@ export default {
                   @click="putIntoCart(code, selectedQuantity)"
                   class="cart btn btn-primary"
                   type="button"
+                  :disabled="inventory <= 0"
                >
                   カートに入れる
                </button>
