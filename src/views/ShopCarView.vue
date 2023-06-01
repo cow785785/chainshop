@@ -9,6 +9,13 @@ export default {
     return {
       itemList: [],
       showConfirm: false,
+      zipcode: "",
+      selectedAddress: "",
+      selectedCity: "",
+      inputStreet: "",
+      addressList: [],
+      cityList: [],
+      deliveryAddress: "",
     };
   },
   methods: {
@@ -36,7 +43,25 @@ export default {
       this.showConfirm = false;
     },
     goConfirm() {
-      this.showConfirm = true;
+      if (this.selectedAddress && this.selectedCity && this.inputStreet) {
+        this.deliveryAddress = this.zipcode + this.selectedAddress.name + this.selectedCity.name + this.inputStreet
+        this.showConfirm = true;
+      }
+      else {
+        alert("住所を入力してください。")
+      }
+    },
+    getcity(address) {//取得該縣市所有的區
+      fetch(address.zipcodes_endpoint)
+        .then(res => res.json()
+          .then(data => {
+            this.cityList = data;
+          })
+        )
+    },
+    setZipcode(selectedCity) {
+      console.log(selectedCity);
+      this.zipcode = selectedCity.zipcode;
     }
   },
   mounted() {
@@ -44,6 +69,13 @@ export default {
     if (storedOrderList) {
       this.itemList = JSON.parse(storedOrderList);
     }
+
+    fetch("https://demeter.5fpro.com/tw/zipcode/cities.json")//取得台灣縣市
+      .then(res => res.json())
+      .then(data => {
+        this.addressList = data;
+      })
+
   },
   //離開頁面的監測
 };
@@ -59,31 +91,53 @@ export default {
         <div class="amount">總計</div>
         <div class="operate">操作</div>
       </div>
-      <div class="item_container" v-for="(item, index) in itemList" :key="item.productsId.productCode">
-        <div class="item_header item_body">
-          <div class="item_detail">
-            <img v-bind:src="item.productsId.productImg" alt="" />
-            <div class="name">{{ item.productsId.productName }}</div>
+      <div class="shopcar-body">
+        <div class="item_container" v-for="(item, index) in itemList" :key="item.productsId.productCode">
+          <div class="item_header item_body">
+            <div class="item_detail">
+              <img v-bind:src="item.productsId.productImg" alt="" />
+              <div class="name">{{ item.productsId.productName }}</div>
+            </div>
+
+            <div class="price">
+              <span>$</span>{{ item.infoTotal / item.infoQuantity }}
+            </div>
+            <div class="count">
+              <button @click="handleSub(item)">-</button>
+              {{ item.infoQuantity }}
+              <button @click="handlePlus(item, index)">+</button>
+            </div>
+            <div class="amount">{{ item.infoTotal }}</div>
+            <div class="operate">
+              <button @click="handledelete(item, index)">刪除</button>
+            </div>
           </div>
 
-          <div class="price">
-            <span>$</span>{{ item.infoTotal / item.infoQuantity }}
-          </div>
-          <div class="count">
-            <button @click="handleSub(item)">-</button>
-            {{ item.infoQuantity }}
-            <button @click="handlePlus(item, index)">+</button>
-          </div>
-          <div class="amount">{{ item.infoTotal }}</div>
-          <div class="operate">
-            <button @click="handledelete(item, index)">刪除</button>
-          </div>
         </div>
       </div>
+      <div class="footer">
+        <div class="address-area">
+          お届け先：
+          <input type="text" class="zip-code" placeholder="〒" disabled="true" v-model="zipcode">
+          <select name="adderss" id="" v-model="selectedAddress" @change="getcity(selectedAddress)"
+            v-if="addressList.length > 0">
+            <option value="" disabled selected>請選擇縣市</option>
+            <option :value="address" v-for="address in addressList">{{ address.name }}</option>
+          </select>
+          <select name="city" id="" v-model="selectedCity" @change="setZipcode(selectedCity)" v-if="cityList.length > 0">
+            <option value="" disabled selected>請選擇鄉鎮區</option>
+            <option :value="city" v-for="city in cityList">{{ city.name }}</option>
+          </select>
+          <input type="text" class="street" placeholder="XX路XX號" v-if="selectedCity" v-model="inputStreet">
+        </div>
+        <button @click="goConfirm" class="btn btn-warning">BUY</button>
+      </div>
     </div>
-    <button @click="goConfirm" class="btn btn-warning">BUY</button>
+
+
     <transition name="fade">
-      <BuyConfirmPopup @closeConfirm="closeConfirm" v-show="showConfirm" :isOpen="showConfirm" :orderList="itemList">
+      <BuyConfirmPopup @closeConfirm="closeConfirm" v-show="showConfirm" :isOpen="showConfirm" :orderList="itemList"
+        :deliveryAddress="deliveryAddress">
       </BuyConfirmPopup>
     </transition>
   </div>
@@ -108,20 +162,53 @@ template {
   }
 
   .container {
-    height: 75vh;
-    overflow-y: auto;
-  }
+    width: 926px;
 
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-  }
+    .item_header {
+      width: 100%;
+    }
+
+    .shopcar-body {
+
+      width: 100%;
+      height: 70vh;
+      overflow-y: auto;
+    }
+
+    .footer {
+      width: 100%;
+      padding: 20px;
+      display: flex;
+      position: relative;
+      align-items: center;
+      background-color: honeydew;
+
+      .address-area {
+        .zip-code {
+          width: 48px;
+        }
+      }
+
+      .btn {
+        position: absolute;
+        margin: 0;
+        right: 12px;
+      }
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
 
 
-  .fade-enter,
-  .fade-leave-to {
-    opacity: 0;
-    visibility: hidden;
+    .fade-enter,
+    .fade-leave-to {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+
   }
 
 }

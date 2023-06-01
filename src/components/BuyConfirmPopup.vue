@@ -1,6 +1,6 @@
 <script>
 export default {
-  props: ["isOpen", "orderList"],
+  props: ["isOpen", "orderList", "deliveryAddress"],
   data() {
     return {
       isOrder: false,
@@ -17,7 +17,7 @@ export default {
       console.log(storedOrderList);
       if (storedOrderList) {
         const newOrderList = JSON.parse(storedOrderList);
-        const deliveryAddress = "尚未設定";
+        const deliveryAddress = this.deliveryAddress;
 
         const orderdetails = {
           useraccount: useraccount,
@@ -93,12 +93,14 @@ export default {
             小計：{{ item.infoTotal }}¥
           </div>
         </div>
-        <div class="item-footer">
-          <p> 合計：{{ orderList.reduce((total, item) => total + item.infoTotal, 0) }}</p>
-        </div>
+
       </div>
       <div class="complete" v-else>
         <h3>お買い上げありがとうございました!</h3>
+      </div>
+      <div class="settlement-area">
+        お届け先：{{ deliveryAddress }}
+        <p> 合計：{{ orderList.reduce((total, item) => total + item.infoTotal, 0) }}¥</p>
       </div>
       <div class="popup-footer">
         <button class="btn btn-secondary cancel" @click="close">キャンセル</button>
@@ -132,7 +134,7 @@ export default {
     background-color: whitesmoke;
     border-radius: 16px;
     position: relative;
-    height: 428px;
+    height: 512px;
     width: 512px;
     min-width: 512px;
 
@@ -157,9 +159,11 @@ export default {
 
     .complete,
     .item-container {
-      margin: 16px;
+      margin: 12px;
       position: relative;
       height: 216px;
+      overflow-y: auto;
+      overflow-x: hidden;
 
       .item-body {
         display: flex;
@@ -167,18 +171,18 @@ export default {
         .info {
           min-width: 120px;
         }
-
       }
+    }
 
-      .item-footer {
-        position: absolute;
-        right: 12px;
-        bottom: 0;
-      }
+    .settlement-area {
+      display: flex;
+      margin: 0 24px;
+      justify-content: space-between;
     }
 
     .popup-footer {
       display: flex;
+      margin-top: 64px;
       align-items: center;
       justify-content: space-around;
     }
