@@ -133,6 +133,7 @@ export default {
             console.log(message);
             this.isCheck = true; // 設置為成功
             alert("驗證成功");
+            this.$router.push("/loginView");
           } else {
             // this.isCheck = false; // 设置为验证失败
           }

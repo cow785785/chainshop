@@ -34,11 +34,12 @@ export default {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify(),
       })
         .then((response) => response.json())
         .then((data) => {
           this.members = data; // 將獲得的資料賦值給 members 屬性
+
           console.log(data);
         })
         .catch((error) => {
@@ -54,7 +55,6 @@ export default {
           .toLowerCase()
           .includes(this.searchKeyword.toLowerCase());
       });
-      this.select();
     },
     openModal(member) {
       this.editedMember = member;
@@ -112,7 +112,7 @@ export default {
         .then((data) => {
           console.log(data);
           alert(data.message);
-          this.select(); // 更新會員列表
+          this.searchAllMembersInfo(); // 更新會員列表
           // 根據 API 的返回結果進行相應的處理
           // 例如更新列表數據或顯示提示信息等
         })
@@ -237,8 +237,12 @@ export default {
               <th>Address</th>
               <th>Phone</th>
               <th>Registration Time</th>
+              <th>active</th>
+              <th>point</th>
+              <th>email</th>
+              <th>captcha</th>
               <th>修改</th>
-              <th>刪除</th>
+              <th>停用</th>
             </tr>
             <tr v-for="member in searchMembersInfo()" :key="member.id">
               <td>{{ member.id }}</td>
@@ -254,11 +258,15 @@ export default {
               <td>{{ member.address }}</td>
               <td>{{ member.phone }}</td>
               <td>{{ member.registrationTime }}</td>
+              <td>{{ member.active }}</td>
+              <td>{{ member.point }}</td>
+              <td>{{ member.email }}</td>
+              <td>{{ member.captcha }}</td>
               <td>
                 <button @click="openModal(member)">修改</button>
               </td>
               <td>
-                <button @click="confirmDelete(member)">停用</button>
+                <button @click="stopMember(member)">停用</button>
               </td>
             </tr>
           </tbody>
